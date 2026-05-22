@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Thomas Etcheverry</title>
   <meta name="robots" content="noindex" />
+  <!-- Force absolute path to config.yml (sinon Decap cherche à la racine quand l'URL est /admin sans slash) -->
+  <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   <!-- Decap CMS (ex Netlify CMS) -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <style>
