@@ -7,7 +7,7 @@ backend:
   name: github
   repo: totolesancho/portfolio-thomas
   branch: main
-  base_url: https://thomas-etcheverry-cms.vercel.app   # ⚠️ À REMPLACER : URL de ton OAuth proxy Vercel
+  base_url: https://portfolio-thomas-blond.vercel.app
   auth_endpoint: /api/auth
 
 # Mode brouillon (revue avant publication) — désactivé pour aller au plus simple
