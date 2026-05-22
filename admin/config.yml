@@ -23,9 +23,10 @@ slug:
   clean_accents: true
   sanitize_replacement: "-"
 
-# Pour dev local — `npx decap-server` à la racine du repo,
-# puis on relance le serveur preview, et le CMS écrit directement dans les fichiers.
-local_backend: true
+# Pour dev local — `npx decap-server` à la racine du repo, puis on relance le
+# serveur preview, et le CMS écrit directement dans les fichiers.
+# Décommenter UNIQUEMENT pour dev local. En prod : doit rester commenté.
+# local_backend: true
 
 # ============================================================
 # COLLECTIONS
