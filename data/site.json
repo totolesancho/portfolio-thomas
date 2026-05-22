@@ -1,31 +1,19 @@
 {
+  "contact": {
+    "field_name_label": "Nom *",
+    "formspree_id": "YOUR_ID_HERE",
+    "field_project_label": "Type de projet",
+    "field_email_label": "Email *",
+    "intro": "Un brief, une idée vague, un planning serré.",
+    "submit_label": "ENVOYER ↗",
+    "kicker": "→ JOIN THE NEXT PROJECT",
+    "field_message_label": "Raconte-moi ton idée *",
+    "title": "DISCUTONS",
+    "intro_accent": "— j'écoute."
+  },
   "meta": {
     "title": "Thomas Etcheverry — Vidéaste & Réalisateur",
     "description": "Vidéaste freelance. Je produis des films de A à Z — publicité, brand content, documentaire."
-  },
-  "hero": {
-    "status_text": "Ouvert aux collabs",
-    "status_visible": true,
-    "title_line1": "JE FAIS",
-    "title_line2": "DES FILMS",
-    "graffiti_tag": "always a creative mind",
-    "tagline": "passionné & motivé",
-    "cta_label": "ON DISCUTE ?",
-    "cta_href": "#contact",
-    "photo": "./assets/thomas-cutout.png"
-  },
-  "marquee_formats": [
-    "MARIAGE",
-    "AFTERMOVIE",
-    "INTERVIEW",
-    "DOCU",
-    "CV VIDÉO",
-    "REELS"
-  ],
-  "projets_section": {
-    "kicker": "— TRAVAUX SÉLECTIONNÉS",
-    "title_prefix": "10 projets,",
-    "title_suffix": "une seule obsession."
   },
   "marquee_clients": [
     "UBER EATS",
@@ -33,12 +21,22 @@
     "VINCENT SALUR",
     "GALERIES LAFAYETTE"
   ],
+  "social": {
+    "instagram": "https://instagram.com/thomas.etcheverry",
+    "tiktok": "https://tiktok.com/@thomas.etcheverry",
+    "linkedin": "https://linkedin.com/in/thomas-etcheverry"
+  },
   "about": {
     "kicker": "— À PROPOS",
     "title_main": "Je raconte des histoires",
     "title_script": "avec une caméra.",
-    "body": "Depuis 2022 j'ai eu la chance de toucher à plein de formats — pubs, reels institutionnels, reels trendy réseaux, showreels, docus, aftermovies, podcasts, et même des reels pour des pilotes de Formule 4. Chaque format a son terrain de jeu, et j'aime autant la préprod (concept, écriture, repérage) que le tournage. Dispo aussi en pure mission montage si c'est ça qu'il te faut — sans souci.",
+    "body": "Depuis 2022 j'ai eu la chance de toucher à plein de formats, pubs, reels institutionnels, reels trendy réseaux, showreels, docus, aftermovies, podcasts, et même des reels pour des pilotes de Formule 4. Chaque format a son terrain de jeu, et j'aime autant la préprod (concept, écriture, repérage) que le tournage. Dispo aussi en pure mission montage si c'est ça qu'il te faut sans souci.",
     "stack": "DAVINCI RESOLVE · PREMIERE PRO · AFTER EFFECTS · PHOTOSHOP · LIGHTROOM"
+  },
+  "projets_section": {
+    "kicker": "— TRAVAUX SÉLECTIONNÉS",
+    "title_prefix": "10 projets,",
+    "title_suffix": "une seule obsession."
   },
   "showreel": {
     "kicker": "→ Showreel 2025",
@@ -46,26 +44,28 @@
     "video": "./assets/T5ng7vlGggLKHz0KU5hcCgnioc.mp4",
     "poster": "./assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg"
   },
-  "testimonials_kicker": "— ILS ONT TRAVAILLÉ AVEC MOI",
-  "contact": {
-    "kicker": "→ JOIN THE NEXT PROJECT",
-    "title": "DISCUTONS",
-    "intro": "Un brief, une idée vague, un planning serré.",
-    "intro_accent": "— j'écoute.",
-    "formspree_id": "YOUR_ID_HERE",
-    "field_name_label": "Nom *",
-    "field_email_label": "Email *",
-    "field_project_label": "Type de projet",
-    "field_message_label": "Raconte-moi ton idée *",
-    "submit_label": "ENVOYER ↗"
+  "hero": {
+    "graffiti_tag": "always a creative mind",
+    "cta_label": "ON DISCUTE ?",
+    "status_visible": true,
+    "tagline": "passionné & motivé",
+    "photo": "./assets/thomas-cutout.png",
+    "title_line1": "JE FAIS",
+    "title_line2": "DES FILMS",
+    "status_text": "Ouvert aux collabs",
+    "cta_href": "#contact"
   },
   "footer": {
     "tagline": "Vidéaste freelance — Paris & remote",
     "copyright": "© 2025 Thomas Etcheverry"
   },
-  "social": {
-    "instagram": "https://instagram.com/thomas.etcheverry",
-    "tiktok": "https://tiktok.com/@thomas.etcheverry",
-    "linkedin": "https://linkedin.com/in/thomas-etcheverry"
-  }
+  "testimonials_kicker": "— ILS ONT TRAVAILLÉ AVEC MOI",
+  "marquee_formats": [
+    "MARIAGE",
+    "AFTERMOVIE",
+    "INTERVIEW",
+    "DOCU",
+    "CV VIDÉO",
+    "REELS"
+  ]
 }
