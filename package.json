@@ -1,0 +1,19 @@
+{
+  "name": "portfolio-thomas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio Thomas Etcheverry — vidéaste freelance",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve -l 4321 .",
+    "cms": "npx decap-server",
+    "cms:dev": "echo 'Lance dans 2 terminaux :' && echo '  - Terminal 1 : npm run cms' && echo '  - Terminal 2 : npm run dev' && echo 'Puis ouvre http://localhost:4321/admin'"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "decap-server": "^3.0.0",
+    "serve": "^14.0.0"
+  }
+}

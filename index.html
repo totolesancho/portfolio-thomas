@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thomas Etcheverry — Vidéaste &amp; Réalisateur</title>
+<meta name="description" content="Vidéaste freelance. Je produis des films de A à Z — publicité, brand content, documentaire." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo+Black&family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600&family=Special+Elite&family=Permanent+Marker&family=Bungee+Outline&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Bowlby One', 'Archivo Black', 'sans-serif'],
+          script: ['Caveat', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+          mono: ['Special Elite', 'monospace'],
+        },
+        colors: {
+          cream: '#f4f1ea',
+          ink: '#0e0e0e',
+          rec: '#ff3b1c',
+          dim: '#8a8580',
+          line: 'rgba(14,14,14,0.10)',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root { --cream: #f4f1ea; --ink: #0e0e0e; --rec: #ff3b1c; }
+  * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* Static paper grain */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.34; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/></svg>");
+  }
+  main, header, .side { position: relative; z-index: 3; }
+
+  /* Top red dashes */
+  .dashes {
+    height: 16px;
+    background-image: repeating-linear-gradient(to right,
+      var(--rec) 0px, var(--rec) 4px,
+      transparent 4px, transparent 10px);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  }
+
+  /* Display typo (Bowlby One — solid metrics) */
+  .display { font-family: 'Bowlby One', 'Archivo Black', sans-serif; line-height: 0.92; letter-spacing: -0.015em; font-weight: 400; }
+  .display-tight { line-height: 0.88; }
+  .script { font-family: 'Caveat', cursive; font-weight: 500; line-height: 0.95; }
+  /* Marker / graffiti accent */
+  .marker { font-family: 'Permanent Marker', cursive; line-height: 0.95; letter-spacing: 0; }
+  .outline { font-family: 'Bungee Outline', 'Bowlby One', sans-serif; line-height: 0.95; }
+  .graffiti-tag {
+    display: inline-block;
+    background: var(--rec);
+    color: var(--cream);
+    font-family: 'Permanent Marker', cursive;
+    padding: 0.15em 0.4em 0.25em;
+    transform: rotate(-3deg);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  /* Mono tag */
+  .tag { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink); }
+  .tag-dim { color: var(--dim); }
+
+  /* Hand-drawn doodles */
+  .doodle { position: absolute; pointer-events: none; z-index: 25; opacity: 0.85; }
+  .doodle svg { display: block; }
+  .doodle path, .doodle line, .doodle polyline, .doodle circle, .doodle polygon {
+    fill: none; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .doodle.ink path, .doodle.ink line, .doodle.ink polyline, .doodle.ink circle, .doodle.ink polygon { stroke: var(--ink); }
+  .doodle.rec path, .doodle.rec line, .doodle.rec polyline, .doodle.rec circle, .doodle.rec polygon { stroke: var(--rec); }
+  @keyframes doodle-wiggle { 0%,100% { transform: rotate(var(--rot, 0deg)); } 50% { transform: rotate(calc(var(--rot, 0deg) + 4deg)); } }
+  .doodle.wobble { animation: doodle-wiggle 4s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .doodle.wobble { animation: none; } }
+  @media (max-width: 768px) { .doodle.hide-mobile { display: none; } }
+
+  /* Sticky vertical socials */
+  .side {
+    position: fixed; top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .side a { color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 2px; transition: color .25s; }
+  .side a:hover { color: var(--rec); border-color: var(--rec); }
+  .side.left  { left: 16px;  writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); }
+  .side.right { right: 16px; writing-mode: vertical-rl; }
+  @media (max-width: 768px) { .side { display: none; } }
+
+  /* Pulse dot */
+  .pulse-dot { position: relative; display: inline-block; width: 8px; height: 8px; background: var(--rec); border-radius: 50%; }
+  .pulse-dot::after {
+    content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--rec);
+    animation: pulse 1.6s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(3.2); opacity: 0; }
+  }
+
+  /* Reveal */
+  .r { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1); }
+  .r.in { opacity: 1; transform: translateY(0); }
+  .r.d1 { transition-delay: 0.08s; }
+  .r.d2 { transition-delay: 0.16s; }
+  .r.d3 { transition-delay: 0.24s; }
+  .r.d4 { transition-delay: 0.32s; }
+
+  /* Buttons (ROUNDED — per screenshots) */
+  .btn-ink {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--ink); color: var(--cream);
+    padding: 14px 22px; border-radius: 0;
+    font-family: 'Inter', sans-serif; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    transition: all .25s;
+  }
+  .btn-ink:hover { background: var(--rec); }
+  .btn-rec {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--rec); color: var(--cream);
+    padding: 18px 32px; border-radius: 0;
+    font-family: 'Inter', sans-serif; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    transition: all .25s; cursor: pointer; border: none;
+  }
+  .btn-rec:hover { background: var(--ink); }
+
+  /* Hero CTA — improved */
+  .btn-cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: var(--rec); color: var(--cream);
+    padding: 20px 36px; border: 2px solid var(--ink);
+    box-shadow: 5px 5px 0 var(--ink);
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    transition: transform .2s ease, box-shadow .2s ease, background .25s ease;
+    cursor: pointer;
+  }
+  .btn-cta:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); background: var(--ink); color: var(--cream); }
+  .btn-cta:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn-cta .cta-arrow { transition: transform .25s ease; }
+  .btn-cta:hover .cta-arrow { transform: translateX(4px); }
+
+  /* Cards (square 1:1) */
+  .card { position: relative; overflow: hidden; background: #1a1817; aspect-ratio: 1/1; display: block; }
+  .card .thumb {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    filter: saturate(0.95);
+    transition: transform 1.2s cubic-bezier(0.22,1,0.36,1), filter .4s;
+    transform: scale(1.02);
+  }
+  .card:hover .thumb { transform: scale(1.08); filter: saturate(1.15); }
+  .card .veil {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(14,14,14,0.78) 0%, rgba(14,14,14,0.25) 38%, transparent 60%);
+    z-index: 2;
+  }
+  .card .num {
+    position: absolute; top: 14px; left: 14px; z-index: 3;
+    color: var(--cream); font-family: 'Inter', sans-serif;
+    font-size: 11px; letter-spacing: 0.2em;
+    background: rgba(14,14,14,0.55); padding: 4px 10px; border-radius: 0;
+    backdrop-filter: blur(8px);
+  }
+  .card .meta {
+    position: absolute; bottom: 16px; left: 16px; right: 16px; z-index: 3;
+    color: var(--cream);
+  }
+  .card .meta-title { font-family: 'Bowlby One','Archivo Black',sans-serif; font-size: clamp(18px,2vw,26px); line-height: 1; letter-spacing: -0.015em; }
+  .card .meta-sub { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 8px; opacity: 0.85; }
+  .card .arrow { position: absolute; bottom: 18px; right: 18px; z-index: 3; color: var(--cream); font-size: 22px; transition: transform .4s; opacity: 0.6; }
+  .card:hover .arrow { transform: translate(6px,-6px); opacity: 1; }
+
+  /* Marquee */
+  .marquee { animation: marquee 50s linear infinite; }
+  .marquee-slow { animation: marquee 90s linear infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  /* Form */
+  .form-input {
+    width: 100%; background: transparent;
+    border: 1px solid rgba(14,14,14,0.2);
+    padding: 18px 20px;
+    font-family: 'Inter', sans-serif; font-size: 15px;
+    color: var(--ink); border-radius: 0;
+    transition: border-color .25s;
+  }
+  .form-input:focus { outline: none; border-color: var(--rec); }
+  .form-input::placeholder { color: #888; font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; }
+
+  ::selection { background: var(--rec); color: var(--cream); }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- STICKY VERTICAL SOCIALS -->
+<aside class="side left"><a data-cms="social.tiktok" href="https://www.tiktok.com/" target="_blank" rel="noopener">TIKTOK</a></aside>
+<aside class="side right"><a data-cms="social.instagram" href="https://www.instagram.com/" target="_blank" rel="noopener">INSTAGRAM</a></aside>
+
+<!-- TOP DASHES -->
+<div class="dashes"></div>
+
+<!-- HEADER -->
+<header class="px-6 md:px-12 py-4 flex justify-between items-center">
+  <a href="#" class="display text-base md:text-lg">THOMAS ETCHEVERRY<span class="text-rec">®</span></a>
+  <nav class="hidden md:flex items-center gap-8">
+    <a href="#projets" class="tag hover:text-rec transition">Projets</a>
+    <a href="#about" class="tag hover:text-rec transition">À propos</a>
+    <a href="#contact" class="btn-ink">Discutons →</a>
+  </nav>
+  <a href="#contact" class="md:hidden btn-ink">→</a>
+</header>
+
+<main>
+
+<!-- HERO v15 — compact + doodles humains -->
+<section class="px-6 md:px-12 pt-1 md:pt-2 pb-3 md:pb-4 relative overflow-hidden">
+
+  <!-- DOODLES — hand-drawn, rouge only, minimaux -->
+  <!-- Asterisk 8 branches — gauche haute -->
+  <div class="doodle rec hide-mobile wobble" style="top:18%; left:7%; --rot:-6deg; transform:rotate(-6deg);">
+    <svg width="36" height="36" viewBox="0 0 36 36" stroke-width="3" stroke-linecap="round">
+      <line x1="18" y1="3" x2="18" y2="33"/>
+      <line x1="3" y1="18" x2="33" y2="18"/>
+      <line x1="7" y1="7" x2="29" y2="29"/>
+      <line x1="29" y1="7" x2="7" y2="29"/>
+    </svg>
+  </div>
+
+  <!-- Sparkle 4 pointes — droite milieu-bas -->
+  <div class="doodle rec hide-mobile wobble" style="bottom:22%; right:8%; --rot:10deg; transform:rotate(10deg);">
+    <svg width="38" height="38" viewBox="0 0 38 38" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 3 C19 12 17 16 11 19 C17 22 19 26 19 35 C19 26 21 22 27 19 C21 16 19 12 19 3 Z"/>
+    </svg>
+  </div>
+
+
+  <!-- Top status — CENTERED, no typewriter font -->
+  <div data-cms-block="hero.status" class="flex justify-center items-center mb-1 md:mb-2 relative z-30 r">
+    <div class="flex items-center gap-3 text-xs uppercase tracking-[0.18em]" style="font-family:'Inter',sans-serif;">
+      <span class="pulse-dot"></span>
+      <span data-cms="hero.status_text">↓ Ouvert aux collabs</span>
+    </div>
+  </div>
+
+  <!-- Graffiti accent floating top-right -->
+  <div class="hidden md:block absolute z-30 r d2" style="top:22%; right:5%; transform:rotate(-6deg);">
+    <span class="graffiti-tag text-base md:text-xl" data-cms="hero.graffiti_tag">always a creative mind</span>
+  </div>
+
+  <!-- Layered hero : text BEHIND, PNG cutout IN FRONT -->
+  <div class="relative w-full mx-auto" style="max-width:1800px;">
+
+    <!-- DISPLAY TEXT — sized so cutout can take front stage -->
+    <h1 class="display relative z-10 pointer-events-none text-center r d1"
+        style="
+          font-size: clamp(2.8rem, 12vw, 12rem);
+          line-height: 0.95;
+          letter-spacing: -0.03em;
+          white-space: nowrap;
+          padding-top: 0.05em;
+        ">
+      <span class="block" data-cms="hero.title_line1">JE FAIS</span>
+      <span class="block" style="transform: translateX(0.08em); display:block;"><span data-cms="hero.title_line2">DES FILMS</span><span class="text-rec">.</span></span>
+    </h1>
+
+    <!-- PNG CUTOUT (z-20, max 58vh pour laisser le CTA au-dessus du fold) -->
+    <div class="relative z-20 flex justify-center r d2"
+         style="margin-top: clamp(-200px, -14vw, -100px);">
+      <img data-cms="hero.photo" src="./assets/thomas-cutout.png"
+           alt="Thomas Etcheverry — vidéaste"
+           onerror="this.src='./assets/hero-thomas-blended.png'"
+           class="block w-auto h-auto select-none pointer-events-none"
+           style="max-width: min(1100px, 78vw); max-height: 50vh; filter: drop-shadow(0 8px 24px rgba(14,14,14,0.08));" />
+    </div>
+  </div>
+
+  <!-- Bottom row : handwritten quote + CTA -->
+  <div class="mt-6 md:mt-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10 relative z-30 r d3">
+    <span class="script text-2xl md:text-3xl text-rec rotate-[-2deg] inline-block" data-cms="hero.tagline">— passionné &amp; motivé</span>
+    <a data-cms="hero.cta_link" href="#contact" class="btn-cta">
+      <span data-cms="hero.cta_label">ON DISCUTE ?</span>
+      <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cta-arrow">
+        <line x1="1" y1="7" x2="16" y2="7"/>
+        <polyline points="11,2 16,7 11,12"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- MARQUEE FORMATS — sous le fold (visible au scroll) -->
+  <div class="mt-14 md:mt-24 -mx-6 md:-mx-12 bg-ink text-cream py-5 md:py-6 marquee-mask overflow-hidden relative z-30">
+    <div data-cms-block="marquee_formats" class="whitespace-nowrap marquee inline-block display text-3xl md:text-5xl">
+      <span class="mx-6">MARIAGE</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">AFTERMOVIE</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">INTERVIEW</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">DOCU</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">CV VIDÉO</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">REELS</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">MARIAGE</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">AFTERMOVIE</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">INTERVIEW</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">DOCU</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">CV VIDÉO</span><span class="mx-6 text-rec">✦</span>
+      <span class="mx-6">REELS</span><span class="mx-6 text-rec">✦</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- TRAVAUX -->
+<section id="projets" class="px-6 md:px-12 pt-16 md:pt-28 pb-20 md:pb-32">
+  <div class="mb-12 md:mb-16 r">
+    <div class="tag tag-dim mb-3" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
+    <h2 class="display display-tight text-[clamp(2rem,7vw,5.5rem)]">
+      <span data-cms="projets.title_prefix">10 projets,</span> <span class="script text-rec text-[1.2em] inline-block rotate-[-1deg]" data-cms="projets.title_suffix">une seule obsession.</span>
+    </h2>
+  </div>
+
+  <div data-cms-block="projects_grid" class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+    <a href="./projets/publicite-hiving.html" class="card r">
+      <div class="thumb" style="background-image:url('./assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg')"></div>
+      <div class="veil"></div><span class="num">01</span>
+      <div class="meta"><div class="meta-title">Publicité Hiving</div><div class="meta-sub">Hiving Food · 2024</div></div>
+    </a>
+    <a href="./projets/galeries-lafayette.html" class="card r d1">
+      <div class="thumb" style="background-image:url('./assets/5Xre4GaRul4xqTWTyJ0dFkTlaAs.jpg')"></div>
+      <div class="veil"></div><span class="num">02</span>
+      <div class="meta"><div class="meta-title">Galeries Lafayette</div><div class="meta-sub">Annonce · 2024</div></div>
+    </a>
+    <a href="./projets/f4-ledenon.html" class="card r d2">
+      <div class="thumb" style="background-image:url('./assets/Ptr0qYykgFeSJxGHyUAEe3re8.jpg')"></div>
+      <div class="veil"></div><span class="num">03</span>
+      <div class="meta"><div class="meta-title">Pilotes F4</div><div class="meta-sub">Champ. Lédénon · 2024</div></div>
+    </a>
+    <a href="./projets/edge-tech.html" class="card r">
+      <div class="thumb" style="background-image:url('./assets/Fa7uU2u3i6v6sMIjrI4MtO9voA.jpg')"></div>
+      <div class="veil"></div><span class="num">04</span>
+      <div class="meta"><div class="meta-title">Edge Tech</div><div class="meta-sub">Reels · 2023</div></div>
+    </a>
+    <a href="./projets/uber-eats.html" class="card r d1">
+      <div class="thumb" style="background-image:url('./assets/f4tsyLT705Ljpzk1qLQN3SQM8.jpg')"></div>
+      <div class="veil"></div><span class="num">05</span>
+      <div class="meta"><div class="meta-title">Uber Eats</div><div class="meta-sub">× Vincent Salur · 2024</div></div>
+    </a>
+    <a href="./projets/digital-edge.html" class="card r d2">
+      <div class="thumb" style="background-image:url('./assets/t2rg1b4EjkZhzAt3dUN9HodVR9s.jpeg')"></div>
+      <div class="veil"></div><span class="num">06</span>
+      <div class="meta"><div class="meta-title">Digital Edge</div><div class="meta-sub">Showreel studio · 2023</div></div>
+    </a>
+    <a href="./projets/skilliance.html" class="card r">
+      <div class="thumb" style="background-image:url('./assets/iMzdMdvjo77PxXAxhwNAsAGCl4.png')"></div>
+      <div class="veil"></div><span class="num">07</span>
+      <div class="meta"><div class="meta-title">Skilliance</div><div class="meta-sub">Aftermovie · 2024</div></div>
+    </a>
+    <a href="./projets/podcast.html" class="card r d1">
+      <div class="thumb" style="background-image:url('./assets/knAEe94TEqKGv1VCnH1RCa9FTv8.png')"></div>
+      <div class="veil"></div><span class="num">08</span>
+      <div class="meta"><div class="meta-title">Podcast</div><div class="meta-sub">Introduction · 2023</div></div>
+    </a>
+    <a href="./projets/film-recrutement.html" class="card r d2">
+      <div class="thumb" style="background-image:url('./assets/chPr24SwseJNv9sHKbRPytHq1lY.png')"></div>
+      <div class="veil"></div><span class="num">09</span>
+      <div class="meta"><div class="meta-title">Film Recrutement</div><div class="meta-sub">Corporate · 2024</div></div>
+    </a>
+    <a href="./projets/serie-documentaire.html" class="card r col-span-2 md:col-span-1">
+      <div class="thumb" style="background-image:url('./assets/jgVL80I97LCS0xBdM5fvXebCQE.png')"></div>
+      <div class="veil"></div><span class="num">10</span>
+      <div class="meta"><div class="meta-title">Série documentaire</div><div class="meta-sub">2023</div></div>
+    </a>
+  </div>
+</section>
+
+<!-- MARQUEE CLIENTS — 4 marques clés, lentes & lisibles -->
+<div class="bg-ink text-cream py-6 md:py-8 marquee-mask overflow-hidden">
+  <div data-cms-block="marquee_clients" class="whitespace-nowrap marquee-slow inline-block display text-4xl md:text-6xl">
+    <span class="mx-10">UBER EATS</span><span class="mx-10 text-rec">✦</span>
+    <span class="mx-10">FORMULE 4</span><span class="mx-10 text-rec">✦</span>
+    <span class="mx-10">VINCENT SALUR</span><span class="mx-10 text-rec">✦</span>
+    <span class="mx-10">GALERIES LAFAYETTE</span><span class="mx-10 text-rec">✦</span>
+    <span class="mx-10">UBER EATS</span><span class="mx-10 text-rec">✦</span>
+    <span class="mx-10">FORMULE 4</span><span class="mx-10 text-rec">✦</span>
+    <span class="mx-10">VINCENT SALUR</span><span class="mx-10 text-rec">✦</span>
+    <span class="mx-10">GALERIES LAFAYETTE</span><span class="mx-10 text-rec">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="px-6 md:px-12 py-24 md:py-40 text-center relative overflow-hidden">
+
+  <!-- Doodles about -->
+  <div class="doodle rec hide-mobile wobble" style="top:18%; left:10%; --rot:-12deg; transform:rotate(-12deg);">
+    <svg width="34" height="34" viewBox="0 0 34 34" stroke-width="2.8" stroke-linecap="round">
+      <line x1="17" y1="3" x2="17" y2="31"/>
+      <line x1="3" y1="17" x2="31" y2="17"/>
+      <line x1="7" y1="7" x2="27" y2="27"/>
+      <line x1="27" y1="7" x2="7" y2="27"/>
+    </svg>
+  </div>
+  <div class="doodle rec hide-mobile wobble" style="bottom:22%; right:12%; --rot:14deg; transform:rotate(14deg);">
+    <svg width="42" height="34" viewBox="0 0 42 34" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="12" width="32" height="18" fill="none"/>
+      <path d="M5 12 L11 4 L19 9 L14 16 M19 9 L27 4 L35 9 L31 16 M35 9 L41 4"/>
+    </svg>
+  </div>
+  <div class="doodle rec hide-mobile" style="top:8%; right:22%; transform:rotate(8deg);">
+    <svg width="28" height="28" viewBox="0 0 28 28" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2 C14 9 12 12 8 14 C12 16 14 19 14 26 C14 19 16 16 20 14 C16 12 14 9 14 2 Z"/>
+    </svg>
+  </div>
+
+  <div class="max-w-4xl mx-auto">
+    <div class="tag tag-dim mb-8 r" data-cms="about.kicker">— À PROPOS</div>
+    <p class="display display-tight text-3xl md:text-5xl r d1">
+      <span data-cms="about.title_main">Je raconte des histoires</span> <span class="script text-rec text-[1.4em] inline-block rotate-[-1deg]" data-cms="about.title_script">avec une caméra.</span>
+    </p>
+    <p class="mt-10 text-base md:text-lg max-w-2xl mx-auto leading-relaxed text-ink r d2" data-cms="about.body">
+      Depuis 2022 j'ai eu la chance de toucher à plein de formats — pubs, reels institutionnels, reels trendy réseaux, showreels, docus, aftermovies, podcasts, et même des reels pour des pilotes de Formule&nbsp;4. Chaque format a son terrain de jeu, et j'aime autant la préprod (concept, écriture, repérage) que le tournage. Dispo aussi en pure mission montage si c'est ça qu'il te faut — sans souci.
+    </p>
+    <p class="mt-8 tag tag-dim r d3" data-cms="about.stack">
+      DAVINCI RESOLVE · PREMIERE PRO · AFTER EFFECTS · PHOTOSHOP · LIGHTROOM
+    </p>
+  </div>
+</section>
+
+<!-- SHOWREEL — sous le stack technique -->
+<section class="px-6 md:px-12 pb-12 md:pb-16">
+  <div class="r max-w-5xl mx-auto">
+    <div class="flex justify-between items-end mb-3">
+      <span class="text-xs uppercase tracking-[0.18em] text-dim" style="font-family:'Inter',sans-serif;" data-cms="showreel.kicker">→ Showreel 2025</span>
+      <span class="text-xs uppercase tracking-[0.18em] text-dim" style="font-family:'Inter',sans-serif;" data-cms="showreel.duration">02:14</span>
+    </div>
+    <div class="relative bg-ink overflow-hidden aspect-video" style="max-height:60vh;">
+      <video
+        data-cms="showreel.video"
+        src="./assets/T5ng7vlGggLKHz0KU5hcCgnioc.mp4"
+        controls playsinline preload="metadata"
+        poster="./assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg"
+        class="absolute inset-0 w-full h-full object-cover"
+      ></video>
+    </div>
+  </div>
+</section>
+
+<!-- DASHES — sous le showreel -->
+<div class="dashes mb-20 md:mb-32"></div>
+
+<!-- TÉMOIGNAGES -->
+<section class="px-6 md:px-12 pb-24 md:pb-40">
+  <div class="tag tag-dim mb-10 text-center r" data-cms="testimonials.kicker">— ILS ONT TRAVAILLÉ AVEC MOI</div>
+  <div data-cms-block="testimonials_grid" class="grid md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+
+    <figure class="aspect-square bg-ink text-cream p-7 md:p-9 flex flex-col justify-between r">
+      <div class="flex justify-between items-start">
+        <div class="w-12 h-12 bg-cream/10 border border-cream/20 flex items-center justify-center text-2xl">🎬</div>
+        <span class="tag" style="color:var(--cream); opacity:0.5">01</span>
+      </div>
+      <blockquote class="display text-xl md:text-2xl" style="line-height:1.15; letter-spacing:0.005em; font-feature-settings:'liga' 0;">
+        "Thomas comprend la marque avant même de tourner."
+      </blockquote>
+      <figcaption>
+        <div class="tag" style="color:var(--cream)">— HIVING FOOD</div>
+        <div class="tag tag-dim mt-1" style="opacity:0.6">Brand Manager</div>
+      </figcaption>
+    </figure>
+
+    <figure class="aspect-square bg-rec text-cream p-7 md:p-9 flex flex-col justify-between r d1">
+      <div class="flex justify-between items-start">
+        <div class="w-12 h-12 bg-cream/15 border border-cream/30 flex items-center justify-center text-2xl">👨🏻‍💼</div>
+        <span class="tag" style="color:var(--cream); opacity:0.6">02</span>
+      </div>
+      <blockquote class="display text-xl md:text-2xl" style="line-height:1.15; letter-spacing:0.005em; font-feature-settings:'liga' 0;">
+        "Un oeil de directeur, une exécution de réalisateur."
+      </blockquote>
+      <figcaption>
+        <div class="tag" style="color:var(--cream)">— EDGE TECH</div>
+        <div class="tag mt-1" style="color:var(--cream); opacity:0.7">Founder</div>
+      </figcaption>
+    </figure>
+
+    <figure class="aspect-square bg-cream border border-line text-ink p-7 md:p-9 flex flex-col justify-between r d2">
+      <div class="flex justify-between items-start">
+        <div class="w-12 h-12 bg-ink/5 border border-line flex items-center justify-center text-2xl">🎨</div>
+        <span class="tag tag-dim">03</span>
+      </div>
+      <blockquote class="display text-xl md:text-2xl" style="line-height:1.15; letter-spacing:0.005em; font-feature-settings:'liga' 0;">
+        "Ultra réactif. Le résultat dépasse ce qu'on imaginait."
+      </blockquote>
+      <figcaption>
+        <div class="tag">— VINCENT SALUR</div>
+        <div class="tag tag-dim mt-1">Créateur</div>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<!-- DASHES -->
+<div class="dashes mb-20 md:mb-32"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="px-6 md:px-12 pb-20 relative overflow-hidden">
+
+  <!-- Doodles contact -->
+  <div class="doodle rec hide-mobile wobble" style="top:10%; left:8%; --rot:-10deg; transform:rotate(-10deg);">
+    <svg width="40" height="40" viewBox="0 0 40 40" stroke-width="3" stroke-linecap="round">
+      <line x1="20" y1="3" x2="20" y2="37"/>
+      <line x1="3" y1="20" x2="37" y2="20"/>
+      <line x1="8" y1="8" x2="32" y2="32"/>
+      <line x1="32" y1="8" x2="8" y2="32"/>
+    </svg>
+  </div>
+  <div class="doodle rec hide-mobile wobble" style="top:40%; right:9%; --rot:12deg; transform:rotate(12deg);">
+    <svg width="34" height="34" viewBox="0 0 34 34" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 2 C17 10 15 14 9 17 C15 20 17 24 17 32 C17 24 19 20 25 17 C19 14 17 10 17 2 Z"/>
+    </svg>
+  </div>
+  <div class="doodle rec hide-mobile" style="bottom:18%; left:11%; transform:rotate(6deg);">
+    <svg width="44" height="36" viewBox="0 0 44 36" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="13" width="34" height="19" fill="none"/>
+      <path d="M5 13 L11 5 L20 10 L15 17 M20 10 L29 5 L37 10 L33 17 M37 10 L43 5"/>
+    </svg>
+  </div>
+
+  <div class="max-w-6xl mx-auto text-center">
+    <div class="tag tag-dim mb-8 r" data-cms="contact.kicker">→ JOIN THE NEXT PROJECT</div>
+    <h2 class="display display-tight text-[clamp(3rem,11vw,9rem)] r d1 text-center w-full" style="display:block;">
+      <span data-cms="contact.title">DISCUTONS</span><span class="text-rec">.</span>
+    </h2>
+    <p class="mt-8 text-base md:text-lg text-ink r d2">
+      <span data-cms="contact.intro">Un brief, une idée vague, un planning serré.</span><br>
+      <span class="script text-3xl md:text-4xl text-rec rotate-[-1deg] inline-block mt-2" data-cms="contact.intro_accent">— j'écoute.</span>
+    </p>
+  </div>
+
+  <form
+    data-cms="contact.form"
+    action="https://formspree.io/f/YOUR_ID_HERE"
+    method="POST"
+    class="mt-16 max-w-2xl mx-auto space-y-4 r d3"
+  >
+    <div class="grid md:grid-cols-2 gap-4">
+      <input type="text" name="name" placeholder="VOTRE NOM" required class="form-input" />
+      <input type="email" name="email" placeholder="EMAIL" required class="form-input" />
+    </div>
+    <textarea name="message" placeholder="PARLEZ-MOI DE VOTRE PROJET…" required rows="5" class="form-input resize-none"></textarea>
+    <div class="flex items-center justify-center pt-4">
+      <button type="submit" class="btn-rec" data-cms="contact.submit_label">
+        ENVOYER →
+      </button>
+    </div>
+  </form>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-rec text-cream relative overflow-hidden mt-12">
+  <div class="absolute inset-0 flex items-center justify-center opacity-15 pointer-events-none">
+    <span class="display text-[18vw] whitespace-nowrap">THOMAS·ETCHEVERRY</span>
+  </div>
+  <div class="relative z-10 px-6 md:px-12 py-12 md:py-20">
+    <div class="flex flex-wrap justify-between items-end gap-8">
+      <div>
+        <div class="display text-3xl md:text-4xl">THOMAS ETCHEVERRY<span>®</span></div>
+        <div class="tag mt-3" style="color:var(--cream)">VIDÉASTE · EST. 2022 · MADE IN FR</div>
+      </div>
+      <div class="flex flex-wrap gap-x-8 gap-y-2 tag" style="color:var(--cream)">
+        <a href="#projets" class="hover:underline">PROJETS</a>
+        <a href="#about" class="hover:underline">À PROPOS</a>
+        <a href="#contact" class="hover:underline">CONTACT</a>
+        <a href="#" class="hover:underline">CV (PDF) ↓</a>
+      </div>
+    </div>
+    <div class="border-t border-cream/30 mt-12 pt-6 flex flex-wrap justify-between gap-4 tag" style="color:var(--cream); opacity:0.7">
+      <span>© 2026 — Tous droits réservés</span>
+      <span>Site conçu &amp; codé sur mesure</span>
+    </div>
+  </div>
+</footer>
+
+<!-- BOTTOM DASHES -->
+<div class="dashes"></div>
+
+<!-- BACK TO TOP -->
+<a href="#" id="topBtn" aria-label="Retour en haut"
+   class="fixed bottom-6 right-6 z-40 w-12 h-12 bg-ink text-cream hidden md:flex items-center justify-center hover:bg-rec transition opacity-0 pointer-events-none"
+   style="border-radius:9999px; transition: opacity .4s, background .25s;">↑</a>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.r').forEach(el => io.observe(el));
+  // Expose for render.js (to re-observe CMS-injected elements)
+  window.__revealObserver = io;
+  // Re-arm cards arrows when render.js injects new ones
+  window.__attachCardArrows = function (root) {
+    (root || document).querySelectorAll('.card:not([data-arrow-done])').forEach(c => {
+      const a = document.createElement('span');
+      a.className = 'arrow';
+      a.textContent = '↗';
+      c.appendChild(a);
+      c.setAttribute('data-arrow-done', '1');
+    });
+  };
+
+  // Card hover arrows (initial pass)
+  window.__attachCardArrows();
+
+  // Back to top
+  const topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 600) {
+      topBtn.style.opacity = '1';
+      topBtn.style.pointerEvents = 'auto';
+    } else {
+      topBtn.style.opacity = '0';
+      topBtn.style.pointerEvents = 'none';
+    }
+  }, { passive: true });
+
+  // Form submit
+  const form = document.querySelector('form[action*="formspree"]');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type=submit]');
+      const original = btn.textContent;
+      btn.textContent = 'ENVOI…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' }});
+        if (res.ok) { btn.textContent = 'MESSAGE ENVOYÉ ✓'; form.reset(); }
+        else { btn.textContent = 'ERREUR — RÉESSAYEZ'; setTimeout(() => btn.textContent = original, 3000); }
+      } catch (err) { btn.textContent = 'ERREUR RÉSEAU'; setTimeout(() => btn.textContent = original, 3000); }
+    });
+  }
+</script>
+
+<!-- CMS render — charge /data/*.json et injecte le contenu (fallback : HTML statique) -->
+<script src="./assets/js/render.js" defer></script>
+
+</body>
+</html>

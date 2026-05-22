@@ -1,0 +1,223 @@
+# ============================================================
+# Decap CMS — Configuration
+# Doc : https://decapcms.org/docs/configuration-options/
+# ============================================================
+
+backend:
+  name: github
+  repo: totolesancho/portfolio-thomas
+  branch: main
+  base_url: https://thomas-etcheverry-cms.vercel.app   # ⚠️ À REMPLACER : URL de ton OAuth proxy Vercel
+  auth_endpoint: /api/auth
+
+# Mode brouillon (revue avant publication) — désactivé pour aller au plus simple
+publish_mode: simple
+
+# Dossier des médias uploadés via Decap (images projets, photo hero, etc.)
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+# Format de date par défaut
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# Pour dev local — `npx decap-server` à la racine du repo,
+# puis on relance le serveur preview, et le CMS écrit directement dans les fichiers.
+local_backend: true
+
+# ============================================================
+# COLLECTIONS
+# ============================================================
+collections:
+
+  # ----------------------------------------------------------
+  # 1) SITE — fichier unique data/site.json
+  # ----------------------------------------------------------
+  - name: "site"
+    label: "🏠 Contenu du site"
+    description: "Tout le contenu de la page d'accueil : hero, à propos, contact, marquees, social."
+    files:
+      - file: "data/site.json"
+        label: "Page d'accueil"
+        name: "site"
+        fields:
+
+          # --- META ---
+          - label: "Méta (SEO)"
+            name: "meta"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Titre de l'onglet navigateur", name: "title", widget: "string" }
+              - { label: "Description SEO (1-2 phrases)", name: "description", widget: "text" }
+
+          # --- HERO ---
+          - label: "Hero (en haut du site)"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Texte du badge (sans la flèche)", name: "status_text", widget: "string", default: "Ouvert aux collabs", hint: "Affiché à côté du point rouge clignotant." }
+              - { label: "Afficher le badge ?", name: "status_visible", widget: "boolean", default: true }
+              - { label: "Titre — Ligne 1", name: "title_line1", widget: "string", default: "JE FAIS" }
+              - { label: "Titre — Ligne 2", name: "title_line2", widget: "string", default: "DES FILMS" }
+              - { label: "Étiquette graffiti (en haut à droite)", name: "graffiti_tag", widget: "string", default: "always a creative mind" }
+              - { label: "Sous-titre (sans le tiret —)", name: "tagline", widget: "string", default: "passionné & motivé" }
+              - { label: "Texte du bouton CTA", name: "cta_label", widget: "string", default: "ON DISCUTE ?" }
+              - { label: "Lien du bouton CTA", name: "cta_href", widget: "string", default: "#contact", hint: "Garde #contact pour aller au formulaire, ou mets une URL Calendly." }
+              - { label: "Photo hero (PNG sans fond recommandé)", name: "photo", widget: "image", default: "./assets/thomas-cutout.png" }
+
+          # --- MARQUEE FORMATS ---
+          - label: "Bandeau formats (sous le hero)"
+            name: "marquee_formats"
+            widget: "list"
+            field: { label: "Format", name: "format", widget: "string" }
+            hint: "Liste qui défile (MARIAGE, AFTERMOVIE, etc.)"
+
+          # --- PROJETS section header ---
+          - label: "Section Projets — labels"
+            name: "projets_section"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Kicker", name: "kicker", widget: "string", default: "— TRAVAUX SÉLECTIONNÉS" }
+              - { label: "Titre (1ère partie)", name: "title_prefix", widget: "string", default: "10 projets," }
+              - { label: "Titre (2ème partie, en script)", name: "title_suffix", widget: "string", default: "une seule obsession." }
+
+          # --- MARQUEE CLIENTS ---
+          - label: "Bandeau marques (entre projets et à propos)"
+            name: "marquee_clients"
+            widget: "list"
+            field: { label: "Nom de la marque", name: "name", widget: "string" }
+            hint: "4-6 marques max pour rester lisible."
+
+          # --- ABOUT ---
+          - label: "À propos"
+            name: "about"
+            widget: "object"
+            fields:
+              - { label: "Kicker", name: "kicker", widget: "string", default: "— À PROPOS" }
+              - { label: "Titre — partie normale", name: "title_main", widget: "string", default: "Je raconte des histoires" }
+              - { label: "Titre — partie en handwritten rouge", name: "title_script", widget: "string", default: "avec une caméra." }
+              - { label: "Texte de présentation", name: "body", widget: "text" }
+              - { label: "Stack technique (séparé par · )", name: "stack", widget: "string" }
+
+          # --- SHOWREEL ---
+          - label: "Showreel"
+            name: "showreel"
+            widget: "object"
+            fields:
+              - { label: "Kicker (au-dessus de la vidéo)", name: "kicker", widget: "string", default: "→ Showreel 2025" }
+              - { label: "Durée affichée", name: "duration", widget: "string", default: "02:14" }
+              - { label: "Fichier vidéo (mp4)", name: "video", widget: "file", default: "./assets/T5ng7vlGggLKHz0KU5hcCgnioc.mp4" }
+              - { label: "Poster (image affichée avant lecture)", name: "poster", widget: "image", default: "./assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg" }
+
+          # --- TESTIMONIALS kicker ---
+          - { label: "Kicker section témoignages", name: "testimonials_kicker", widget: "string", default: "— ILS ONT TRAVAILLÉ AVEC MOI" }
+
+          # --- CONTACT ---
+          - label: "Section Contact / Formulaire"
+            name: "contact"
+            widget: "object"
+            fields:
+              - { label: "Kicker", name: "kicker", widget: "string", default: "→ JOIN THE NEXT PROJECT" }
+              - { label: "Titre principal", name: "title", widget: "string", default: "DISCUTONS" }
+              - { label: "Intro", name: "intro", widget: "string", default: "Un brief, une idée vague, un planning serré." }
+              - { label: "Intro accent (handwritten)", name: "intro_accent", widget: "string", default: "— j'écoute." }
+              - { label: "Formspree ID (sans le préfixe /f/)", name: "formspree_id", widget: "string", hint: "Ex: xyzabc123 — récupéré sur formspree.io" }
+              - { label: "Label bouton envoi", name: "submit_label", widget: "string", default: "ENVOYER ↗" }
+
+          # --- FOOTER ---
+          - label: "Footer"
+            name: "footer"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Tagline", name: "tagline", widget: "string", default: "Vidéaste freelance — Paris & remote" }
+              - { label: "Copyright", name: "copyright", widget: "string", default: "© 2026 Thomas Etcheverry" }
+
+          # --- SOCIAL ---
+          - label: "Réseaux sociaux"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "Instagram (URL complète)", name: "instagram", widget: "string" }
+              - { label: "TikTok (URL complète)", name: "tiktok", widget: "string" }
+              - { label: "LinkedIn (URL complète)", name: "linkedin", widget: "string" }
+
+  # ----------------------------------------------------------
+  # 2) PROJETS — fichier unique data/projects.json avec liste
+  # ----------------------------------------------------------
+  - name: "projects"
+    label: "🎬 Projets (les 10 case studies)"
+    description: "Édite les 10 projets affichés dans la grille + les pages détail."
+    files:
+      - file: "data/projects.json"
+        label: "Liste des projets"
+        name: "projects"
+        fields:
+          - label: "Projets"
+            name: "projects"
+            widget: "list"
+            summary: "{{fields.num}} — {{fields.title}}"
+            min: 1
+            fields:
+              - { label: "Slug (URL du projet, ex: publicite-hiving)", name: "slug", widget: "string", hint: "⚠️ Doit être unique. Lettres minuscules, tirets, pas d'accents. La page sera /projets/<slug>.html — doit correspondre au nom de fichier dans le dossier projets/." }
+              - { label: "Numéro (01, 02, ...)", name: "num", widget: "string", pattern: ["^[0-9]{2}$", "Format à 2 chiffres : 01, 02, 10"] }
+              - { label: "Titre", name: "title", widget: "string" }
+              - { label: "Client", name: "client", widget: "string" }
+              - { label: "Sous-titre carte (ex: Hiving Food · 2024)", name: "card_subtitle", widget: "string" }
+              - { label: "Année", name: "year", widget: "string" }
+              - { label: "Format (ex: 16:9 · 02:14)", name: "format", widget: "string" }
+              - { label: "Rôle", name: "role", widget: "string", default: "RÉALISATION · MONTAGE" }
+              - { label: "Vignette (image)", name: "thumb", widget: "image" }
+              - { label: "ID YouTube vidéo 1 (ex: _97hKgYPm0k)", name: "youtube_id", widget: "string", hint: "Seulement l'ID, pas l'URL entière." }
+              - { label: "ID YouTube vidéo 2 (optionnel)", name: "youtube_id_2", widget: "string", required: false }
+              - { label: "Le brief (1-3 phrases, fond noir)", name: "brief", widget: "text" }
+              - { label: "Mon approche — paragraphe 1", name: "approche_1", widget: "text" }
+              - { label: "Mon approche — paragraphe 2", name: "approche_2", widget: "text" }
+              - label: "Stack technique"
+                name: "stack_group"
+                widget: "object"
+                collapsed: true
+                fields:
+                  - { label: "Caméra", name: "stack_camera", widget: "string", required: false }
+                  - { label: "Optique", name: "stack_optique", widget: "string", required: false }
+                  - { label: "Montage", name: "stack_montage", widget: "string", default: "DaVinci Resolve", required: false }
+                  - { label: "Étalonnage", name: "stack_etalonnage", widget: "string", default: "Resolve Color", required: false }
+                  - { label: "Sound", name: "stack_sound", widget: "string", required: false }
+              - label: "Impact / résultats"
+                name: "impact_group"
+                widget: "object"
+                collapsed: true
+                fields:
+                  - { label: "Metric 1 (ex: 45K)", name: "impact_metric1", widget: "string", required: false }
+                  - { label: "Label 1 (ex: VUES INSTAGRAM)", name: "impact_label1", widget: "string", required: false }
+                  - { label: "Metric 2", name: "impact_metric2", widget: "string", required: false }
+                  - { label: "Label 2", name: "impact_label2", widget: "string", required: false }
+
+  # ----------------------------------------------------------
+  # 3) TÉMOIGNAGES — fichier unique
+  # ----------------------------------------------------------
+  - name: "testimonials"
+    label: "💬 Témoignages"
+    description: "Les 3 témoignages clients affichés sous le showreel."
+    files:
+      - file: "data/testimonials.json"
+        label: "Liste des témoignages"
+        name: "testimonials"
+        fields:
+          - label: "Témoignages"
+            name: "testimonials"
+            widget: "list"
+            summary: "{{fields.num}} — {{fields.client}}"
+            min: 1
+            max: 6
+            fields:
+              - { label: "Numéro (01, 02, 03)", name: "num", widget: "string" }
+              - { label: "Emoji (ex: 🎬)", name: "emoji", widget: "string", default: "🎬" }
+              - { label: "Citation (entre guillemets)", name: "quote", widget: "text" }
+              - { label: "Nom du client", name: "client", widget: "string", hint: "Ex: — HIVING FOOD" }
+              - { label: "Rôle", name: "role", widget: "string", default: "Brand Manager" }
+              - { label: "Style visuel", name: "style", widget: "select", options: ["ink", "rec", "cream"], default: "ink", hint: "ink = noir, rec = rouge, cream = beige" }

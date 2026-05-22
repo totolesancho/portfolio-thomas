@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+
+# Vercel
+.vercel
+
+# Node
+node_modules
+*.log
+
+# Framer legacy (gros fichiers inutiles en prod)
+framer-home.html
+framer-projets.html
+projets.html
+index-cinema-alt.html
+index-framer-backup.html
+asset-urls.txt
+font-urls.txt
+js-urls.txt
+
+# Backups intermédiaires (versions de travail, ~30KB chacun)
+index-v*.html
+
+# Fichiers image de travail non utilisés (générations Higgsfield intermédiaires)
+hero-thomas-blended.png .png
+hero-thomas-blended.png_.png
+assets/toto sans fond
+assets/hero-thomas-tvs*.png
+assets/hero-thomas-blended.png
+assets/hero-1.png
+assets/hero-2.png
+assets/hero-3.png
+
+# Local Claude config
+.claude/

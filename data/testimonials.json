@@ -1,0 +1,28 @@
+{
+  "testimonials": [
+    {
+      "num": "01",
+      "emoji": "🎬",
+      "quote": "Thomas comprend la marque avant même de tourner.",
+      "client": "— HIVING FOOD",
+      "role": "Brand Manager",
+      "style": "ink"
+    },
+    {
+      "num": "02",
+      "emoji": "👨🏻‍💼",
+      "quote": "Un oeil de directeur, une exécution de réalisateur.",
+      "client": "— EDGE TECH",
+      "role": "Founder",
+      "style": "rec"
+    },
+    {
+      "num": "03",
+      "emoji": "🎨",
+      "quote": "Ultra réactif. Le résultat dépasse ce qu'on imaginait.",
+      "client": "— VINCENT SALUR",
+      "role": "Créateur",
+      "style": "cream"
+    }
+  ]
+}
