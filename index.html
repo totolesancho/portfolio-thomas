@@ -218,6 +218,41 @@
 
   ::selection { background: var(--rec); color: var(--cream); }
 
+  /* ============ ANIMATION D'ENTRÉE séquencée ============ */
+  /* Tous les éléments .intro démarrent invisibles, animés après page load */
+  .intro {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1);
+  }
+  body.loaded .intro { opacity: 1; transform: translateY(0); }
+  /* Delays staggered : titre → photo → tagline+CTA → header */
+  .intro.t1 { transition-delay: 0.10s; }   /* JE FAIS DES FILMS */
+  .intro.t2 { transition-delay: 0.55s; }   /* photo Thomas */
+  .intro.t3 { transition-delay: 1.00s; }   /* passionné + CTA */
+  .intro.t4 { transition-delay: 1.35s; }   /* header (logo + nav) */
+  .intro.t5 { transition-delay: 1.40s; }   /* top dashes */
+  /* Doodles & accents secondaires */
+  .intro.t6 { transition-delay: 1.55s; }
+
+  /* Skip animation pour respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .intro { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ============ HEADER STICKY ============ */
+  /* Header reste collé en haut au scroll, fond cream avec petite ombre */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--cream);
+    transition: box-shadow .25s ease, padding .25s ease;
+  }
+  header.scrolled {
+    box-shadow: 0 4px 12px -6px rgba(14,14,14,0.12);
+  }
+
   /* ============ BURGER MENU MOBILE ============ */
   .burger-btn {
     display: inline-flex; align-items: center; justify-content: center;
@@ -433,10 +468,10 @@
 <aside class="side right"><a data-cms="social.instagram" href="https://www.instagram.com/" target="_blank" rel="noopener">INSTAGRAM</a></aside>
 
 <!-- TOP DASHES -->
-<div class="dashes"></div>
+<div class="dashes intro t5"></div>
 
 <!-- HEADER -->
-<header class="px-6 md:px-12 py-4 flex justify-between items-center">
+<header class="px-6 md:px-12 py-4 flex justify-between items-center intro t4">
   <a href="#" class="display text-base md:text-lg">THOMAS ETCHEVERRY<span class="text-rec">®</span></a>
   <nav class="hidden md:flex items-center gap-6">
     <a href="./projets.html" class="tag hover:text-rec transition">Projets</a>
@@ -492,23 +527,23 @@
 
 
   <!-- Top status — CENTERED, no typewriter font -->
-  <div data-cms-block="hero.status" class="flex justify-center items-center mb-1 md:mb-2 relative z-30 r">
+  <div data-cms-block="hero.status" class="flex justify-center items-center mb-1 md:mb-2 relative z-30 intro t1">
     <div class="flex items-center gap-3 text-xs uppercase tracking-[0.18em]" style="font-family:'Inter',sans-serif;">
       <span class="pulse-dot"></span>
       <span data-cms="hero.status_text">↓ Ouvert aux collabs</span>
     </div>
   </div>
 
-  <!-- Graffiti accent floating top-right -->
-  <div class="hidden md:block absolute z-30 r d2" style="top:22%; right:5%; transform:rotate(-6deg);">
+  <!-- Graffiti accent floating top-right — animé en dernier -->
+  <div class="hidden md:block absolute z-30 intro t6" style="top:22%; right:5%; transform:rotate(-6deg);">
     <span class="graffiti-tag text-base md:text-xl" data-cms="hero.graffiti_tag">always a creative mind</span>
   </div>
 
   <!-- Layered hero : text BEHIND, PNG cutout IN FRONT -->
   <div class="relative w-full mx-auto" style="max-width:1800px;">
 
-    <!-- DISPLAY TEXT — sized so cutout can take front stage -->
-    <h1 class="display relative z-10 pointer-events-none text-center r d1"
+    <!-- DISPLAY TEXT — animé en premier -->
+    <h1 class="display relative z-10 pointer-events-none text-center intro t1"
         style="
           font-size: clamp(2.8rem, 12vw, 12rem);
           line-height: 0.95;
@@ -520,9 +555,9 @@
       <span class="block" style="transform: translateX(0.08em); display:block;"><span data-cms="hero.title_line2">DES FILMS</span><span class="text-rec">.</span></span>
     </h1>
 
-    <!-- PNG CUTOUT (z-20, max 58vh pour laisser le CTA au-dessus du fold) -->
-    <div class="relative z-20 flex justify-center r d2"
-         style="margin-top: clamp(-200px, -14vw, -100px);">
+    <!-- PNG CUTOUT (z-20) — légèrement plus bas qu'avant, animé en 2e -->
+    <div class="relative z-20 flex justify-center intro t2"
+         style="margin-top: clamp(-170px, -11vw, -80px);">
       <img data-cms="hero.photo" src="./assets/thomas-cutout.png"
            alt="Thomas Etcheverry — vidéaste"
            onerror="this.src='./assets/hero-thomas-blended.png'"
@@ -531,8 +566,8 @@
     </div>
   </div>
 
-  <!-- Bottom row : handwritten quote + CTA -->
-  <div class="mt-6 md:mt-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10 relative z-30 r d3">
+  <!-- Bottom row : handwritten quote + CTA — animé en 3e -->
+  <div class="mt-6 md:mt-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10 relative z-30 intro t3">
     <span class="script text-2xl md:text-3xl text-rec rotate-[-2deg] inline-block" data-cms="hero.tagline">— passionné &amp; motivé</span>
     <a data-cms="hero.cta_link" href="#contact" class="btn-cta">
       <span data-cms="hero.cta_label">ON DISCUTE ?</span>
@@ -564,7 +599,7 @@
 </section>
 
 <!-- TRAVAUX -->
-<section id="projets" class="px-6 md:px-12 pt-16 md:pt-28 pb-20 md:pb-32">
+<section id="projets" class="px-6 md:px-12 pt-14 md:pt-20 pb-14 md:pb-20">
   <div class="mb-14 md:mb-20 r max-w-[1100px] mx-auto">
     <div class="tag tag-dim mb-8" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
     <h2 class="display display-tight" style="font-size: clamp(2.2rem, 6.5vw, 5rem); line-height: 1.05;">
@@ -612,8 +647,8 @@
     </div>
   </div>
 
-  <!-- Gradient fade + View More -->
-  <div class="bento-fade-wrap mt-8 md:mt-10 r d3 text-center relative">
+  <!-- View More — espace harmonisé avec les autres sections -->
+  <div class="bento-fade-wrap mt-12 md:mt-16 r d3 text-center relative">
     <div class="bento-fade"></div>
     <a href="./projets.html" class="btn-view-more inline-flex items-center gap-3">
       <span>VOIR TOUS LES PROJETS</span>
@@ -640,7 +675,7 @@
 </div>
 
 <!-- ABOUT -->
-<section id="about" class="px-6 md:px-12 py-24 md:py-40 text-center relative overflow-hidden">
+<section id="about" class="px-6 md:px-12 pt-14 md:pt-20 pb-16 md:pb-24 text-center relative overflow-hidden">
 
   <!-- Doodles about -->
   <div class="doodle rec hide-mobile wobble" style="top:18%; left:10%; --rot:-12deg; transform:rotate(-12deg);">
@@ -710,7 +745,7 @@
 </section>
 
 <!-- DASHES — sous le showreel -->
-<div class="dashes mb-20 md:mb-32"></div>
+<div class="dashes mb-14 md:mb-20"></div>
 
 <!-- TÉMOIGNAGES -->
 <section class="px-6 md:px-12 pb-24 md:pb-40">
@@ -763,7 +798,7 @@
 </section>
 
 <!-- DASHES -->
-<div class="dashes mb-12 md:mb-20"></div>
+<div class="dashes mb-14 md:mb-20"></div>
 
 <!-- SHOWREEL — descendu juste avant Contact -->
 <section id="showreel" class="px-6 md:px-12 pb-12 md:pb-16">
@@ -786,7 +821,7 @@
 </section>
 
 <!-- DASHES — séparateur showreel ↔ contact -->
-<div class="dashes mb-16 md:mb-24"></div>
+<div class="dashes mb-14 md:mb-20"></div>
 
 <!-- CONTACT -->
 <section id="contact" class="px-6 md:px-12 pb-20 relative overflow-hidden">
@@ -927,6 +962,22 @@
 
   // Card hover arrows (initial pass)
   window.__attachCardArrows();
+
+  // Animation d'entrée : ajoute .loaded au body après un tick
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => document.body.classList.add('loaded'));
+  });
+
+  // Header sticky : ajoute .scrolled quand on a scrollé
+  const headerEl = document.querySelector('header');
+  if (headerEl) {
+    const onScroll = () => {
+      if (window.scrollY > 20) headerEl.classList.add('scrolled');
+      else headerEl.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 
   // Burger menu mobile
   const burgerBtn = document.getElementById('burger-btn');
