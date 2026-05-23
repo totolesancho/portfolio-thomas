@@ -172,9 +172,18 @@ collections:
               - { label: "Année", name: "year", widget: "string" }
               - { label: "Format (ex: 16:9 · 02:14)", name: "format", widget: "string" }
               - { label: "Rôle", name: "role", widget: "string", default: "RÉALISATION · MONTAGE" }
-              - { label: "Vignette (image)", name: "thumb", widget: "image" }
-              - { label: "ID YouTube vidéo 1 (ex: _97hKgYPm0k)", name: "youtube_id", widget: "string", hint: "Seulement l'ID, pas l'URL entière." }
-              - { label: "ID YouTube vidéo 2 (optionnel)", name: "youtube_id_2", widget: "string", required: false }
+              - { label: "Vignette (image, utilisée sur la grille d'accueil)", name: "thumb", widget: "image" }
+              - label: "Vidéos YouTube (1 ou plusieurs)"
+                name: "videos"
+                widget: "list"
+                field: { label: "ID YouTube (ex: _97hKgYPm0k)", name: "id", widget: "string", hint: "Seulement l'ID, pas l'URL entière." }
+                hint: "La 1ère vidéo s'affiche en haut de la page. Les suivantes en grille en dessous."
+              - label: "Galerie de photos (s'affiche entre brief et approche)"
+                name: "images"
+                widget: "list"
+                field: { label: "Photo", name: "img", widget: "image" }
+                required: false
+                hint: "2-6 photos recommandées. Les photos sont cliquables → zoom en grand."
               - { label: "Le brief (1-3 phrases, fond noir)", name: "brief", widget: "text" }
               - { label: "Mon approche — paragraphe 1", name: "approche_1", widget: "text" }
               - { label: "Mon approche — paragraphe 2", name: "approche_2", widget: "text" }

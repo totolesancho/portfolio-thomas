@@ -1,31 +1,21 @@
 /* ------------------------------------------------------------------
-   render-project.js — Sur chaque page /projets/<slug>.html, détecte
-   le slug depuis l'URL, fetch /data/projects.json, et peuple la page.
+   render-project.js — Lit le slug dans l'URL, fetch /data/projects.json
+   et populate la page projet (template v2 avec gallery + multi-vidéos).
    ------------------------------------------------------------------ */
 
 (async function () {
   'use strict';
 
-  // Slug depuis l'URL : /projets/publicite-hiving.html → publicite-hiving
-  // Supporte aussi /projets/publicite-hiving (sans .html) si cleanUrls activé
   const path = window.location.pathname;
   const match = path.match(/\/projets\/([^/]+?)(?:\.html?)?$/i);
-  if (!match) {
-    console.warn('[render-project] no slug detected in URL');
-    return;
-  }
+  if (!match) return;
   const slug = match[1];
-  if (slug === '_template' || slug === 'index') return; // pas de render sur le template
+  if (slug === '_template' || slug === 'index') return;
 
   let projects = null;
-  let site = null;
   try {
-    const [pRes, sRes] = await Promise.all([
-      fetch('../data/projects.json', { cache: 'no-store' }),
-      fetch('../data/site.json', { cache: 'no-store' }),
-    ]);
-    if (pRes.ok) projects = await pRes.json();
-    if (sRes.ok) site = await sRes.json();
+    const r = await fetch('../data/projects.json', { cache: 'no-store' });
+    if (r.ok) projects = await r.json();
   } catch (e) {
     console.warn('[render-project] fetch error', e);
     return;
@@ -34,7 +24,7 @@
 
   const idx = projects.projects.findIndex((p) => p.slug === slug);
   if (idx === -1) {
-    console.warn('[render-project] no project found for slug:', slug);
+    console.warn('[render-project] no project for slug:', slug);
     return;
   }
   const p = projects.projects[idx];
@@ -46,17 +36,10 @@
   const md = document.querySelector('meta[name="description"]');
   if (md && p.brief) md.setAttribute('content', p.brief);
 
-  // ---------- HELPERS ----------
   const setText = (key, value) => {
-    if (value == null) return;
+    if (value == null || value === '') return;
     document.querySelectorAll(`[data-proj="${key}"]`).forEach((el) => {
       el.textContent = value;
-    });
-  };
-  const setHTML = (key, value) => {
-    if (value == null) return;
-    document.querySelectorAll(`[data-proj="${key}"]`).forEach((el) => {
-      el.innerHTML = value;
     });
   };
   const setAttr = (key, attr, value) => {
@@ -74,27 +57,61 @@
   setText('format', p.format);
   setText('role', p.role);
 
-  // ---------- VIDEO EMBEDS ----------
-  const v1 = document.querySelector('[data-proj="video1"]');
-  if (v1 && p.youtube_id) {
-    v1.src = 'https://www.youtube.com/embed/' + p.youtube_id + '?rel=0&modestbranding=1';
-  }
-  const v2Wrap = document.querySelector('[data-proj="video2_wrap"]');
-  const v2 = document.querySelector('[data-proj="video2"]');
-  if (p.youtube_id_2 && v2) {
-    v2.src = 'https://www.youtube.com/embed/' + p.youtube_id_2 + '?rel=0&modestbranding=1';
-    if (v2Wrap) v2Wrap.style.display = '';
-  } else if (v2Wrap) {
-    v2Wrap.style.display = 'none';
+  // ---------- MAIN VIDEO ----------
+  const videos = Array.isArray(p.videos) ? p.videos.filter(Boolean) : [];
+  const mainVideoEl = document.querySelector('[data-proj="video_main"]');
+  if (mainVideoEl && videos.length > 0) {
+    mainVideoEl.src = 'https://www.youtube.com/embed/' + videos[0] + '?rel=0&modestbranding=1';
   }
 
-  // ---------- CASE STUDY ----------
+  // ---------- SECONDARY VIDEOS (si > 1) ----------
+  const secondaryWrap = document.querySelector('[data-proj="secondary_videos_section"]');
+  const secondaryGrid = document.querySelector('[data-proj="secondary_videos_grid"]');
+  if (secondaryWrap && secondaryGrid && videos.length > 1) {
+    secondaryWrap.style.display = '';
+    secondaryGrid.innerHTML = videos
+      .slice(1)
+      .map(
+        (vid, i) =>
+          `<div class="relative bg-ink overflow-hidden aspect-video r">
+            <iframe src="https://www.youtube.com/embed/${escapeHTML(vid)}?rel=0&modestbranding=1"
+                    class="absolute inset-0 w-full h-full" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+          </div>`
+      )
+      .join('');
+    // Re-observe new .r elements
+    secondaryGrid.querySelectorAll('.r').forEach((el) => {
+      if (window.__revealObserver) window.__revealObserver.observe(el);
+    });
+  }
+
+  // ---------- IMAGE GALLERY ----------
+  const galSection = document.querySelector('[data-proj="gallery_section"]');
+  const galGrid = document.querySelector('[data-proj="gallery_grid"]');
+  const images = Array.isArray(p.images) ? p.images.filter(Boolean) : [];
+  if (galSection && galGrid && images.length > 0) {
+    galSection.style.display = '';
+    galGrid.innerHTML = images
+      .map(
+        (img, i) =>
+          `<div class="gallery-tile r ${i % 2 === 1 ? 'd1' : ''}" onclick="window.__openLightbox && window.__openLightbox('${escapeAttr(img)}')">
+            <div class="gallery-img" style="background-image:url('${escapeAttr(img)}')"></div>
+          </div>`
+      )
+      .join('');
+    galGrid.querySelectorAll('.r').forEach((el) => {
+      if (window.__revealObserver) window.__revealObserver.observe(el);
+    });
+  }
+
+  // ---------- BRIEF & APPROCHE ----------
   setText('brief', p.brief);
-  setText('production_year', p.year);
   setText('approche_1', p.approche_1);
   setText('approche_2', p.approche_2);
 
-  // Stack list
+  // ---------- STACK ----------
   const stackList = document.querySelector('[data-proj="stack_list"]');
   if (stackList) {
     const items = [
@@ -109,13 +126,19 @@
       .join('');
   }
 
-  // Impact
+  // ---------- IMPACT ----------
   setText('impact_metric1', p.impact_metric1);
   setText('impact_label1', p.impact_label1);
   setText('impact_metric2', p.impact_metric2);
   setText('impact_label2', p.impact_label2);
 
-  // ---------- PREV / NEXT NAV ----------
+  // Hide impact block 2 if empty
+  const impact2 = document.querySelector('[data-proj="impact_block2"]');
+  if (impact2 && (!p.impact_metric2 || p.impact_metric2 === '—' || p.impact_metric2 === '')) {
+    impact2.style.display = 'none';
+  }
+
+  // ---------- PREV / NEXT ----------
   setAttr('prev_link', 'href', './' + prev.slug + '.html');
   setText('prev_title', prev.title);
   setAttr('next_link', 'href', './' + next.slug + '.html');
@@ -129,5 +152,9 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+  function escapeAttr(s) {
+    if (s == null) return '';
+    return String(s).replace(/'/g, '%27').replace(/"/g, '%22');
   }
 })();
