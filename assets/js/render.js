@@ -7,6 +7,32 @@
 (async function () {
   'use strict';
 
+  /* Parse focal "X% Y%" / "X% Y% / Z%" / "center" → applique sur un élément DOM */
+  function applyFocal(el, val) {
+    if (!el) return;
+    if (!val) { el.style.backgroundPosition = 'center'; el.style.backgroundSize = 'cover'; return; }
+    const v = String(val).trim().toLowerCase();
+    const keywords = {
+      'center':{x:50,y:50},'top':{x:50,y:0},'bottom':{x:50,y:100},
+      'left':{x:0,y:50},'right':{x:100,y:50},
+      'left top':{x:0,y:0},'top left':{x:0,y:0},
+      'right top':{x:100,y:0},'top right':{x:100,y:0},
+      'left bottom':{x:0,y:100},'bottom left':{x:0,y:100},
+      'right bottom':{x:100,y:100},'bottom right':{x:100,y:100},
+    };
+    const slashIdx = v.indexOf('/');
+    const posStr  = slashIdx >= 0 ? v.slice(0, slashIdx).trim() : v;
+    const zoomStr = slashIdx >= 0 ? v.slice(slashIdx + 1).trim() : '';
+    let x = 50, y = 50;
+    if (keywords[posStr]) { x = keywords[posStr].x; y = keywords[posStr].y; }
+    else { const m = posStr.match(/^([\d.]+)%\s+([\d.]+)%$/); if (m) { x = parseFloat(m[1]); y = parseFloat(m[2]); } }
+    el.style.backgroundPosition = `${x}% ${y}%`;
+    let size = 'cover';
+    if (zoomStr) { const z = parseFloat(zoomStr); if (!isNaN(z) && z > 0 && z !== 100) size = z + '%'; }
+    el.style.backgroundSize = size;
+    el.style.backgroundRepeat = 'no-repeat';
+  }
+
   const fetchJSON = async (path) => {
     try {
       const r = await fetch(path, { cache: 'no-store' });
@@ -194,7 +220,7 @@
       const thumbEl = slot.querySelector('.bento-thumb');
       if (thumbEl) {
         thumbEl.style.backgroundImage = `url('${p.thumb}')`;
-        thumbEl.style.backgroundPosition = p.thumb_focal || 'center';
+        applyFocal(thumbEl, p.thumb_focal);
       }
       const catEl = slot.querySelector('.bento-cat');
       if (catEl) catEl.textContent = p.category || '';

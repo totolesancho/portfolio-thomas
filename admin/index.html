@@ -46,206 +46,263 @@
     CMS.registerPreviewStyle('/admin/preview.css');
 
     /* ============================================================
-       Custom widget : FOCAL POINT picker visuel
-       - Affiche l'image (lue depuis le champ "thumb")
-       - L'utilisateur CLIQUE sur la zone du sujet à garder visible
-       - La valeur est sauvée comme "X% Y%" (compatible CSS background-position)
-       - Preview live 4:3 à côté qui montre le crop réel du catalogue
+       Custom widget : FOCAL POINT picker visuel + ZOOM
+       - Affiche l'image source (lue depuis champ frère défini par
+         field.image_field, défaut "thumb")
+       - Click sur l'image → pose le focal point (X% Y%)
+       - Slider zoom (50-200%) → redimensionne l'image dans le cadre
+       - Sauvé comme "X% Y% / Z%" (ou juste "X% Y%" si zoom = 100)
+       - Compatible CSS : background-position + background-size
+       - Preview live à droite : carte 4:3 avec crop appliqué
        ============================================================ */
+
+    /* Helpers partagés (utilisés aussi par le render côté site) */
+    function parseFocalString(val) {
+      // Retourne { x, y, zoom } depuis "X% Y%" / "X% Y% / Z%" / "center" / etc.
+      const out = { x: 50, y: 50, zoom: 100 };
+      if (!val) return out;
+      const v = String(val).trim().toLowerCase();
+      const keywords = {
+        'center':       { x: 50, y: 50 },
+        'top':          { x: 50, y: 0 },
+        'bottom':       { x: 50, y: 100 },
+        'left':         { x: 0,  y: 50 },
+        'right':        { x: 100, y: 50 },
+        'left top':     { x: 0,  y: 0 },
+        'top left':     { x: 0,  y: 0 },
+        'right top':    { x: 100, y: 0 },
+        'top right':    { x: 100, y: 0 },
+        'left bottom':  { x: 0,  y: 100 },
+        'bottom left':  { x: 0,  y: 100 },
+        'right bottom': { x: 100, y: 100 },
+        'bottom right': { x: 100, y: 100 },
+      };
+      // "X% Y% / Z%" ou "X% Y%"
+      const slashIdx = v.indexOf('/');
+      const posStr  = slashIdx >= 0 ? v.slice(0, slashIdx).trim() : v;
+      const zoomStr = slashIdx >= 0 ? v.slice(slashIdx + 1).trim() : '';
+      if (keywords[posStr]) { Object.assign(out, keywords[posStr]); }
+      else {
+        const m = posStr.match(/^([\d.]+)%\s+([\d.]+)%$/);
+        if (m) { out.x = parseFloat(m[1]); out.y = parseFloat(m[2]); }
+      }
+      if (zoomStr) {
+        const z = parseFloat(zoomStr);
+        if (!isNaN(z) && z > 0) out.zoom = z;
+      }
+      return out;
+    }
+
+    function buildFocalString(x, y, zoom) {
+      const xr = Math.round(x);
+      const yr = Math.round(y);
+      const zr = Math.round(zoom);
+      if (zr === 100) return `${xr}% ${yr}%`;
+      return `${xr}% ${yr}% / ${zr}%`;
+    }
+
+    /* CSS style depuis valeur focal — utilisé dans la preview du widget */
+    function focalToStyle(val) {
+      const { x, y, zoom } = parseFocalString(val);
+      return {
+        backgroundPosition: `${x}% ${y}%`,
+        backgroundSize: zoom === 100 ? 'cover' : (zoom + '%'),
+      };
+    }
+
     const FocalPointControl = createClass({
       getDefaultProps() { return { value: 'center' }; },
 
-      getThumbUrl() {
+      /* Trouve l'URL de l'image source à partir du forID + entry */
+      getImageUrl() {
         try {
           const entry = this.props.entry;
           if (!entry) return null;
           const data = entry.get('data').toJS();
-          // 1) Tente de localiser l'index via forID (format Decap : "projects-X-thumb_focal" ou similaire)
           const forID = this.props.forID || '';
-          const idxMatch = forID.match(/(\d+)[-.]thumb[_-]?focal/i) || forID.match(/-(\d+)-/);
-          const idx = idxMatch ? parseInt(idxMatch[1], 10) : null;
-          if (idx != null && data && Array.isArray(data.projects) && data.projects[idx]) {
-            const t = data.projects[idx].thumb;
-            if (t && typeof t === 'string') return t;
-          }
-          // 2) Fallback : cherche récursivement (utile pour collections non-list)
-          const findThumb = (obj) => {
-            if (!obj || typeof obj !== 'object') return null;
-            if (obj.thumb && typeof obj.thumb === 'string') return obj.thumb;
-            if (Array.isArray(obj)) {
-              for (const item of obj) {
-                const r = findThumb(item);
-                if (r) return r;
-              }
+          const field = this.props.field;
+          // Le nom du champ image frère (configurable : field.image_field, défaut "thumb")
+          const imgFieldName = (field && field.get && field.get('image_field')) || 'thumb';
+
+          // Extrait tous les indices numériques du forID (ex: "projects-2-thumb_focal" ou "projects-2-images-0-focal")
+          const indices = (forID.match(/-(\d+)(?=-)/g) || []).map(s => parseInt(s.replace(/-/g, ''), 10));
+
+          // Navigation : data.projects[i0].images[i1]... jusqu'à trouver le champ image
+          let node = data;
+          const listKeys = ['projects', 'images', 'photos', 'medias', 'gallery'];
+          let depthIdx = 0;
+          while (node && typeof node === 'object') {
+            // Si node est un array → prend l'index suivant
+            if (Array.isArray(node)) {
+              const idx = indices[depthIdx++];
+              if (idx == null || !node[idx]) break;
+              node = node[idx];
             } else {
-              for (const k of Object.keys(obj)) {
-                const r = findThumb(obj[k]);
-                if (r) return r;
-              }
+              // Sinon descends dans la 1ère key liste-like trouvée
+              const listKey = listKeys.find(k => Array.isArray(node[k]));
+              if (!listKey) break;
+              node = node[listKey];
             }
+          }
+
+          // node = l'item du projet OU de la galerie
+          if (node && typeof node === 'object') {
+            const v = node[imgFieldName];
+            if (v && typeof v === 'string') return v;
+          }
+
+          // Fallback : recursive search
+          const findField = (obj) => {
+            if (!obj || typeof obj !== 'object') return null;
+            if (obj[imgFieldName] && typeof obj[imgFieldName] === 'string') return obj[imgFieldName];
+            if (Array.isArray(obj)) for (const it of obj) { const r = findField(it); if (r) return r; }
+            else for (const k of Object.keys(obj)) { const r = findField(obj[k]); if (r) return r; }
             return null;
           };
-          return findThumb(data);
+          return findField(data);
         } catch (e) {
-          console.warn('[focal_point] getThumbUrl error', e);
+          console.warn('[focal_point] getImageUrl error', e);
           return null;
         }
-      },
-
-      /* Parse "X% Y%" → {x, y} OR keyword (center, top, etc.) → coords */
-      parseValue(val) {
-        if (!val) return { x: 50, y: 50 };
-        const v = String(val).trim().toLowerCase();
-        const keywords = {
-          'center':       { x: 50, y: 50 },
-          'top':          { x: 50, y: 0 },
-          'bottom':       { x: 50, y: 100 },
-          'left':         { x: 0,  y: 50 },
-          'right':        { x: 100, y: 50 },
-          'left top':     { x: 0,  y: 0 },
-          'top left':     { x: 0,  y: 0 },
-          'right top':    { x: 100, y: 0 },
-          'top right':    { x: 100, y: 0 },
-          'left bottom':  { x: 0,  y: 100 },
-          'bottom left':  { x: 0,  y: 100 },
-          'right bottom': { x: 100, y: 100 },
-          'bottom right': { x: 100, y: 100 },
-        };
-        if (keywords[v]) return keywords[v];
-        const m = v.match(/^([\d.]+)%\s+([\d.]+)%$/);
-        if (m) return { x: parseFloat(m[1]), y: parseFloat(m[2]) };
-        return { x: 50, y: 50 };
       },
 
       handleClick(e) {
         const rect = e.currentTarget.getBoundingClientRect();
         const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
         const y = Math.round(((e.clientY - rect.top)  / rect.height) * 100);
-        const value = `${x}% ${y}%`;
-        this.props.onChange(value);
+        const { zoom } = parseFocalString(this.props.value);
+        this.props.onChange(buildFocalString(x, y, zoom));
       },
 
       handlePresetClick(val) {
-        this.props.onChange(val);
+        const { zoom } = parseFocalString(this.props.value);
+        // Convertit le preset keyword en X% Y%
+        const { x, y } = parseFocalString(val);
+        this.props.onChange(buildFocalString(x, y, zoom));
+      },
+
+      handleZoomChange(e) {
+        const zoom = parseFloat(e.target.value);
+        const { x, y } = parseFocalString(this.props.value);
+        this.props.onChange(buildFocalString(x, y, zoom));
       },
 
       render() {
         const value = this.props.value || 'center';
-        const coords = this.parseValue(value);
-        const thumb = this.getThumbUrl();
+        const { x, y, zoom } = parseFocalString(value);
+        const image = this.getImageUrl();
+        const field = this.props.field;
+        const previewAspect = (field && field.get && field.get('preview_aspect')) || '4/3';
 
         const presets = [
-          { v: 'center',       l: 'Centre' },
-          { v: 'top',          l: 'Haut' },
-          { v: 'bottom',       l: 'Bas' },
-          { v: 'left',         l: 'Gauche' },
-          { v: 'right',        l: 'Droite' },
+          { v: 'center', l: 'Centre' },
+          { v: 'top',    l: 'Haut' },
+          { v: 'bottom', l: 'Bas' },
+          { v: 'left',   l: 'Gauche' },
+          { v: 'right',  l: 'Droite' },
         ];
 
-        if (!thumb) {
+        if (!image) {
           return h('div', {style:{padding:'12px',background:'#fff8e1',border:'1px solid #f0d97a',borderRadius:'4px',fontSize:'13px',color:'#7c5e00'}},
-            '⚠️ Upload une vignette dans le champ "③ Vignette" juste au-dessus pour pouvoir choisir le focal point.'
+            '⚠️ Upload une image dans le champ "image" juste au-dessus pour activer le picker.'
           );
         }
 
-        return h('div', {style:{background:'#fff',border:'2px solid #dfdfe3',borderRadius:'4px',padding:'12px'}},
-          h('div', {style:{display:'flex',gap:'16px',alignItems:'flex-start',flexWrap:'wrap'}}, [
-            // Picker (image cliquable)
+        return h('div', {style:{background:'#fff',border:'2px solid #dfdfe3',borderRadius:'4px',padding:'12px'}}, [
+          h('div', {key:'top',style:{display:'flex',gap:'16px',alignItems:'flex-start',flexWrap:'wrap'}}, [
+
+            // ==== Picker (image cliquable) ====
             h('div', {key:'picker',style:{flex:'1 1 320px',minWidth:'280px'}}, [
-              h('div', {key:'lbl',style:{fontSize:'12px',color:'#666',marginBottom:'6px',fontWeight:600}}, '👆 Clique sur le sujet principal à GARDER visible'),
+              h('div', {key:'lbl',style:{fontSize:'12px',color:'#666',marginBottom:'6px',fontWeight:600}}, '👆 Clique sur le sujet à GARDER visible'),
               h('div', {
                 key:'imgw',
                 onClick: this.handleClick,
                 style:{
-                  position:'relative',
-                  width:'100%',
-                  maxWidth:'420px',
-                  cursor:'crosshair',
-                  border:'2px solid #0e0e0e',
-                  borderRadius:'4px',
-                  overflow:'hidden',
-                  userSelect:'none',
+                  position:'relative',width:'100%',maxWidth:'420px',
+                  cursor:'crosshair',border:'2px solid #0e0e0e',
+                  borderRadius:'4px',overflow:'hidden',userSelect:'none',
                 }
               }, [
-                h('img', {key:'img',src:thumb,style:{display:'block',width:'100%',height:'auto',pointerEvents:'none'},alt:''}),
+                h('img', {key:'img',src:image,style:{display:'block',width:'100%',height:'auto',pointerEvents:'none'},alt:''}),
                 h('div', {key:'cross',style:{
                   position:'absolute',
-                  left:coords.x+'%',
-                  top:coords.y+'%',
-                  width:'24px',
-                  height:'24px',
-                  marginLeft:'-12px',
-                  marginTop:'-12px',
+                  left:x+'%',top:y+'%',
+                  width:'24px',height:'24px',
+                  marginLeft:'-12px',marginTop:'-12px',
                   borderRadius:'50%',
                   background:'#ff3b1c',
                   border:'3px solid #fff',
                   boxShadow:'0 0 0 2px #ff3b1c, 0 2px 8px rgba(0,0,0,.4)',
-                  pointerEvents:'none',
-                  transition:'all .15s',
+                  pointerEvents:'none',transition:'all .15s',
                 }}),
               ]),
             ]),
 
-            // Preview 4:3 (rendu identique catalogue)
-            h('div', {key:'preview',style:{flex:'0 0 200px'}}, [
-              h('div', {key:'lbl',style:{fontSize:'12px',color:'#666',marginBottom:'6px',fontWeight:600}}, '📺 Aperçu carte catalogue (4:3)'),
+            // ==== Preview 4:3 (ou aspect configurable) ====
+            h('div', {key:'preview',style:{flex:'0 0 220px'}}, [
+              h('div', {key:'lbl',style:{fontSize:'12px',color:'#666',marginBottom:'6px',fontWeight:600}}, `📺 Aperçu ${previewAspect}`),
               h('div', {key:'card',style:{
-                position:'relative',
-                width:'200px',
-                aspectRatio:'4/3',
-                background:'#1a1817',
-                borderRadius:'6px',
-                overflow:'hidden',
+                position:'relative',width:'220px',aspectRatio:previewAspect,
+                background:'#1a1817',borderRadius:'6px',overflow:'hidden',
                 boxShadow:'0 4px 16px rgba(0,0,0,.15)',
               }}, [
                 h('div', {key:'thumb',style:{
                   position:'absolute',inset:0,
-                  backgroundImage:`url('${thumb}')`,
-                  backgroundSize:'cover',
-                  backgroundPosition:value,
-                  transition:'background-position .2s',
-                }}),
-                h('div', {key:'veil',style:{
-                  position:'absolute',inset:0,
-                  background:'linear-gradient(to top, rgba(14,14,14,.8) 0%, rgba(14,14,14,.2) 35%, transparent 55%)',
+                  backgroundImage:`url('${image}')`,
+                  backgroundRepeat:'no-repeat',
+                  backgroundColor:'#000',
+                  backgroundSize: zoom === 100 ? 'cover' : (zoom + '%'),
+                  backgroundPosition:`${x}% ${y}%`,
+                  transition:'all .2s',
                 }}),
               ]),
               h('div', {key:'val',style:{
-                marginTop:'8px',
-                fontSize:'11px',
-                fontFamily:'monospace',
-                color:'#666',
-                wordBreak:'break-all',
+                marginTop:'8px',fontSize:'11px',fontFamily:'monospace',
+                color:'#666',wordBreak:'break-all',
               }}, `valeur : ${value}`),
             ]),
           ]),
 
-          // Presets rapides
-          h('div', {key:'presets',style:{marginTop:'14px',paddingTop:'12px',borderTop:'1px solid #eee'}}, [
-            h('div', {key:'lbl',style:{fontSize:'11px',color:'#999',marginBottom:'6px',textTransform:'uppercase',letterSpacing:'.05em'}}, 'Ou choisis un preset'),
+          // ==== ZOOM SLIDER ====
+          h('div', {key:'zoom',style:{marginTop:'14px',paddingTop:'12px',borderTop:'1px solid #eee'}}, [
+            h('div', {key:'lbl',style:{display:'flex',justifyContent:'space-between',fontSize:'12px',color:'#666',marginBottom:'4px',fontWeight:600}}, [
+              h('span', {key:'l'}, `🔍 Zoom : ${Math.round(zoom)}%`),
+              h('span', {key:'r',style:{fontSize:'11px',color:'#aaa',fontWeight:400}}, zoom === 100 ? '(défaut — remplit le cadre)' : (zoom < 100 ? '(dézoomé — montre + d\'image)' : '(zoomé — montre - d\'image)')),
+            ]),
+            h('input', {
+              key:'in',type:'range',min:50,max:200,step:5,value:zoom,
+              onChange:this.handleZoomChange,
+              style:{width:'100%',accentColor:'#ff3b1c'}
+            }),
+            h('div', {key:'tags',style:{display:'flex',justifyContent:'space-between',fontSize:'10px',color:'#bbb',marginTop:'2px'}}, [
+              h('span', {key:'a'}, '50% (dézoom max)'),
+              h('span', {key:'b'}, '100% (cover)'),
+              h('span', {key:'c'}, '200% (zoom max)'),
+            ]),
+          ]),
+
+          // ==== Presets rapides ====
+          h('div', {key:'presets',style:{marginTop:'12px',paddingTop:'12px',borderTop:'1px solid #eee'}}, [
+            h('div', {key:'lbl',style:{fontSize:'11px',color:'#999',marginBottom:'6px',textTransform:'uppercase',letterSpacing:'.05em'}}, 'Presets focal point'),
             h('div', {key:'btns',style:{display:'flex',gap:'6px',flexWrap:'wrap'}},
               presets.map(p => h('button', {
-                key:p.v,
-                type:'button',
+                key:p.v,type:'button',
                 onClick: () => this.handlePresetClick(p.v),
                 style:{
                   padding:'6px 12px',
-                  background: value === p.v ? '#0e0e0e' : '#fff',
-                  color: value === p.v ? '#fff' : '#333',
-                  border:'1px solid '+(value === p.v ? '#0e0e0e' : '#ccc'),
-                  borderRadius:'3px',
-                  cursor:'pointer',
-                  fontSize:'12px',
-                  fontFamily:'inherit',
+                  background: '#fff', color:'#333',
+                  border:'1px solid #ccc',
+                  borderRadius:'3px',cursor:'pointer',
+                  fontSize:'12px',fontFamily:'inherit',
                 }
               }, p.l))
             ),
-          ])
-        );
+          ]),
+        ]);
       }
     });
 
-    /* Preview du widget dans la preview pane à droite */
+    /* Preview du widget dans la preview pane à droite (juste affiche la valeur) */
     const FocalPointPreview = createClass({
       render() {
         return h('span', {style:{fontFamily:'monospace',fontSize:'12px',color:'#666'}}, this.props.value || 'center');

@@ -6,6 +6,30 @@
 (async function () {
   'use strict';
 
+  /* Parse focal point string : "X% Y%" / "X% Y% / Z%" / "center" / etc.
+     Retourne un string CSS prêt à coller dans un style="" inline */
+  function focalToCSS(val) {
+    if (!val) return 'background-position:center; background-size:cover;';
+    const v = String(val).trim().toLowerCase();
+    const keywords = {
+      'center':{x:50,y:50},'top':{x:50,y:0},'bottom':{x:50,y:100},
+      'left':{x:0,y:50},'right':{x:100,y:50},
+      'left top':{x:0,y:0},'top left':{x:0,y:0},
+      'right top':{x:100,y:0},'top right':{x:100,y:0},
+      'left bottom':{x:0,y:100},'bottom left':{x:0,y:100},
+      'right bottom':{x:100,y:100},'bottom right':{x:100,y:100},
+    };
+    const slashIdx = v.indexOf('/');
+    const posStr  = slashIdx >= 0 ? v.slice(0, slashIdx).trim() : v;
+    const zoomStr = slashIdx >= 0 ? v.slice(slashIdx + 1).trim() : '';
+    let x = 50, y = 50;
+    if (keywords[posStr]) { x = keywords[posStr].x; y = keywords[posStr].y; }
+    else { const m = posStr.match(/^([\d.]+)%\s+([\d.]+)%$/); if (m) { x = parseFloat(m[1]); y = parseFloat(m[2]); } }
+    let size = 'cover';
+    if (zoomStr) { const z = parseFloat(zoomStr); if (!isNaN(z) && z > 0 && z !== 100) size = z + '%'; }
+    return `background-position:${x}% ${y}%; background-size:${size}; background-repeat:no-repeat; background-color:#000;`;
+  }
+
   const path = window.location.pathname;
   const match = path.match(/\/projets\/([^/]+?)(?:\.html?)?$/i);
   if (!match) return;
@@ -94,18 +118,26 @@
   // ---------- IMAGE GALLERY ----------
   const galSection = document.querySelector('[data-proj="gallery_section"]');
   const galGrid = document.querySelector('[data-proj="gallery_grid"]');
-  // Idem pour images : peut être ['url'] OU [{img:'url'}]
-  const images = Array.isArray(p.images)
-    ? p.images.map((im) => (typeof im === 'string' ? im : (im && im.img))).filter(Boolean)
+  // Idem pour images : peut être ['url'] (legacy) OU [{img:'url', focal:'X% Y% / Z%'}] (avec picker)
+  const galleryItems = Array.isArray(p.images)
+    ? p.images.map((im) => {
+        if (typeof im === 'string') return { img: im, focal: 'center' };
+        if (im && typeof im === 'object') return { img: im.img, focal: im.focal || 'center' };
+        return null;
+      }).filter((it) => it && it.img)
     : [];
-  if (galSection && galGrid && images.length > 0) {
+  // Alias pour compat ancien code
+  const images = galleryItems.map((it) => it.img);
+  if (galSection && galGrid && galleryItems.length > 0) {
     galSection.style.display = '';
-    galGrid.innerHTML = images
+    galGrid.innerHTML = galleryItems
       .map(
-        (img, i) =>
-          `<div class="gallery-tile r ${i % 2 === 1 ? 'd1' : ''}" onclick="window.__openLightbox && window.__openLightbox('${escapeAttr(img)}')">
-            <div class="gallery-img" style="background-image:url('${escapeAttr(img)}')"></div>
-          </div>`
+        (it, i) => {
+          const css = focalToCSS(it.focal);
+          return `<div class="gallery-tile r ${i % 2 === 1 ? 'd1' : ''}" onclick="window.__openLightbox && window.__openLightbox('${escapeAttr(it.img)}')">
+            <div class="gallery-img" style="background-image:url('${escapeAttr(it.img)}'); ${css}"></div>
+          </div>`;
+        }
       )
       .join('');
     galGrid.querySelectorAll('.r').forEach((el) => {

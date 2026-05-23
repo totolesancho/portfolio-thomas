@@ -8,6 +8,29 @@
 (async function () {
   'use strict';
 
+  /* Parse focal "X% Y%" / "X% Y% / Z%" / "center" → string CSS inline */
+  function focalToCSS(val) {
+    if (!val) return 'background-position:center; background-size:cover;';
+    const v = String(val).trim().toLowerCase();
+    const keywords = {
+      'center':{x:50,y:50},'top':{x:50,y:0},'bottom':{x:50,y:100},
+      'left':{x:0,y:50},'right':{x:100,y:50},
+      'left top':{x:0,y:0},'top left':{x:0,y:0},
+      'right top':{x:100,y:0},'top right':{x:100,y:0},
+      'left bottom':{x:0,y:100},'bottom left':{x:0,y:100},
+      'right bottom':{x:100,y:100},'bottom right':{x:100,y:100},
+    };
+    const slashIdx = v.indexOf('/');
+    const posStr  = slashIdx >= 0 ? v.slice(0, slashIdx).trim() : v;
+    const zoomStr = slashIdx >= 0 ? v.slice(slashIdx + 1).trim() : '';
+    let x = 50, y = 50;
+    if (keywords[posStr]) { x = keywords[posStr].x; y = keywords[posStr].y; }
+    else { const m = posStr.match(/^([\d.]+)%\s+([\d.]+)%$/); if (m) { x = parseFloat(m[1]); y = parseFloat(m[2]); } }
+    let size = 'cover';
+    if (zoomStr) { const z = parseFloat(zoomStr); if (!isNaN(z) && z > 0 && z !== 100) size = z + '%'; }
+    return `background-position:${x}% ${y}%; background-size:${size}; background-repeat:no-repeat; background-color:#000;`;
+  }
+
   let projects = null;
   try {
     const r = await fetch('./data/projects.json', { cache: 'no-store' });
@@ -56,13 +79,13 @@
   }
 
   function cardHTML(p) {
-    const focal = p.thumb_focal || 'center';
+    const css = focalToCSS(p.thumb_focal);
     const sub = p.card_subtitle || (p.client + ' · ' + p.year);
     return `
       <a href="./projets/${escapeHTML(p.slug)}.html"
          class="cat-card"
          data-category="${escapeHTML(p.category || '')}">
-        <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); background-position:${escapeAttr(focal)};"></div>
+        <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); ${css}"></div>
         <div class="cat-card-veil"></div>
         <div class="cat-card-meta">
           <span class="cat-card-cat">${escapeHTML(p.category || '')}</span>

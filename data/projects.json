@@ -21,10 +21,22 @@
       "stack_sound": "Voix-off + sound design · Plans IA (Google Nano Banana, Kling)",
       "title": "Publicité — Hiving Food",
       "images": [
-        "./assets/projects/publicite-hiving/01.png",
-        "./assets/projects/publicite-hiving/02.png",
-        "./assets/projects/publicite-hiving/03.png",
-        "./assets/projects/publicite-hiving/04.png"
+        {
+          "img": "./assets/projects/publicite-hiving/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/publicite-hiving/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/publicite-hiving/03.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/publicite-hiving/04.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "Pk8Vocyf_YU"
@@ -57,10 +69,22 @@
       "stack_sound": "Voix-off + sound design",
       "title": "Annonce Vincent Salur — Galeries Lafayette",
       "images": [
-        "./assets/projects/galeries-lafayette/01.png",
-        "./assets/projects/galeries-lafayette/02.png",
-        "./assets/projects/galeries-lafayette/03.png",
-        "./assets/projects/galeries-lafayette/04.png"
+        {
+          "img": "./assets/projects/galeries-lafayette/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/galeries-lafayette/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/galeries-lafayette/03.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/galeries-lafayette/04.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "7677wH88r0A"
@@ -93,9 +117,18 @@
       "stack_sound": "Sound design + lib Epidemic · Plans IA additionnels",
       "title": "Publicité Uber Eats × Vincent Salur",
       "images": [
-        "./assets/projects/uber-eats/01.png",
-        "./assets/projects/uber-eats/02.png",
-        "./assets/projects/uber-eats/04.png"
+        {
+          "img": "./assets/projects/uber-eats/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/uber-eats/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/uber-eats/04.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "maJuURZsW0k"
@@ -128,9 +161,18 @@
       "stack_sound": "Sound design moteur + Artlist",
       "title": "Reels Pilotes Formule 4",
       "images": [
-        "./assets/projects/f4-ledenon/01.png",
-        "./assets/projects/f4-ledenon/02.png",
-        "./assets/projects/f4-ledenon/03.png"
+        {
+          "img": "./assets/projects/f4-ledenon/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/f4-ledenon/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/f4-ledenon/03.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "8P81BE-Pgek",
@@ -168,10 +210,22 @@
       "stack_sound": "Sound design immersif",
       "title": "Série Documentaire",
       "images": [
-        "./assets/projects/serie-documentaire/01.png",
-        "./assets/projects/serie-documentaire/02.png",
-        "./assets/projects/serie-documentaire/03.png",
-        "./assets/projects/serie-documentaire/04.png"
+        {
+          "img": "./assets/projects/serie-documentaire/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/serie-documentaire/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/serie-documentaire/03.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/serie-documentaire/04.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "JvyD10TinIY",
@@ -205,10 +259,22 @@
       "stack_sound": "Lib Artlist",
       "title": "Reels — Digital Edge Studio",
       "images": [
-        "./assets/projects/edge-tech/01.png",
-        "./assets/projects/edge-tech/02.png",
-        "./assets/projects/edge-tech/03.png",
-        "./assets/projects/edge-tech/04.png"
+        {
+          "img": "./assets/projects/edge-tech/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/edge-tech/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/edge-tech/03.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/edge-tech/04.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "eXNDjo6F9kk",
@@ -242,10 +308,22 @@
       "stack_sound": "Track licensed Musicbed",
       "title": "Showreel — Digital Edge Studio",
       "images": [
-        "./assets/projects/digital-edge/01.png",
-        "./assets/projects/digital-edge/02.png",
-        "./assets/projects/digital-edge/03.png",
-        "./assets/projects/digital-edge/04.png"
+        {
+          "img": "./assets/projects/digital-edge/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/digital-edge/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/digital-edge/03.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/digital-edge/04.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "843zdK7_Yuc"
@@ -278,8 +356,14 @@
       "stack_sound": "Track licensed + sound design",
       "title": "Aftermovie Institutionnel — Skilliance",
       "images": [
-        "./assets/projects/skilliance/01.png",
-        "./assets/projects/skilliance/02.png"
+        {
+          "img": "./assets/projects/skilliance/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/skilliance/02.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "FjuMfD-7Row"
@@ -312,10 +396,22 @@
       "stack_sound": "Sound design + lib Artlist",
       "title": "Film Recrutement",
       "images": [
-        "./assets/projects/film-recrutement/01.png",
-        "./assets/projects/film-recrutement/02.png",
-        "./assets/projects/film-recrutement/03.png",
-        "./assets/projects/film-recrutement/04.png"
+        {
+          "img": "./assets/projects/film-recrutement/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/film-recrutement/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/film-recrutement/03.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/film-recrutement/04.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "_97hKgYPm0k"
@@ -348,10 +444,22 @@
       "stack_sound": "Composition musicale via IA + sound design",
       "title": "Intro Podcast",
       "images": [
-        "./assets/projects/podcast/01.png",
-        "./assets/projects/podcast/02.png",
-        "./assets/projects/podcast/03.png",
-        "./assets/projects/podcast/04.png"
+        {
+          "img": "./assets/projects/podcast/01.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/podcast/02.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/podcast/03.png",
+          "focal": "center"
+        },
+        {
+          "img": "./assets/projects/podcast/04.png",
+          "focal": "center"
+        }
       ],
       "videos": [
         "SUo4go_9xNM"

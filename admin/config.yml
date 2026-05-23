@@ -197,7 +197,7 @@ collections:
 
               # ━━━ ③ VIGNETTE (la plus importante visuellement) ━━━
               - { label: "③ Vignette (carte catalogue + accueil)", name: "thumb", widget: "image", hint: "📸 Format conseillé : photo PAYSAGE (4:3 idéal, 16:9 OK). Au moins 1200×900 px. La carte du catalogue est affichée en 4:3. Le focal point ci-dessous décide quoi reste visible si recadrage." }
-              - { label: "③ Focal point — clique sur le sujet à garder visible", name: "thumb_focal", widget: "focal_point", default: "center", required: false, hint: "Clique sur l'image pour poser le point qui doit TOUJOURS rester visible quand la card 4:3 du catalogue rogne la photo. Aperçu live à droite." }
+              - { label: "③ Focal point + zoom — clique sur le sujet", name: "thumb_focal", widget: "focal_point", default: "center", required: false, image_field: "thumb", preview_aspect: "4/3", hint: "Clique sur l'image pour poser le point principal. Slider zoom pour dézoomer (montrer + d'image) ou zoomer (recadrer). Format sauvé : 'X% Y%' ou 'X% Y% / Z%'." }
 
               # ━━━ ④ AFFICHAGE ACCUEIL (featured) ━━━
               - { label: "④ ⭐ Featured (afficher sur l'accueil ?)", name: "featured", widget: "boolean", default: false, hint: "Coche pour faire apparaître ce projet dans le bento de 4 cards sur la home. Max 4 projets featured." }
@@ -223,9 +223,12 @@ collections:
               - label: "⑤ Galerie photos (optionnel)"
                 name: "images"
                 widget: "list"
-                field: { label: "Photo", name: "img", widget: "image" }
                 required: false
-                hint: "📷 2-6 photos. S'affiche entre brief et approche. Cliquables → zoom."
+                hint: "📷 2-6 photos. S'affiche entre brief et approche en grille 4:3. Cliquables → zoom plein écran. Chaque photo a son propre focal point + zoom."
+                summary: "{{fields.img}} ({{fields.focal}})"
+                fields:
+                  - { label: "Photo", name: "img", widget: "image" }
+                  - { label: "Focal point + zoom (clique pour cadrer la card 4:3)", name: "focal", widget: "focal_point", default: "center", required: false, image_field: "img", preview_aspect: "4/3" }
 
               # ━━━ ⑥ CONTENU ÉDITORIAL ━━━
               - { label: "⑥ Le brief (encadré noir page détail)", name: "brief", widget: "text", hint: "1-3 phrases. La demande du client / le contexte." }
