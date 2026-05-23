@@ -164,35 +164,36 @@
     }
   }
 
-  // ---------- PROJECTS GRID ----------
+  // ---------- BENTO 4 — featured projects ----------
   if (projects && Array.isArray(projects.projects)) {
-    const grid = document.querySelector('[data-cms-block="projects_grid"]');
-    if (grid) {
-      const delays = ['', 'd1', 'd2'];
-      grid.innerHTML = projects.projects
-        .map((p, i) => {
-          const delayClass = delays[i % delays.length];
-          const isLast = i === projects.projects.length - 1;
-          const fullSpan = isLast ? ' col-span-2 md:col-span-1' : '';
-          return `
-            <a href="./projets/${escapeHTML(p.slug)}.html" class="card r ${delayClass}${fullSpan}">
-              <div class="thumb" style="background-image:url('${escapeHTML(p.thumb)}')"></div>
-              <div class="veil"></div>
-              <span class="num">${escapeHTML(p.num)}</span>
-              <div class="meta">
-                <div class="meta-title">${escapeHTML(p.title)}</div>
-                <div class="meta-sub">${escapeHTML(p.card_subtitle || (p.client + ' · ' + p.year))}</div>
-              </div>
-            </a>`;
-        })
-        .join('');
+    // Get featured projects, sorted by featured_order (1, 2, 3, 4)
+    const featured = projects.projects
+      .filter((p) => p.featured === true)
+      .sort((a, b) => (a.featured_order || 99) - (b.featured_order || 99))
+      .slice(0, 4);
 
-      // Re-trigger reveal observer + card arrows for newly inserted elements
-      grid.querySelectorAll('.r').forEach((el) => {
-        if (window.__revealObserver) window.__revealObserver.observe(el);
-      });
-      if (window.__attachCardArrows) window.__attachCardArrows(grid);
-    }
+    // Fill slots 1, 2, 3, 4
+    featured.forEach((p, i) => {
+      const slot = document.querySelector(`[data-bento-slot="${i + 1}"]`);
+      if (!slot) return;
+      slot.href = `./projets/${p.slug}.html`;
+      const thumbEl = slot.querySelector('.bento-thumb');
+      if (thumbEl) {
+        thumbEl.style.backgroundImage = `url('${p.thumb}')`;
+        thumbEl.style.backgroundPosition = p.thumb_focal || 'center';
+      }
+      const catEl = slot.querySelector('.bento-cat');
+      if (catEl) catEl.textContent = p.category || '';
+      const titleEl = slot.querySelector('.bento-title');
+      if (titleEl) titleEl.textContent = p.title;
+      const subEl = slot.querySelector('.bento-sub');
+      if (subEl) subEl.textContent = p.card_subtitle || (p.client + ' · ' + p.year);
+    });
+
+    // Re-arm reveal for bento cards
+    document.querySelectorAll('[data-bento-slot]').forEach((el) => {
+      if (window.__revealObserver) window.__revealObserver.observe(el);
+    });
   }
 
   // ---------- TESTIMONIALS ----------

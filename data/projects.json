@@ -10,7 +10,9 @@
       "role": "RÉALISATION · CADRAGE · MONTAGE",
       "card_subtitle": "Hiving Food · 2025",
       "thumb": "./assets/projects/publicite-hiving/01.png",
-      "videos": ["Pk8Vocyf_YU"],
+      "videos": [
+        "Pk8Vocyf_YU"
+      ],
       "images": [
         "./assets/projects/publicite-hiving/01.png",
         "./assets/projects/publicite-hiving/02.png",
@@ -28,7 +30,11 @@
       "impact_metric1": "—",
       "impact_label1": "DIFFUSION B2B / CHEFS PRO",
       "impact_metric2": "",
-      "impact_label2": ""
+      "impact_label2": "",
+      "category": "PUB",
+      "featured": true,
+      "featured_order": 4,
+      "thumb_focal": "center"
     },
     {
       "slug": "galeries-lafayette",
@@ -40,7 +46,9 @@
       "role": "FILMMAKER · RÉALISATION · MONTAGE",
       "card_subtitle": "Vincent Salur · 2025",
       "thumb": "./assets/projects/galeries-lafayette/01.png",
-      "videos": ["7677wH88r0A"],
+      "videos": [
+        "7677wH88r0A"
+      ],
       "images": [
         "./assets/projects/galeries-lafayette/01.png",
         "./assets/projects/galeries-lafayette/02.png",
@@ -58,7 +66,11 @@
       "impact_metric1": "—",
       "impact_label1": "ANNONCE GALERIES LAFAYETTE GOURMET",
       "impact_metric2": "",
-      "impact_label2": ""
+      "impact_label2": "",
+      "category": "PUB",
+      "featured": true,
+      "featured_order": 3,
+      "thumb_focal": "center"
     },
     {
       "slug": "uber-eats",
@@ -70,7 +82,9 @@
       "role": "RÉALISATION · CADRAGE · MONTAGE",
       "card_subtitle": "Uber Eats × Vincent Salur · 2025",
       "thumb": "./assets/projects/uber-eats/01.png",
-      "videos": ["maJuURZsW0k"],
+      "videos": [
+        "maJuURZsW0k"
+      ],
       "images": [
         "./assets/projects/uber-eats/01.png",
         "./assets/projects/uber-eats/02.png",
@@ -87,7 +101,11 @@
       "impact_metric1": "—",
       "impact_label1": "COLLAB UBER EATS × CRÉATEUR",
       "impact_metric2": "",
-      "impact_label2": ""
+      "impact_label2": "",
+      "category": "PUB",
+      "featured": false,
+      "featured_order": 0,
+      "thumb_focal": "center"
     },
     {
       "slug": "f4-ledenon",
@@ -123,7 +141,11 @@
       "impact_metric1": "6",
       "impact_label1": "CAPSULES LIVRÉES",
       "impact_metric2": "3",
-      "impact_label2": "PILOTES SUIVIS"
+      "impact_label2": "PILOTES SUIVIS",
+      "category": "REEL",
+      "featured": true,
+      "featured_order": 2,
+      "thumb_focal": "center"
     },
     {
       "slug": "serie-documentaire",
@@ -135,7 +157,10 @@
       "role": "CADRAGE · MONTAGE",
       "card_subtitle": "Digital Edge · 2025",
       "thumb": "./assets/projects/serie-documentaire/01.png",
-      "videos": ["JvyD10TinIY", "w9Ko2Wr-bzw"],
+      "videos": [
+        "JvyD10TinIY",
+        "w9Ko2Wr-bzw"
+      ],
       "images": [
         "./assets/projects/serie-documentaire/01.png",
         "./assets/projects/serie-documentaire/02.png",
@@ -153,7 +178,11 @@
       "impact_metric1": "5",
       "impact_label1": "ÉPISODES LIVRÉS",
       "impact_metric2": "40h+",
-      "impact_label2": "DE RUSHS CAPTÉS"
+      "impact_label2": "DE RUSHS CAPTÉS",
+      "category": "DOCU",
+      "featured": true,
+      "featured_order": 1,
+      "thumb_focal": "center"
     },
     {
       "slug": "edge-tech",
@@ -165,7 +194,10 @@
       "role": "CADRAGE · MONTAGE",
       "card_subtitle": "Digital Edge Studio · 2024",
       "thumb": "./assets/projects/edge-tech/02.png",
-      "videos": ["eXNDjo6F9kk", "Pjgkvn-XAE8"],
+      "videos": [
+        "eXNDjo6F9kk",
+        "Pjgkvn-XAE8"
+      ],
       "images": [
         "./assets/projects/edge-tech/01.png",
         "./assets/projects/edge-tech/02.png",
@@ -183,7 +215,11 @@
       "impact_metric1": "—",
       "impact_label1": "SÉRIE RÉCURRENTE LINKEDIN + INSTA",
       "impact_metric2": "",
-      "impact_label2": ""
+      "impact_label2": "",
+      "category": "REEL",
+      "featured": false,
+      "featured_order": 0,
+      "thumb_focal": "center"
     },
     {
       "slug": "digital-edge",
@@ -195,7 +231,9 @@
       "role": "CADRAGE · MONTAGE",
       "card_subtitle": "Showreel studio · 2023",
       "thumb": "./assets/projects/digital-edge/01.png",
-      "videos": ["843zdK7_Yuc"],
+      "videos": [
+        "843zdK7_Yuc"
+      ],
       "images": [
         "./assets/projects/digital-edge/01.png",
         "./assets/projects/digital-edge/02.png",
@@ -213,7 +251,11 @@
       "impact_metric1": "—",
       "impact_label1": "USAGE HOME + PITCHS COMMERCIAUX",
       "impact_metric2": "",
-      "impact_label2": ""
+      "impact_label2": "",
+      "category": "SHOWREEL",
+      "featured": false,
+      "featured_order": 0,
+      "thumb_focal": "center"
     },
     {
       "slug": "skilliance",
@@ -225,7 +267,9 @@
       "role": "RÉALISATION · CADRAGE · MONTAGE",
       "card_subtitle": "Skilliance · 2025",
       "thumb": "./assets/projects/skilliance/01.png",
-      "videos": ["FjuMfD-7Row"],
+      "videos": [
+        "FjuMfD-7Row"
+      ],
       "images": [
         "./assets/projects/skilliance/01.png",
         "./assets/projects/skilliance/02.png"
@@ -241,7 +285,11 @@
       "impact_metric1": "—",
       "impact_label1": "CONFÉRENCE CRM CONCESSIONNAIRES",
       "impact_metric2": "",
-      "impact_label2": ""
+      "impact_label2": "",
+      "category": "AFTERMOVIE",
+      "featured": false,
+      "featured_order": 0,
+      "thumb_focal": "center"
     },
     {
       "slug": "film-recrutement",
@@ -253,7 +301,9 @@
       "role": "RÉALISATION · CADRAGE · MONTAGE",
       "card_subtitle": "Digital Edge Studio · 2024",
       "thumb": "./assets/projects/film-recrutement/01.png",
-      "videos": ["_97hKgYPm0k"],
+      "videos": [
+        "_97hKgYPm0k"
+      ],
       "images": [
         "./assets/projects/film-recrutement/01.png",
         "./assets/projects/film-recrutement/02.png",
@@ -271,7 +321,11 @@
       "impact_metric1": "—",
       "impact_label1": "DIFFUSION LINKEDIN",
       "impact_metric2": "",
-      "impact_label2": ""
+      "impact_label2": "",
+      "category": "CORPO",
+      "featured": false,
+      "featured_order": 0,
+      "thumb_focal": "center"
     },
     {
       "slug": "podcast",
@@ -283,7 +337,9 @@
       "role": "MONTAGE · MOTION DESIGN",
       "card_subtitle": "Business sans filtre · 2024",
       "thumb": "./assets/projects/podcast/01.png",
-      "videos": ["SUo4go_9xNM"],
+      "videos": [
+        "SUo4go_9xNM"
+      ],
       "images": [
         "./assets/projects/podcast/01.png",
         "./assets/projects/podcast/02.png",
@@ -301,7 +357,11 @@
       "impact_metric1": "—",
       "impact_label1": "INTRO RÉCURRENTE SUR YOUTUBE",
       "impact_metric2": "",
-      "impact_label2": ""
+      "impact_label2": "",
+      "category": "CORPO",
+      "featured": false,
+      "featured_order": 0,
+      "thumb_focal": "center"
     }
   ]
 }

@@ -172,7 +172,15 @@ collections:
               - { label: "Année", name: "year", widget: "string" }
               - { label: "Format (ex: 16:9 · 02:14)", name: "format", widget: "string" }
               - { label: "Rôle", name: "role", widget: "string", default: "RÉALISATION · MONTAGE" }
-              - { label: "Vignette (image, utilisée sur la grille d'accueil)", name: "thumb", widget: "image" }
+              - { label: "Catégorie", name: "category", widget: "select", default: "PUB",
+                  options: ["PUB", "REEL", "AFTERMOVIE", "SHOWREEL", "DOCU", "CORPO"],
+                  hint: "Utilisé pour le filtre dans la page /projets et le label sur la carte." }
+              - { label: "⭐ Featured (affiché sur l'accueil ?)", name: "featured", widget: "boolean", default: false, hint: "Coche pour faire apparaître sur l'accueil. Maximum 4 projets featured." }
+              - { label: "Ordre featured (1=hero, 2=vert gauche, 3=vert milieu, 4=hori droite)", name: "featured_order", widget: "number", default: 0, value_type: "int", min: 0, max: 4, hint: "Position du projet dans le bento de l'accueil. 0 = pas featured. 1 = grande tuile en haut, 2/3 = verticaux du bas, 4 = petite horizontale du bas." }
+              - { label: "Vignette (image, utilisée sur l'accueil + catalogue)", name: "thumb", widget: "image", hint: "Format paysage 16:9 recommandé. Sera recadrée selon la position du focal point ci-dessous." }
+              - { label: "Position du focal point (recadrage)", name: "thumb_focal", widget: "select", default: "center",
+                  options: ["center", "top", "bottom", "left", "right", "left top", "right top", "left bottom", "right bottom"],
+                  hint: "Si la vignette est rognée par le cadre, ce point reste visible. 'center' marche pour 90% des cas." }
               - label: "Vidéos YouTube (1 ou plusieurs)"
                 name: "videos"
                 widget: "list"

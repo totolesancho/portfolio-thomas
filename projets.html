@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projets — Thomas Etcheverry</title>
+<meta name="description" content="Catalogue complet des projets vidéo de Thomas Etcheverry : pubs, reels, aftermovies, showreels, documentaires." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo+Black&family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Bowlby One', 'Archivo Black', 'sans-serif'],
+          script: ['Caveat', 'cursive'],
+          sans: ['Inter', 'sans-serif'],
+          mono: ['Special Elite', 'monospace'],
+        },
+        colors: {
+          cream: '#f4f1ea', ink: '#0e0e0e', rec: '#ff3b1c', dim: '#8a8580',
+          line: 'rgba(14,14,14,0.10)',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root { --cream: #f4f1ea; --ink: #0e0e0e; --rec: #ff3b1c; }
+  * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  *, *::before, *::after { border-radius: 0 !important; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  .grain { position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.30; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/></svg>"); }
+  main, header, footer { position: relative; z-index: 3; }
+  .dashes { height: 14px; background-image: repeating-linear-gradient(to right, var(--rec) 0px, var(--rec) 4px, transparent 4px, transparent 10px); }
+  .display { font-family: 'Bowlby One', sans-serif; line-height: 0.95; letter-spacing: -0.005em; }
+  .display-tight { line-height: 0.88; }
+  .script { font-family: 'Caveat', cursive; }
+  .tag { font-family: 'Special Elite', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink); }
+  .tag-dim { color: var(--dim); }
+  .btn-ink { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--cream); padding: 14px 22px; font-family: 'Special Elite', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; transition: all .25s; }
+  .btn-ink:hover { background: var(--rec); }
+  .r { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1); }
+  .r.in { opacity: 1; transform: translateY(0); }
+  ::selection { background: var(--rec); color: var(--cream); }
+
+  /* ============ FILTER CHIPS ============ */
+  .filter-bar {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    padding: 8px 0;
+  }
+  .filter-chip {
+    padding: 10px 18px;
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    font-family: 'Special Elite', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+  .filter-chip:hover { background: var(--ink); color: var(--cream); }
+  .filter-chip.active { background: var(--rec); border-color: var(--rec); color: var(--cream); }
+  .filter-chip .count { opacity: 0.55; margin-left: 6px; font-size: 10px; }
+  .filter-chip.active .count { opacity: 0.85; }
+
+  /* ============ CATALOGUE BENTO ============ */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 12px;
+  }
+  @media (min-width: 768px) { .cat-grid { gap: 16px; } }
+
+  .cat-card {
+    position: relative; overflow: hidden; background: #1a1817;
+    text-decoration: none;
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  .cat-card.is-hidden { display: none; }
+  .cat-card-thumb {
+    position: absolute; inset: 0;
+    background-size: cover;
+    transition: transform 1.2s cubic-bezier(0.22,1,0.36,1), filter .4s;
+    transform: scale(1.04);
+    filter: saturate(0.95);
+  }
+  .cat-card:hover .cat-card-thumb { transform: scale(1.1); filter: saturate(1.15); }
+  .cat-card-veil {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(14,14,14,0.85) 0%, rgba(14,14,14,0.3) 40%, transparent 65%);
+    z-index: 2;
+  }
+  .cat-card-meta {
+    position: absolute; bottom: 18px; left: 20px; right: 20px; z-index: 3;
+    color: var(--cream);
+  }
+  .cat-card-cat {
+    display: inline-block; background: var(--rec); color: var(--cream);
+    padding: 5px 9px; margin-bottom: 10px;
+    font-family: 'Special Elite', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+  }
+  .cat-card-title {
+    font-family: 'Bowlby One', sans-serif;
+    font-size: clamp(18px, 1.8vw, 28px);
+    line-height: 1; letter-spacing: -0.015em;
+    color: var(--cream);
+  }
+  .cat-card-sub {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cream); opacity: 0.85; margin-top: 8px;
+  }
+  .cat-card-arrow {
+    position: absolute; top: 18px; right: 20px; z-index: 3;
+    color: var(--cream); font-size: 22px; opacity: 0.7;
+    transition: transform .4s, opacity .25s;
+  }
+  .cat-card:hover .cat-card-arrow { transform: translate(6px,-6px); opacity: 1; }
+
+  /* Mobile: 1 col, all 16:9 */
+  .cat-card { grid-column: span 12; aspect-ratio: 16/9; }
+
+  /* Desktop: bento layout */
+  @media (min-width: 768px) {
+    .cat-card { grid-column: span 4; aspect-ratio: 4/3; }
+    .cat-card[data-shape="hero"]   { grid-column: span 8; aspect-ratio: 16/9; }
+    .cat-card[data-shape="tall"]   { grid-column: span 4; aspect-ratio: 9/16; }
+    .cat-card[data-shape="wide"]   { grid-column: span 8; aspect-ratio: 16/9; }
+    .cat-card[data-shape="medium"] { grid-column: span 6; aspect-ratio: 16/10; }
+    .cat-card[data-shape="square"] { grid-column: span 4; aspect-ratio: 1/1; }
+    .cat-card[data-shape="small"]  { grid-column: span 4; aspect-ratio: 4/3; }
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--dim);
+    font-family: 'Special Elite', monospace;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="dashes"></div>
+
+<header class="px-6 md:px-12 py-4 flex justify-between items-center">
+  <a href="./index.html" class="display text-base md:text-lg">THOMAS ETCHEVERRY<span class="text-rec">®</span></a>
+  <nav class="hidden md:flex items-center gap-8">
+    <a href="./projets.html" class="tag text-rec">Tous les projets</a>
+    <a href="./index.html#about" class="tag hover:text-rec transition">À propos</a>
+    <a href="./index.html#contact" class="btn-ink">Discutons →</a>
+  </nav>
+  <a href="./index.html#contact" class="md:hidden btn-ink">→</a>
+</header>
+
+<main>
+
+<!-- PAGE TITLE -->
+<section class="px-6 md:px-12 pt-10 md:pt-16 pb-10 md:pb-12">
+  <div class="max-w-7xl mx-auto text-center">
+    <div class="tag tag-dim mb-6 r">→ CATALOGUE COMPLET</div>
+    <h1 class="display r d1" style="font-size: clamp(2.8rem, 9vw, 8rem); line-height: 0.95;">
+      TOUS LES PROJETS<span class="text-rec">.</span>
+    </h1>
+    <p class="mt-6 text-base md:text-lg text-ink/70 max-w-2xl mx-auto r d2">
+      Pubs, reels, aftermovies, docus, showreels. Filtre par format ou scroll tout en bas — y'a forcément un truc qui te parle.
+    </p>
+  </div>
+</section>
+
+<!-- FILTER BAR (sticky) -->
+<section class="px-6 md:px-12 pb-8 md:pb-10 sticky top-0 z-30" style="background:linear-gradient(to bottom, var(--cream) 0%, var(--cream) 65%, rgba(244,241,234,0.7) 100%); padding-top: 14px;">
+  <div data-cat-block="filter_bar" class="filter-bar max-w-7xl mx-auto r d2">
+    <!-- generated by JS -->
+  </div>
+</section>
+
+<!-- CATALOGUE GRID -->
+<section class="px-6 md:px-12 pb-20 md:pb-32">
+  <div data-cat-block="catalogue_grid" class="cat-grid max-w-7xl mx-auto">
+    <!-- generated by JS -->
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="px-6 md:px-12 pb-20 text-center border-t border-line pt-16">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="display r" style="font-size: clamp(2rem, 5vw, 3.5rem);">
+      On bosse <span class="script text-rec text-[1.3em] inline-block rotate-[-2deg]">ensemble</span>&nbsp;?
+    </h2>
+    <a href="./index.html#contact" class="btn-ink mt-8 inline-flex">ON DISCUTE ? →</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="bg-rec text-cream py-12 md:py-16 px-6 md:px-12">
+  <div class="flex flex-wrap justify-between items-end gap-6">
+    <a href="./index.html" class="display text-2xl md:text-3xl">THOMAS ETCHEVERRY<span>®</span></a>
+    <a href="./index.html#contact" class="tag hover:underline" style="color:var(--cream)">→ DISCUTONS D'UN PROJET</a>
+  </div>
+</footer>
+<div class="dashes"></div>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.r').forEach(el => io.observe(el));
+  window.__revealObserver = io;
+</script>
+
+<script src="./assets/js/render-catalogue.js" defer></script>
+</body>
+</html>

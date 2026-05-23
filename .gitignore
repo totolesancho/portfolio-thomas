@@ -11,7 +11,7 @@ node_modules
 # Framer legacy (gros fichiers inutiles en prod)
 framer-home.html
 framer-projets.html
-projets.html
+# projets.html — DÉSORMAIS UTILISÉ (catalogue), ne plus ignorer
 index-cinema-alt.html
 index-framer-backup.html
 asset-urls.txt
