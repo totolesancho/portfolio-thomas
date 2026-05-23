@@ -9,11 +9,7 @@
   <style>
     /* ============================================================
        Polish visuel du form Decap — séparateurs entre sections ①→⑧
-       Decap render chaque field dans un <div> avec un <label> dedans.
-       On utilise :has(label[for*="..."]) pour ajouter des séparateurs
-       avant chaque nouveau groupe (label commençant par ②, ③, etc.)
        ============================================================ */
-    /* Espace + ligne avant chaque nouveau groupe numéroté */
     [class*="ControlPane"] [class*="root"] > div:has(label[for$="-slug"]),
     [class*="ControlPane"] [class*="root"] > div:has(label[for$="-thumb"]),
     [class*="ControlPane"] [class*="root"] > div:has(label[for$="-featured"]),
@@ -25,8 +21,45 @@
       margin-top: 24px !important;
       padding-top: 24px !important;
     }
-    /* Quand on uploade — le focal_point widget */
-    .focal-point-widget { font-family: inherit; }
+
+    /* ============================================================
+       SCROLL INDÉPENDANT — chaque panneau scroll de son côté
+       Force tout le viewport à être en flex column, l'éditeur prend
+       100vh - toolbar, et CHAQUE pane a son propre overflow-y.
+       ============================================================ */
+    html, body, #nc-root, #nc-root > div {
+      height: 100vh !important;
+      max-height: 100vh !important;
+      overflow: hidden !important;
+    }
+    /* Le conteneur 2-panes (CollectionTop + Editor) */
+    [class*="EditorContainer"],
+    [class*="Editor___"],
+    [class*="StyledEditorMain"],
+    main > section,
+    [class*="Workflow"] {
+      height: 100% !important;
+      overflow: hidden !important;
+    }
+    /* Les 2 panes : form (gauche) et preview (droite) — overflow auto chacun */
+    [class*="ControlPane"],
+    [class*="PreviewPane"],
+    [class*="PreviewPaneFrame"],
+    [class*="PreviewPaneContainer"] {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      max-height: 100vh !important;
+      height: 100vh !important;
+      box-sizing: border-box !important;
+    }
+    /* Si la preview est un iframe, force qu'il prenne 100% de la hauteur dispo */
+    [class*="PreviewPane"] iframe,
+    [class*="PreviewPaneFrame"] iframe {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 100vh !important;
+      border: 0 !important;
+    }
   </style>
 </head>
 <body>
@@ -391,13 +424,14 @@
     const normVideos = (arr) => (arr || []).map(v => typeof v === 'string' ? v : (v && v.id)).filter(Boolean);
     const normImages = (arr) => (arr || []).map(im => typeof im === 'string' ? im : (im && im.img)).filter(Boolean);
 
-    /* Card preview ~ catalogue 4:3 — montre exactement ce qui sera rendu */
+    /* Card preview ~ catalogue 4:3 — utilise focalToStyle pour parser zoom correctement */
     const renderCard = (p) => {
-      const focal = esc(p.thumb_focal || 'center');
       const sub = esc(p.card_subtitle || ((p.client || '') + ' · ' + (p.year || '')));
       const cat = esc(p.category || 'PUB');
+      const st = focalToStyle(p.thumb_focal || 'center');
+      const thumbStyle = `position:absolute;inset:0;background-image:url('${esc(p.thumb)}');background-position:${st.backgroundPosition};background-size:${st.backgroundSize};background-repeat:no-repeat;background-color:#000`;
       return `<div style="position:relative;width:280px;aspect-ratio:4/3;background:#1a1817;border-radius:6px;overflow:hidden;margin:8px 0;box-shadow:0 4px 16px rgba(0,0,0,.15)">
-        ${p.thumb ? `<div style="position:absolute;inset:0;background-image:url('${esc(p.thumb)}');background-size:cover;background-position:${focal}"></div>` : `<div style="position:absolute;inset:0;display:grid;place-items:center;color:#666;font-size:11px;font-family:Inter,sans-serif">— pas de vignette —</div>`}
+        ${p.thumb ? `<div style="${thumbStyle}"></div>` : `<div style="position:absolute;inset:0;display:grid;place-items:center;color:#666;font-size:11px;font-family:Inter,sans-serif">— pas de vignette —</div>`}
         <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(14,14,14,.8) 0%,rgba(14,14,14,.2) 35%,transparent 55%)"></div>
         <div style="position:absolute;bottom:14px;left:14px;right:14px;color:#f4f1ea">
           <span style="display:inline-block;background:#ff3b1c;color:#f4f1ea;padding:3px 7px;font-family:Inter,sans-serif;font-weight:600;font-size:9px;letter-spacing:.18em;border-radius:2px;margin-bottom:8px">${cat}</span>
