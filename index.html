@@ -214,15 +214,13 @@
   ::selection { background: var(--rec); color: var(--cream); }
 
   /* ============ BENTO 4 (homepage featured) — clean tetris ============ */
-  /* Container limité pour éviter les tuiles geantes */
   [data-cms-block="featured_bento"] { max-width: 1100px; margin: 0 auto; }
   .bento-card {
     position: relative; overflow: hidden; background: #1a1817;
     text-decoration: none;
+    border-radius: 6px !important;       /* léger arrondi cinéma */
   }
-  /* Hero : grande horizontale en haut, ratio cinema 16:7 */
   .bento-hero { aspect-ratio: 16/7; }
-  /* Les 3 cards en bas : MÊME ratio (4:5) pour un tetris parfait sans trou */
   .bento-vert, .bento-hori-small { aspect-ratio: 4/5; }
   @media (max-width: 768px) {
     .bento-hero { aspect-ratio: 16/9; }
@@ -236,69 +234,60 @@
     transform: scale(1.04);
     filter: saturate(0.95);
   }
-  .bento-card:hover .bento-thumb { transform: scale(1.1); filter: saturate(1.15); }
+  .bento-card:hover .bento-thumb { transform: scale(1.08); filter: saturate(1.1); }
+  /* Veil plus subtil — moins "blog post" */
   .bento-veil {
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(14,14,14,0.85) 0%, rgba(14,14,14,0.30) 40%, transparent 65%);
+    background: linear-gradient(to top, rgba(14,14,14,0.75) 0%, rgba(14,14,14,0.2) 35%, transparent 55%);
     z-index: 2;
+    opacity: 0.85;
+    transition: opacity .25s;
   }
+  .bento-card:hover .bento-veil { opacity: 1; }
   .bento-meta {
-    position: absolute; bottom: 20px; left: 22px; right: 22px; z-index: 3;
+    position: absolute; bottom: 18px; left: 20px; right: 20px; z-index: 3;
     color: var(--cream);
   }
   .bento-cat {
     display: inline-block;
     background: var(--rec); color: var(--cream);
-    padding: 5px 10px; margin-bottom: 12px;
-    font-size: 10px; letter-spacing: 0.2em;
+    padding: 4px 9px; margin-bottom: 10px;
+    font-size: 10px; letter-spacing: 0.18em;
+    border-radius: 2px !important;
   }
   .bento-title {
     font-family: 'Bowlby One', 'Archivo Black', sans-serif;
-    font-size: clamp(20px, 2.4vw, 36px);
+    font-size: clamp(18px, 2vw, 30px);
     line-height: 1; letter-spacing: -0.015em;
     color: var(--cream); margin-top: 4px;
   }
-  .bento-hero .bento-title { font-size: clamp(28px, 4vw, 62px); }
+  .bento-hero .bento-title { font-size: clamp(24px, 3.4vw, 52px); }
   .bento-sub {
-    color: var(--cream); opacity: 0.85; margin-top: 10px;
+    color: var(--cream); opacity: 0.75; margin-top: 8px; font-size: 11px;
   }
-  .bento-arrow {
-    position: absolute; top: 22px; right: 24px; z-index: 3;
-    color: var(--cream); font-size: 28px;
-    transition: transform .4s, opacity .25s;
-    opacity: 0.7;
-  }
-  .bento-card:hover .bento-arrow { transform: translate(8px, -8px); opacity: 1; }
+  /* Flèche retirée — trop "vlog" */
+  .bento-arrow { display: none; }
 
-  /* Gradient fade + view more button — fix sans seam */
-  .bento-fade-wrap { position: relative; padding-top: 80px; margin-top: -40px; }
-  .bento-fade {
-    position: absolute; top: 0; left: -24px; right: -24px; height: 140px;
-    background: linear-gradient(to bottom,
-      rgba(244,241,234,0) 0%,
-      rgba(244,241,234,0.7) 40%,
-      #f4f1ea 90%);
-    pointer-events: none; z-index: 5;
-    transform: translateY(-100px);
-  }
-  @media (min-width: 768px) {
-    .bento-fade { left: -48px; right: -48px; }
-  }
+  /* View more button : fond clair sur fond noir (inversé) */
   .btn-view-more {
-    background: var(--ink); color: var(--cream);
-    padding: 18px 32px; border: 2px solid var(--ink);
+    background: var(--cream); color: var(--ink);
+    padding: 18px 32px; border: 2px solid var(--cream);
     box-shadow: 5px 5px 0 var(--rec);
     font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px;
     text-transform: uppercase; letter-spacing: 0.16em;
-    transition: transform .2s ease, box-shadow .2s ease, background .25s ease;
-    cursor: pointer; border-radius: 0;
+    transition: transform .2s ease, box-shadow .2s ease, background .25s ease, color .25s;
+    cursor: pointer;
+    border-radius: 4px !important;
     position: relative; z-index: 6;
   }
   .btn-view-more:hover {
     transform: translate(-2px, -2px);
     box-shadow: 7px 7px 0 var(--rec);
-    background: var(--rec); border-color: var(--rec);
+    background: var(--rec); border-color: var(--rec); color: var(--cream);
   }
+  /* Fade gradient supprimé — bg noir maintenant, plus besoin */
+  .bento-fade { display: none; }
+  .bento-fade-wrap { padding-top: 24px; }
 </style>
 </head>
 <body>
@@ -419,11 +408,11 @@
 
 </section>
 
-<!-- TRAVAUX -->
-<section id="projets" class="px-6 md:px-12 pt-16 md:pt-28 pb-20 md:pb-32">
+<!-- TRAVAUX (fond noir, texte inversé) -->
+<section id="projets" class="px-6 md:px-12 pt-16 md:pt-28 pb-20 md:pb-32 bg-ink text-cream">
   <div class="mb-12 md:mb-16 r">
-    <div class="tag tag-dim mb-3" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
-    <h2 class="display display-tight text-[clamp(2rem,7vw,5.5rem)]">
+    <div class="tag mb-3" style="color:var(--cream); opacity:0.55;" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
+    <h2 class="display display-tight text-[clamp(2rem,7vw,5.5rem)]" style="color:var(--cream);">
       <span data-cms="projets.title_prefix">Plein de projets,</span> <span class="script text-rec text-[1.2em] inline-block rotate-[-1deg]" data-cms="projets.title_suffix">une seule obsession.</span>
     </h2>
   </div>
@@ -439,7 +428,6 @@
         <div class="bento-title display"></div>
         <div class="bento-sub tag tag-dim"></div>
       </div>
-      <span class="bento-arrow">↗</span>
     </a>
     <!-- Row 2 : 3 columns -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-3 md:mt-4">

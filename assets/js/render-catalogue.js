@@ -98,7 +98,6 @@
          data-category="${escapeHTML(p.category || '')}">
         <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); background-position:${escapeAttr(focal)};"></div>
         <div class="cat-card-veil"></div>
-        <span class="cat-card-arrow">↗</span>
         <div class="cat-card-meta">
           <span class="cat-card-cat">${escapeHTML(p.category || '')}</span>
           <div class="cat-card-title">${escapeHTML(p.title)}</div>
