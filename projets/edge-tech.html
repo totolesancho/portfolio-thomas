@@ -56,7 +56,17 @@
   ::selection { background: var(--rec); color: var(--cream); }
 
   /* Project page specific */
-  .proj-hero-title { font-size: clamp(2.2rem, 7vw, 5.5rem); line-height: 0.95; letter-spacing: -0.02em; }
+  .proj-hero-title {
+    font-size: clamp(1.3rem, 3.2vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media (max-width: 640px) {
+    .proj-hero-title { white-space: normal; font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  }
   .meta-pill { display: inline-flex; flex-direction: column; gap: 6px; padding: 14px 18px; background: rgba(14,14,14,0.04); border-left: 2px solid var(--rec); }
   .gallery-img { aspect-ratio: 4/3; background-size: cover; background-position: center; transition: transform .8s cubic-bezier(0.22,1,0.36,1); }
   .gallery-tile { overflow: hidden; background: #1a1817; cursor: pointer; }

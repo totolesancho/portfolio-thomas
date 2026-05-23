@@ -89,24 +89,23 @@
     .cat-row { gap: 16px; margin-bottom: 16px; }
   }
 
-  /* Variants — toutes les cards d'une row ont la MÊME hauteur (clean tetris) */
-  /* row-mixed-hv : Horizontal + Vertical (H plus large, V plus étroit, même hauteur)
-     row-mixed-vh : Vertical + Horizontal (V à gauche, H à droite)
-     row-three    : 3 verticales (4:5)
-     row-hero     : 1 grosse horizontale 16:9 (en hero principal) */
-  .cat-row.row-hero      { grid-template-columns: 1fr; }
+  /* Variants — toutes les cards d'une row ont la MÊME hauteur, largeur totale identique */
+  /* row-mixed-hv : H gauche + V droite — H réduit, V agrandi
+     row-mixed-vh : V gauche + H droite (alternance côté)
+     row-two-hori : 2 horizontales côte à côte (fallback quand pas de V dispo)
+     row-three    : 3 verticales (vertical-only, ex: filtre REEL)
+     row-single   : 1 card seule centrée (reste impair) */
+  .cat-row.row-mixed-hv  { grid-template-columns: 1.8fr 1fr; height: clamp(260px, 30vw, 420px); }
+  .cat-row.row-mixed-vh  { grid-template-columns: 1fr 1.8fr; height: clamp(260px, 30vw, 420px); }
+  .cat-row.row-two-hori  { grid-template-columns: 1fr 1fr; height: clamp(220px, 26vw, 360px); }
   .cat-row.row-three     { grid-template-columns: 1fr 1fr 1fr; }
-  .cat-row.row-mixed-hv,
-  .cat-row.row-mixed-vh  { grid-template-columns: auto auto; height: clamp(280px, 32vw, 460px); }
-  /* Vertical-only (filtre REEL) : 1 ou 2 verticales */
-  .cat-row.row-one-vert  { grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto; }
-  .cat-row.row-two-vert  { grid-template-columns: 1fr 1fr; max-width: 620px; margin-left: auto; margin-right: auto; }
+  .cat-row.row-single    { grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto; }
 
   @media (max-width: 768px) {
-    .cat-row.row-three     { grid-template-columns: 1fr; }
     .cat-row.row-mixed-hv,
-    .cat-row.row-mixed-vh  { grid-template-columns: 1fr; height: auto; }
-    .cat-row.row-two-vert  { grid-template-columns: 1fr; max-width: 280px; }
+    .cat-row.row-mixed-vh,
+    .cat-row.row-two-hori,
+    .cat-row.row-three     { grid-template-columns: 1fr; height: auto; }
   }
 
   .cat-card {
@@ -115,17 +114,16 @@
     border-radius: 6px !important;
   }
 
-  /* Aspect ratios par shape */
-  .cat-row.row-hero .cat-card { aspect-ratio: 16/9; }
-  .cat-row.row-three .cat-card { aspect-ratio: 9/16; }
+  /* Cards remplissent leur cellule grid (pas d'aspect-ratio fixé en desktop sur mixed) */
   .cat-row.row-mixed-hv .cat-card,
-  .cat-row.row-mixed-vh .cat-card { height: 100%; }
-  .cat-row.row-mixed-hv .cat-card[data-shape="hori"],
-  .cat-row.row-mixed-vh .cat-card[data-shape="hori"] { aspect-ratio: 16/9; }
-  .cat-row.row-mixed-hv .cat-card[data-shape="vert"],
-  .cat-row.row-mixed-vh .cat-card[data-shape="vert"] { aspect-ratio: 9/16; }
-  .cat-row.row-one-vert .cat-card,
-  .cat-row.row-two-vert .cat-card { aspect-ratio: 9/16; }
+  .cat-row.row-mixed-vh .cat-card,
+  .cat-row.row-two-hori .cat-card { height: 100%; }
+  .cat-row.row-three .cat-card    { aspect-ratio: 9/16; }
+  .cat-row.row-single .cat-card   { aspect-ratio: 9/16; }
+  @media (max-width: 768px) {
+    .cat-row .cat-card[data-shape="hori"] { aspect-ratio: 16/9; }
+    .cat-row .cat-card[data-shape="vert"] { aspect-ratio: 4/5; }
+  }
 
   @media (max-width: 768px) {
     .cat-row.row-mixed-hv .cat-card,
@@ -210,16 +208,12 @@
 
 <main>
 
-<!-- PAGE TITLE -->
-<section class="px-6 md:px-12 pt-10 md:pt-16 pb-8 md:pb-10">
+<!-- PAGE TITLE — minimaliste -->
+<section class="px-6 md:px-12 pt-8 md:pt-12 pb-6 md:pb-8">
   <div class="max-w-7xl mx-auto text-center">
-    <div class="tag tag-dim mb-6 r">→ CATALOGUE COMPLET</div>
-    <h1 class="display r d1" style="font-size: clamp(2.6rem, 8vw, 7rem); line-height: 0.95;">
+    <h1 class="display r" style="font-size: clamp(2.4rem, 7vw, 6rem); line-height: 0.95;">
       TOUS LES PROJETS<span class="text-rec">.</span>
     </h1>
-    <p class="mt-6 text-base md:text-lg text-ink/70 max-w-2xl mx-auto r d2">
-      Pubs, reels, aftermovies, docus, showreels. Filtre par format ou scroll pour tout voir.
-    </p>
   </div>
 </section>
 

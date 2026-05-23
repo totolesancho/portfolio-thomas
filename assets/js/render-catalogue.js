@@ -45,18 +45,17 @@
       return;
     }
 
-    // Catégories qui forcent un layout 100% vertical (reels = format vertical natif)
+    // Filtre REEL = tout en vertical (reels = format natif vertical)
     const VERTICAL_ONLY = ['REEL'];
     const verticalOnly = VERTICAL_ONLY.includes(cat);
 
-    // Pattern normal (TOUS et autres filtres) : mix H+V + 3 verticales
+    // Pattern normal : alterner mixed-hv et mixed-vh (V change de côté à chaque row)
+    // Toujours 2 items par row. Pas de hero (= pas de vidéo full-width).
     const PATTERN_NORMAL = [
-      { type: 'hero',     size: 1, shapes: ['hori'] },
-      { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] },
-      { type: 'three',    size: 3, shapes: ['vert', 'vert', 'vert'] },
-      { type: 'mixed-vh', size: 2, shapes: ['vert', 'hori'] },
+      { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] },  // H gauche, V droite
+      { type: 'mixed-vh', size: 2, shapes: ['vert', 'hori'] },  // V gauche, H droite
     ];
-    // Pattern vertical-only : que des verticales (3 par row)
+    // Pattern vertical-only : 3 verticales par row
     const PATTERN_VERTICAL = [
       { type: 'three', size: 3, shapes: ['vert','vert','vert'] },
     ];
@@ -72,15 +71,16 @@
       // Adapter pour le reste si pas assez d'items
       if (remaining < row.size) {
         if (verticalOnly) {
-          if (remaining === 1)      row = { type: 'one-vert', size: 1, shapes: ['vert'] };
-          else if (remaining === 2) row = { type: 'two-vert', size: 2, shapes: ['vert','vert'] };
-          else                       row = { type: 'three',    size: 3, shapes: ['vert','vert','vert'] };
+          if (remaining === 1)      row = { type: 'single', size: 1, shapes: ['vert'] };
+          else if (remaining === 2) row = { type: 'two-hori', size: 2, shapes: ['vert','vert'] };
         } else {
-          if (remaining === 1)      row = { type: 'hero',     size: 1, shapes: ['hori'] };
-          else if (remaining === 2) row = { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] };
-          else                       row = { type: 'three',    size: 3, shapes: ['vert','vert','vert'] };
+          if (remaining === 1)      row = { type: 'single',   size: 1, shapes: ['vert'] };
         }
       }
+
+      // Fallback two-hori : si pas assez de V dans le pool restant
+      // (utile si beaucoup d'items et que le filtre courant ne contient que des projets H-friendly)
+      // Pour l'instant on garde mixed et single ; two-hori arrive si besoin futur
 
       const slice = items.slice(i, i + row.size);
       html += `<div class="cat-row row-${row.type}">` +
