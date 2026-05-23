@@ -58,7 +58,11 @@
   setText('role', p.role);
 
   // ---------- MAIN VIDEO ----------
-  const videos = Array.isArray(p.videos) ? p.videos.filter(Boolean) : [];
+  // Decap peut sauver videos comme ['id1', 'id2'] (legacy) OU [{id:'id1'}, {id:'id2'}] (config actuelle)
+  // On normalise pour gérer les 2 cas
+  const videos = Array.isArray(p.videos)
+    ? p.videos.map((v) => (typeof v === 'string' ? v : (v && v.id))).filter(Boolean)
+    : [];
   const mainVideoEl = document.querySelector('[data-proj="video_main"]');
   if (mainVideoEl && videos.length > 0) {
     mainVideoEl.src = 'https://www.youtube-nocookie.com/embed/' + videos[0] + '?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0';
@@ -90,7 +94,10 @@
   // ---------- IMAGE GALLERY ----------
   const galSection = document.querySelector('[data-proj="gallery_section"]');
   const galGrid = document.querySelector('[data-proj="gallery_grid"]');
-  const images = Array.isArray(p.images) ? p.images.filter(Boolean) : [];
+  // Idem pour images : peut être ['url'] OU [{img:'url'}]
+  const images = Array.isArray(p.images)
+    ? p.images.map((im) => (typeof im === 'string' ? im : (im && im.img))).filter(Boolean)
+    : [];
   if (galSection && galGrid && images.length > 0) {
     galSection.style.display = '';
     galGrid.innerHTML = images

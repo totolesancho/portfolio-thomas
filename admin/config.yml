@@ -162,9 +162,14 @@ collections:
   # ----------------------------------------------------------
   # 2) PROJETS — fichier unique data/projects.json avec liste
   # ----------------------------------------------------------
+  # ⚠️ STRUCTURE FLAT : ne PAS introduire de widgets "object" ici sinon le
+  # JSON devient nested et casse render.js / render-catalogue.js / render-project.js
+  # qui lisent p.title, p.thumb, p.slug, etc. directement.
+  # Hiérarchie visuelle via emojis + ordering uniquement.
+  # ----------------------------------------------------------
   - name: "projects"
-    label: "🎬 Projets (les 10 case studies)"
-    description: "Édite les 10 projets affichés dans la grille + les pages détail."
+    label: "🎬 Projets"
+    description: "Tous tes projets (catalogue + 4 featured sur l'accueil + page détail). Pour AJOUTER un projet → clique 'Add Projet' en bas. La page /projets/<slug>.html est créée AUTOMATIQUEMENT au prochain deploy."
     files:
       - file: "data/projects.json"
         label: "Liste des projets"
@@ -173,59 +178,71 @@ collections:
           - label: "Projets"
             name: "projects"
             widget: "list"
-            summary: "{{fields.num}} — {{fields.title}}"
+            summary: "{{fields.num}} · {{fields.title}} — {{fields.category}}"
             min: 1
             fields:
-              - { label: "Slug (URL du projet, ex: publicite-hiving)", name: "slug", widget: "string", hint: "⚠️ Doit être unique. Lettres minuscules, tirets, pas d'accents. La page sera /projets/<slug>.html — doit correspondre au nom de fichier dans le dossier projets/." }
-              - { label: "Numéro (01, 02, ...)", name: "num", widget: "string", pattern: ["^[0-9]{2}$", "Format à 2 chiffres : 01, 02, 10"] }
-              - { label: "Titre", name: "title", widget: "string" }
-              - { label: "Client", name: "client", widget: "string" }
-              - { label: "Sous-titre carte (ex: Hiving Food · 2024)", name: "card_subtitle", widget: "string" }
-              - { label: "Année", name: "year", widget: "string" }
-              - { label: "Format (ex: 16:9 · 02:14)", name: "format", widget: "string" }
-              - { label: "Rôle", name: "role", widget: "string", default: "RÉALISATION · MONTAGE" }
-              - { label: "Catégorie", name: "category", widget: "select", default: "PUB",
-                  options: ["PUB", "REEL", "AFTERMOVIE", "SHOWREEL", "DOCU", "CORPO"],
-                  hint: "Utilisé pour le filtre dans la page /projets et le label sur la carte." }
-              - { label: "⭐ Featured (affiché sur l'accueil ?)", name: "featured", widget: "boolean", default: false, hint: "Coche pour faire apparaître sur l'accueil. Maximum 4 projets featured." }
-              - { label: "Ordre featured (1=hero, 2=vert gauche, 3=vert milieu, 4=hori droite)", name: "featured_order", widget: "number", default: 0, value_type: "int", min: 0, max: 4, hint: "Position du projet dans le bento de l'accueil. 0 = pas featured. 1 = grande tuile en haut, 2/3 = verticaux du bas, 4 = petite horizontale du bas." }
-              - { label: "Vignette (image, utilisée sur l'accueil + catalogue)", name: "thumb", widget: "image", hint: "Format paysage 16:9 recommandé. Sera recadrée selon la position du focal point ci-dessous." }
-              - { label: "Position du focal point (recadrage)", name: "thumb_focal", widget: "select", default: "center",
+
+              # ━━━ ① IDENTITÉ (champs essentiels) ━━━
+              - { label: "① Titre du projet", name: "title", widget: "string", hint: "Affiché en haut de la page détail. Ex : 'Publicité — Hiving Food'." }
+              - { label: "① Client / marque", name: "client", widget: "string", hint: "Ex : Hiving Food, Galeries Lafayette…" }
+              - { label: "① Sous-titre carte (sous la vignette)", name: "card_subtitle", widget: "string", hint: "Ex : 'Hiving Food · 2024'." }
+              - { label: "① Année", name: "year", widget: "string", pattern: ["^[0-9]{4}$", "Format : YYYY"] }
+              - { label: "① Catégorie (filtre catalogue)", name: "category", widget: "select", default: "PUB", options: ["PUB", "REEL", "AFTERMOVIE", "SHOWREEL", "DOCU", "CORPO"] }
+              - { label: "① Rôle (page détail)", name: "role", widget: "string", default: "RÉALISATION · MONTAGE" }
+              - { label: "① Format (durée / ratio)", name: "format", widget: "string", hint: "Ex : '16:9 · 02:14' ou '9:16 · 00:45'." }
+              - { label: "① Numéro d'ordre (01, 02, …)", name: "num", widget: "string", pattern: ["^[0-9]{2}$", "Format à 2 chiffres : 01, 02, … 10, 11"], hint: "Affichage interne. N'affecte pas l'ordre dans la grille." }
+
+              # ━━━ ② SLUG (URL — ne plus toucher après création) ━━━
+              - { label: "② Slug (URL — ⚠️ critique)", name: "slug", widget: "string", pattern: ["^[a-z0-9-]+$", "Minuscules + chiffres + tirets uniquement (pas d'accents, pas d'espaces)"], hint: "⚠️ Identifiant UNIQUE. À choisir UNE fois et ne PLUS toucher (sinon liens cassés). Ex : 'publicite-hiving' → la page sera /projets/publicite-hiving.html (créée automatiquement)." }
+
+              # ━━━ ③ VIGNETTE (la plus importante visuellement) ━━━
+              - { label: "③ Vignette (carte catalogue + accueil)", name: "thumb", widget: "image", hint: "📸 Format conseillé : photo PAYSAGE (4:3 idéal, 16:9 OK). Au moins 1200×900 px. La carte du catalogue est affichée en 4:3. Le focal point ci-dessous décide quoi reste visible si recadrage." }
+              - { label: "③ Focal point (recadrage)", name: "thumb_focal", widget: "select", default: "center",
                   options: ["center", "top", "bottom", "left", "right", "left top", "right top", "left bottom", "right bottom"],
-                  hint: "Si la vignette est rognée par le cadre, ce point reste visible. 'center' marche pour 90% des cas." }
-              - label: "Vidéos YouTube (1 ou plusieurs)"
+                  hint: "Si la photo est rognée, ce point reste TOUJOURS visible. 'center' marche dans 80% des cas. 'top' si visage en haut. 'bottom' si sujet en bas." }
+
+              # ━━━ ④ AFFICHAGE ACCUEIL (featured) ━━━
+              - { label: "④ ⭐ Featured (afficher sur l'accueil ?)", name: "featured", widget: "boolean", default: false, hint: "Coche pour faire apparaître ce projet dans le bento de 4 cards sur la home. Max 4 projets featured." }
+              - { label: "④ Position bento accueil (0=pas featured, 1→4)", name: "featured_order", widget: "select", default: 0,
+                  options:
+                    - { label: "0 — Pas featured", value: 0 }
+                    - { label: "1 — Tuile principale (horizontale en haut)", value: 1 }
+                    - { label: "2 — Vertical gauche", value: 2 }
+                    - { label: "3 — Vertical milieu", value: 3 }
+                    - { label: "4 — Petite tuile droite", value: 4 }
+                  hint: "Position dans le bento accueil. Si 'Featured' est décoché, mets 0." }
+
+              # ━━━ ⑤ MÉDIAS (vidéos + galerie) ━━━
+              - label: "⑤ Vidéos YouTube (page détail)"
                 name: "videos"
                 widget: "list"
-                field: { label: "ID YouTube (ex: _97hKgYPm0k)", name: "id", widget: "string", hint: "Seulement l'ID, pas l'URL entière." }
-                hint: "La 1ère vidéo s'affiche en haut de la page. Les suivantes en grille en dessous."
-              - label: "Galerie de photos (s'affiche entre brief et approche)"
+                field: { label: "ID YouTube", name: "id", widget: "string", hint: "Juste l'ID (ex : _97hKgYPm0k), pas l'URL entière." }
+                summary: "ID : {{fields.id}}"
+                hint: "🎥 La 1ère vidéo s'affiche grand en haut, les suivantes en grille dessous. ⚠️ La vidéo DOIT être 'Non répertoriée' sur YouTube ('Privé' = écran noir)."
+              - label: "⑤ Galerie photos (optionnel)"
                 name: "images"
                 widget: "list"
                 field: { label: "Photo", name: "img", widget: "image" }
                 required: false
-                hint: "2-6 photos recommandées. Les photos sont cliquables → zoom en grand."
-              - { label: "Le brief (1-3 phrases, fond noir)", name: "brief", widget: "text" }
-              - { label: "Mon approche — paragraphe 1", name: "approche_1", widget: "text" }
-              - { label: "Mon approche — paragraphe 2", name: "approche_2", widget: "text" }
-              - label: "Stack technique"
-                name: "stack_group"
-                widget: "object"
-                collapsed: true
-                fields:
-                  - { label: "Caméra", name: "stack_camera", widget: "string", required: false }
-                  - { label: "Optique", name: "stack_optique", widget: "string", required: false }
-                  - { label: "Montage", name: "stack_montage", widget: "string", default: "DaVinci Resolve", required: false }
-                  - { label: "Étalonnage", name: "stack_etalonnage", widget: "string", default: "Resolve Color", required: false }
-                  - { label: "Sound", name: "stack_sound", widget: "string", required: false }
-              - label: "Impact / résultats"
-                name: "impact_group"
-                widget: "object"
-                collapsed: true
-                fields:
-                  - { label: "Metric 1 (ex: 45K)", name: "impact_metric1", widget: "string", required: false }
-                  - { label: "Label 1 (ex: VUES INSTAGRAM)", name: "impact_label1", widget: "string", required: false }
-                  - { label: "Metric 2", name: "impact_metric2", widget: "string", required: false }
-                  - { label: "Label 2", name: "impact_label2", widget: "string", required: false }
+                hint: "📷 2-6 photos. S'affiche entre brief et approche. Cliquables → zoom."
+
+              # ━━━ ⑥ CONTENU ÉDITORIAL ━━━
+              - { label: "⑥ Le brief (encadré noir page détail)", name: "brief", widget: "text", hint: "1-3 phrases. La demande du client / le contexte." }
+              - { label: "⑥ Mon approche — §1", name: "approche_1", widget: "text", hint: "Comment t'as abordé le projet. 3-5 phrases." }
+              - { label: "⑥ Mon approche — §2", name: "approche_2", widget: "text", hint: "Suite ou second angle. 3-5 phrases." }
+
+              # ━━━ ⑦ STACK TECHNIQUE (optionnel — section dépliable) ━━━
+              - { label: "⑦ Caméra", name: "stack_camera", widget: "string", required: false, hint: "Ex : Sony FX3" }
+              - { label: "⑦ Optique", name: "stack_optique", widget: "string", required: false, hint: "Ex : Sigma 24-70mm f/2.8" }
+              - { label: "⑦ Montage", name: "stack_montage", widget: "string", default: "DaVinci Resolve", required: false }
+              - { label: "⑦ Étalonnage", name: "stack_etalonnage", widget: "string", default: "Resolve Color", required: false }
+              - { label: "⑦ Sound", name: "stack_sound", widget: "string", required: false, hint: "Ex : RØDE Wireless Pro + sound design" }
+
+              # ━━━ ⑧ IMPACT (optionnel) ━━━
+              - { label: "⑧ Metric 1 — chiffre", name: "impact_metric1", widget: "string", required: false, hint: "Ex : 45K, 1.2M, +30%" }
+              - { label: "⑧ Metric 1 — légende", name: "impact_label1", widget: "string", required: false, hint: "Ex : VUES INSTAGRAM" }
+              - { label: "⑧ Metric 2 — chiffre", name: "impact_metric2", widget: "string", required: false }
+              - { label: "⑧ Metric 2 — légende", name: "impact_label2", widget: "string", required: false }
 
   # ----------------------------------------------------------
   # 3) TÉMOIGNAGES — fichier unique

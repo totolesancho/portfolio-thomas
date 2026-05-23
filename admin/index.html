@@ -88,26 +88,57 @@
     }));
 
     /* --- Projects --- */
+    /* Normalise videos / images (peut être string OR {id|img}) */
+    const normVideos = (arr) => (arr || []).map(v => typeof v === 'string' ? v : (v && v.id)).filter(Boolean);
+    const normImages = (arr) => (arr || []).map(im => typeof im === 'string' ? im : (im && im.img)).filter(Boolean);
+
+    /* Card preview ~ catalogue 4:3 — montre exactement ce qui sera rendu */
+    const renderCard = (p) => {
+      const focal = esc(p.thumb_focal || 'center');
+      const sub = esc(p.card_subtitle || ((p.client || '') + ' · ' + (p.year || '')));
+      const cat = esc(p.category || 'PUB');
+      return `<div style="position:relative;width:280px;aspect-ratio:4/3;background:#1a1817;border-radius:6px;overflow:hidden;margin:8px 0;box-shadow:0 4px 16px rgba(0,0,0,.15)">
+        ${p.thumb ? `<div style="position:absolute;inset:0;background-image:url('${esc(p.thumb)}');background-size:cover;background-position:${focal}"></div>` : `<div style="position:absolute;inset:0;display:grid;place-items:center;color:#666;font-size:11px;font-family:Inter,sans-serif">— pas de vignette —</div>`}
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(14,14,14,.8) 0%,rgba(14,14,14,.2) 35%,transparent 55%)"></div>
+        <div style="position:absolute;bottom:14px;left:14px;right:14px;color:#f4f1ea">
+          <span style="display:inline-block;background:#ff3b1c;color:#f4f1ea;padding:3px 7px;font-family:Inter,sans-serif;font-weight:600;font-size:9px;letter-spacing:.18em;border-radius:2px;margin-bottom:8px">${cat}</span>
+          <div style="font-family:Inter,sans-serif;font-weight:500;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.85">${sub}</div>
+        </div>
+      </div>`;
+    };
+
     CMS.registerPreviewTemplate('projects', createClass({
       render: function() {
         const d = this.props.entry.getIn(['data']).toJS();
         const list = d.projects || [];
+        const featured = list.filter(p => p.featured);
         return h('div', {}, [
           h('h1', {key:'t'}, `🎬 ${list.length} projets`),
+          h('p', {key:'sub'}, `${featured.length} featured sur l'accueil`),
           h('hr', {key:'hr0'}),
-          ...list.map((p, i) => h('div', {key:`p${i}`, dangerouslySetInnerHTML: {__html:
-            `<h2>#${esc(p.num)} — ${esc(p.title)} ${p.featured ? '⭐' : ''}</h2>` +
-            (p.thumb ? img(p.thumb) : '') +
-            `<p><strong>Slug :</strong> ${esc(p.slug)}</p>` +
-            `<p><strong>Catégorie :</strong> ${esc(p.category)}</p>` +
-            `<p><strong>Client :</strong> ${esc(p.client)} — ${esc(p.year)}</p>` +
-            `<p><strong>Format :</strong> ${esc(p.format)}</p>` +
-            (p.videos && p.videos.length ? `<p><strong>Vidéos YouTube :</strong> ${p.videos.length} (${p.videos.map(v=>esc(v)).join(', ')})</p>` : '') +
-            (p.images && p.images.length ? `<p><strong>Photos :</strong> ${p.images.length}</p>${p.images.slice(0,4).map(img).join('')}` : '') +
-            `<p><strong>Brief :</strong> ${esc(p.brief).slice(0,200)}…</p>` +
-            (p.impact_metric1 && p.impact_metric1 !== '—' ? `<p><strong>Impact :</strong> ${esc(p.impact_metric1)} ${esc(p.impact_label1)}</p>` : '') +
-            `<hr/>`
-          }})),
+          ...list.map((p, i) => {
+            const videos = normVideos(p.videos);
+            const images = normImages(p.images);
+            return h('div', {key:`p${i}`, style:{margin:'24px 0',padding:'16px',background:'#fafafa',borderRadius:'8px',border:'1px solid #eee'}, dangerouslySetInnerHTML: {__html:
+              `<div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+                <div style="flex:0 0 280px">${renderCard(p)}</div>
+                <div style="flex:1;min-width:260px">
+                  <h2 style="margin:0 0 4px 0">#${esc(p.num)} — ${esc(p.title)} ${p.featured ? '⭐' : ''}</h2>
+                  <p style="margin:0 0 12px 0;color:#666;font-size:13px">slug : <code>${esc(p.slug)}</code> → <code>/projets/${esc(p.slug)}.html</code></p>
+                  <p style="margin:4px 0;font-size:13px"><strong>Catégorie :</strong> ${esc(p.category)} · <strong>Année :</strong> ${esc(p.year)}</p>
+                  <p style="margin:4px 0;font-size:13px"><strong>Client :</strong> ${esc(p.client)}</p>
+                  <p style="margin:4px 0;font-size:13px"><strong>Format :</strong> ${esc(p.format)} · <strong>Rôle :</strong> ${esc(p.role)}</p>
+                  <p style="margin:4px 0;font-size:13px"><strong>Focal point :</strong> ${esc(p.thumb_focal || 'center')}</p>
+                  ${p.featured ? `<p style="margin:4px 0;font-size:13px;color:#ff3b1c"><strong>⭐ Accueil :</strong> position ${esc(p.featured_order)}</p>` : ''}
+                  <p style="margin:8px 0 4px 0;font-size:13px"><strong>🎥 Vidéos :</strong> ${videos.length} (${videos.join(', ') || 'aucune'})</p>
+                  ${images.length ? `<p style="margin:4px 0;font-size:13px"><strong>📷 Galerie :</strong> ${images.length} photos</p>` : ''}
+                  ${(p.impact_metric1 && p.impact_metric1 !== '—') ? `<p style="margin:4px 0;font-size:13px"><strong>📊 Impact :</strong> ${esc(p.impact_metric1)} ${esc(p.impact_label1)}</p>` : ''}
+                </div>
+              </div>
+              ${p.brief ? `<details style="margin-top:12px"><summary style="cursor:pointer;font-size:13px;color:#666"><strong>📝 Brief & approche</strong></summary><p style="margin-top:8px;font-size:13px;line-height:1.5"><strong>Brief :</strong> ${esc(p.brief)}</p><p style="font-size:13px;line-height:1.5"><strong>Approche §1 :</strong> ${esc(p.approche_1).slice(0,300)}…</p></details>` : ''}
+              ${images.length ? `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:4px;margin-top:8px">${images.slice(0,6).map(src => `<div style="aspect-ratio:1;background-image:url('${esc(src)}');background-size:cover;border-radius:3px"></div>`).join('')}</div>` : ''}`
+            }});
+          }),
         ]);
       }
     }));
