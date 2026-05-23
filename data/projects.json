@@ -15,7 +15,7 @@
       "approche_2": "C'est sur ce projet que j'ai commencé à intégrer l'IA dans mon workflow. Ces outils m'ont permis de générer des plans qui auraient normalement nécessité un prestataire 3D : le travelling sur l'objectif menant à l'intérieur du four, le lancer de sandwich en plein vol, la transition fumée. Une expérience complète et stimulante, menée avec une vraie préparation et une intention précise à chaque étape.",
       "role": "RÉALISATION · CADRAGE · MONTAGE",
       "impact_label1": "DIFFUSION B2B / CHEFS PRO",
-      "thumb": "./assets/projects/publicite-hiving/01.png",
+      "thumb": "/assets/uploads/pub-hiving-food.avif",
       "impact_label2": "",
       "format": "Publicité · format horizontal",
       "stack_sound": "Voix-off + sound design · Plans IA (Google Nano Banana, Kling)",
@@ -33,7 +33,7 @@
       "stack_camera": "Sony FX3",
       "thumb_focal": "center",
       "year": "2025",
-      "featured_order": 4,
+      "featured_order": 0,
       "category": "PUB"
     },
     {
@@ -360,7 +360,7 @@
       "stack_camera": "—",
       "thumb_focal": "center",
       "year": "2024",
-      "featured_order": 0,
+      "featured_order": 1,
       "category": "CORPO"
     }
   ]
