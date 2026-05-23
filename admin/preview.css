@@ -1,0 +1,69 @@
+/* ============================================================
+   preview.css — Styles injectés dans le panneau de prévisualisation
+   Decap CMS (à droite de l'admin), pour rendre la preview lisible
+   et harmonieuse au lieu du raw text/HTML par défaut.
+   ============================================================ */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif !important;
+  background: #f4f1ea !important;
+  color: #0e0e0e !important;
+  padding: 32px 40px !important;
+  line-height: 1.55 !important;
+}
+
+/* Titres */
+h1, h2, h3, h4 {
+  font-family: 'Bowlby One', 'Archivo Black', sans-serif !important;
+  letter-spacing: -0.015em !important;
+  margin-top: 1.2em !important;
+  margin-bottom: 0.4em !important;
+}
+h1 { font-size: 28px !important; color: #0e0e0e !important; }
+h2 { font-size: 22px !important; color: #0e0e0e !important; }
+h3 { font-size: 16px !important; color: #ff3b1c !important; text-transform: uppercase; letter-spacing: 0.15em; }
+
+/* Strong = nom de champ */
+strong {
+  display: inline-block;
+  font-weight: 600 !important;
+  color: #8a8580 !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-right: 8px;
+}
+
+/* Cards pour grouper les champs */
+p {
+  margin: 6px 0 !important;
+  padding: 10px 14px !important;
+  background: rgba(14,14,14,0.025);
+  border-left: 2px solid rgba(255,59,28,0.3);
+  font-size: 14px !important;
+}
+
+/* Images dans la preview */
+img {
+  max-width: 100%;
+  border: 1px solid rgba(14,14,14,0.15);
+  border-radius: 4px;
+  margin: 10px 0;
+  display: block;
+}
+
+/* Listes (ex: marquees, stack) */
+ul, ol {
+  background: rgba(14,14,14,0.025);
+  border-left: 2px solid rgba(255,59,28,0.3);
+  padding: 12px 14px 12px 36px !important;
+  margin: 8px 0 !important;
+  list-style: disc;
+}
+li { margin: 4px 0; font-size: 13px; }
+
+/* Divider entre sections */
+hr { border: 0; border-top: 1px dashed rgba(14,14,14,0.2); margin: 24px 0; }
+
+/* Pré-formatted (JSON brut etc) */
+pre { font-family: monospace; font-size: 12px; background: rgba(14,14,14,0.05); padding: 12px; border-radius: 4px; overflow-x: auto; }

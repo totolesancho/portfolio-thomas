@@ -5,11 +5,132 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Thomas Etcheverry</title>
   <meta name="robots" content="noindex" />
-  <!-- Force absolute path to config.yml -->
   <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
 </head>
 <body>
-  <!-- Decap CMS v3.1.10 (version pinnée — stable, pas de mismatch app/core) -->
   <script src="https://unpkg.com/decap-cms@3.1.10/dist/decap-cms.js"></script>
+  <script>
+    /* Aliases courts (Decap CMS expose h + createClass globalement) */
+    const h = CMS.h;
+    const createClass = CMS.createClass;
+
+    /* Charger la stylesheet de la preview pane */
+    CMS.registerPreviewStyle('/admin/preview.css');
+
+    /* Helper : rend une image dans la preview */
+    const img = (src) => src ? `<img src="${src}" alt="" />` : '';
+    /* Helper : escape HTML */
+    const esc = (s) => (s || '').toString()
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    /* ============================================================
+       Preview templates : rend chaque collection joliment à droite
+       ============================================================ */
+
+    /* --- Site (page d'accueil) --- */
+    CMS.registerPreviewTemplate('site', createClass({
+      render: function() {
+        const d = this.props.entry.getIn(['data']).toJS();
+        return h('div', {}, [
+          h('h1', {key:'t'}, '🏠 Page d\'accueil'),
+          h('hr', {key:'hr1'}),
+          h('h3', {key:'h-hero'}, 'Hero'),
+          d.hero && h('div', {key:'hero', dangerouslySetInnerHTML: {__html:
+            (d.hero.photo ? img(d.hero.photo) : '') +
+            `<p><strong>Badge :</strong> ${esc(d.hero.status_text)}</p>` +
+            `<p><strong>Titre L1 :</strong> ${esc(d.hero.title_line1)}</p>` +
+            `<p><strong>Titre L2 :</strong> ${esc(d.hero.title_line2)}</p>` +
+            `<p><strong>Graffiti :</strong> ${esc(d.hero.graffiti_tag)}</p>` +
+            `<p><strong>Tagline :</strong> ${esc(d.hero.tagline)}</p>` +
+            `<p><strong>CTA :</strong> ${esc(d.hero.cta_label)} → ${esc(d.hero.cta_href)}</p>`
+          }}),
+          h('hr', {key:'hr2'}),
+          h('h3', {key:'h-about'}, 'À propos'),
+          d.about && h('div', {key:'about', dangerouslySetInnerHTML: {__html:
+            `<h2>${esc(d.about.title_main)} <em style="color:#ff3b1c">${esc(d.about.title_script)}</em></h2>` +
+            `<p>${esc(d.about.body)}</p>` +
+            `<p><strong>Stack :</strong> ${esc(d.about.stack)}</p>`
+          }}),
+          h('hr', {key:'hr3'}),
+          h('h3', {key:'h-cv'}, 'CV Vidéo'),
+          d.cv_video && h('div', {key:'cv', dangerouslySetInnerHTML: {__html:
+            (d.cv_video.circle_photo ? `<div style="display:inline-block;width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid #0e0e0e;margin-right:12px;vertical-align:middle">${img(d.cv_video.circle_photo)}</div>` : '') +
+            `<p>${esc(d.cv_video.kicker)}</p>` +
+            `<h2 style="font-family:'Caveat',cursive;font-size:32px">${esc(d.cv_video.quote_main)}</h2>` +
+            `<p><em>${esc(d.cv_video.quote_sub)}</em></p>` +
+            `<p><strong>YouTube ID :</strong> ${esc(d.cv_video.youtube_id) || '<em style="color:#bbb">(non renseigné)</em>'}</p>`
+          }}),
+          h('hr', {key:'hr4'}),
+          h('h3', {key:'h-show'}, 'Showreel'),
+          d.showreel && h('div', {key:'show', dangerouslySetInnerHTML: {__html:
+            (d.showreel.poster ? img(d.showreel.poster) : '') +
+            `<p><strong>Kicker :</strong> ${esc(d.showreel.kicker)}</p>` +
+            `<p><strong>Durée :</strong> ${esc(d.showreel.duration)}</p>`
+          }}),
+          h('hr', {key:'hr5'}),
+          h('h3', {key:'h-marq'}, 'Marquees'),
+          d.marquee_formats && h('div', {key:'mf', dangerouslySetInnerHTML: {__html:
+            `<p><strong>Formats :</strong></p><ul>${d.marquee_formats.map(f => `<li>${esc(f)}</li>`).join('')}</ul>`
+          }}),
+          d.marquee_clients && h('div', {key:'mc', dangerouslySetInnerHTML: {__html:
+            `<p><strong>Marques :</strong></p><ul>${d.marquee_clients.map(c => `<li>${esc(c)}</li>`).join('')}</ul>`
+          }}),
+          h('hr', {key:'hr6'}),
+          h('h3', {key:'h-ct'}, 'Contact'),
+          d.contact && h('div', {key:'ct', dangerouslySetInnerHTML: {__html:
+            `<h2>${esc(d.contact.title)}</h2>` +
+            `<p>${esc(d.contact.intro)}</p>` +
+            `<p><em style="color:#ff3b1c">${esc(d.contact.intro_accent)}</em></p>` +
+            `<p><strong>Formspree ID :</strong> ${esc(d.contact.formspree_id) || '<em style="color:#bbb">(non renseigné — form en mailto pour l\'instant)</em>'}</p>`
+          }}),
+        ]);
+      }
+    }));
+
+    /* --- Projects --- */
+    CMS.registerPreviewTemplate('projects', createClass({
+      render: function() {
+        const d = this.props.entry.getIn(['data']).toJS();
+        const list = d.projects || [];
+        return h('div', {}, [
+          h('h1', {key:'t'}, `🎬 ${list.length} projets`),
+          h('hr', {key:'hr0'}),
+          ...list.map((p, i) => h('div', {key:`p${i}`, dangerouslySetInnerHTML: {__html:
+            `<h2>#${esc(p.num)} — ${esc(p.title)} ${p.featured ? '⭐' : ''}</h2>` +
+            (p.thumb ? img(p.thumb) : '') +
+            `<p><strong>Slug :</strong> ${esc(p.slug)}</p>` +
+            `<p><strong>Catégorie :</strong> ${esc(p.category)}</p>` +
+            `<p><strong>Client :</strong> ${esc(p.client)} — ${esc(p.year)}</p>` +
+            `<p><strong>Format :</strong> ${esc(p.format)}</p>` +
+            (p.videos && p.videos.length ? `<p><strong>Vidéos YouTube :</strong> ${p.videos.length} (${p.videos.map(v=>esc(v)).join(', ')})</p>` : '') +
+            (p.images && p.images.length ? `<p><strong>Photos :</strong> ${p.images.length}</p>${p.images.slice(0,4).map(img).join('')}` : '') +
+            `<p><strong>Brief :</strong> ${esc(p.brief).slice(0,200)}…</p>` +
+            (p.impact_metric1 && p.impact_metric1 !== '—' ? `<p><strong>Impact :</strong> ${esc(p.impact_metric1)} ${esc(p.impact_label1)}</p>` : '') +
+            `<hr/>`
+          }})),
+        ]);
+      }
+    }));
+
+    /* --- Testimonials --- */
+    CMS.registerPreviewTemplate('testimonials', createClass({
+      render: function() {
+        const d = this.props.entry.getIn(['data']).toJS();
+        const list = d.testimonials || [];
+        return h('div', {}, [
+          h('h1', {key:'t'}, `💬 ${list.length} témoignages`),
+          h('hr', {key:'hr0'}),
+          ...list.map((t, i) => h('div', {key:`t${i}`, dangerouslySetInnerHTML: {__html:
+            `<h2>${esc(t.emoji)} ${esc(t.client)}</h2>` +
+            `<p><em>"${esc(t.quote)}"</em></p>` +
+            `<p><strong>Rôle :</strong> ${esc(t.role)}</p>` +
+            `<p><strong>Style :</strong> ${esc(t.style)}</p>` +
+            `<hr/>`
+          }})),
+        ]);
+      }
+    }));
+
+  </script>
 </body>
 </html>
