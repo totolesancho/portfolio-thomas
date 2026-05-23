@@ -268,10 +268,10 @@
   /* Flèche retirée — trop "vlog" */
   .bento-arrow { display: none; }
 
-  /* View more button : fond clair sur fond noir (inversé) */
+  /* View more button : fond dark sur bg cream */
   .btn-view-more {
-    background: var(--cream); color: var(--ink);
-    padding: 18px 32px; border: 2px solid var(--cream);
+    background: var(--ink); color: var(--cream);
+    padding: 18px 32px; border: 2px solid var(--ink);
     box-shadow: 5px 5px 0 var(--rec);
     font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px;
     text-transform: uppercase; letter-spacing: 0.16em;
@@ -305,8 +305,7 @@
 <header class="px-6 md:px-12 py-4 flex justify-between items-center">
   <a href="#" class="display text-base md:text-lg">THOMAS ETCHEVERRY<span class="text-rec">®</span></a>
   <nav class="hidden md:flex items-center gap-8">
-    <a href="#projets" class="tag hover:text-rec transition">Projets</a>
-    <a href="#about" class="tag hover:text-rec transition">À propos</a>
+    <a href="./projets.html" class="tag hover:text-rec transition">Projets</a>
     <a href="#contact" class="btn-ink">Discutons →</a>
   </nav>
   <a href="#contact" class="md:hidden btn-ink">→</a>
@@ -408,11 +407,11 @@
 
 </section>
 
-<!-- TRAVAUX (fond noir, texte inversé) -->
-<section id="projets" class="px-6 md:px-12 pt-16 md:pt-28 pb-20 md:pb-32 bg-ink text-cream">
+<!-- TRAVAUX -->
+<section id="projets" class="px-6 md:px-12 pt-16 md:pt-28 pb-20 md:pb-32">
   <div class="mb-12 md:mb-16 r">
-    <div class="tag mb-3" style="color:var(--cream); opacity:0.55;" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
-    <h2 class="display display-tight text-[clamp(2rem,7vw,5.5rem)]" style="color:var(--cream);">
+    <div class="tag tag-dim mb-3" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
+    <h2 class="display display-tight text-[clamp(2rem,7vw,5.5rem)]">
       <span data-cms="projets.title_prefix">Plein de projets,</span> <span class="script text-rec text-[1.2em] inline-block rotate-[-1deg]" data-cms="projets.title_suffix">une seule obsession.</span>
     </h2>
   </div>
@@ -425,7 +424,6 @@
       <div class="bento-veil"></div>
       <div class="bento-meta">
         <span class="bento-cat tag"></span>
-        <div class="bento-title display"></div>
         <div class="bento-sub tag tag-dim"></div>
       </div>
     </a>

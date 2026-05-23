@@ -100,7 +100,6 @@
         <div class="cat-card-veil"></div>
         <div class="cat-card-meta">
           <span class="cat-card-cat">${escapeHTML(p.category || '')}</span>
-          <div class="cat-card-title">${escapeHTML(p.title)}</div>
           <div class="cat-card-sub">${escapeHTML(sub)}</div>
         </div>
       </a>`;

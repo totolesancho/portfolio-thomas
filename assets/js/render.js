@@ -184,8 +184,6 @@
       }
       const catEl = slot.querySelector('.bento-cat');
       if (catEl) catEl.textContent = p.category || '';
-      const titleEl = slot.querySelector('.bento-title');
-      if (titleEl) titleEl.textContent = p.title;
       const subEl = slot.querySelector('.bento-sub');
       if (subEl) subEl.textContent = p.card_subtitle || (p.client + ' · ' + p.year);
     });
