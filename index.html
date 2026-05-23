@@ -285,9 +285,59 @@
     box-shadow: 7px 7px 0 var(--rec);
     background: var(--rec); border-color: var(--rec); color: var(--cream);
   }
-  /* Fade gradient supprimé — bg noir maintenant, plus besoin */
+  /* Fade gradient supprimé */
   .bento-fade { display: none; }
   .bento-fade-wrap { padding-top: 24px; }
+
+  /* ============ QUOTE CARD CV VIDÉO — style artisanal ============ */
+  .quote-card {
+    position: relative;
+    background: var(--cream);
+    border: 1.5px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--rec);
+    padding: 36px 40px 32px;
+    margin-right: 32px;            /* pour laisser place au cercle qui dépasse */
+    border-radius: 4px;
+  }
+  @media (max-width: 768px) {
+    .quote-card { padding: 28px 24px; margin-right: 0; padding-right: 80px; }
+    .quote-card { box-shadow: 4px 4px 0 var(--rec); }
+  }
+  .quote-circle {
+    position: absolute;
+    top: -28px;
+    right: -28px;
+    width: 88px; height: 88px;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 9999px !important;   /* vraiment rond, important pour bypass le reset */
+    overflow: hidden;
+    transform: rotate(-6deg);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .quote-circle img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+  @media (max-width: 768px) {
+    .quote-circle { width: 64px; height: 64px; top: -20px; right: -12px; }
+  }
+  .quote-main {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.05;
+    color: var(--ink);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .quote-sub {
+    font-size: 15px;
+    color: var(--ink);
+    margin-top: 14px;
+    opacity: 0.8;
+    font-style: italic;
+  }
 </style>
 </head>
 <body>
@@ -304,8 +354,10 @@
 <!-- HEADER -->
 <header class="px-6 md:px-12 py-4 flex justify-between items-center">
   <a href="#" class="display text-base md:text-lg">THOMAS ETCHEVERRY<span class="text-rec">®</span></a>
-  <nav class="hidden md:flex items-center gap-8">
+  <nav class="hidden md:flex items-center gap-6">
     <a href="./projets.html" class="tag hover:text-rec transition">Projets</a>
+    <a href="#cv-video" class="tag hover:text-rec transition">CV Vidéo</a>
+    <a href="#showreel" class="tag hover:text-rec transition">Showreel</a>
     <a href="#contact" class="btn-ink">Discutons →</a>
   </nav>
   <a href="#contact" class="md:hidden btn-ink">→</a>
@@ -527,22 +579,31 @@
   </div>
 </section>
 
-<!-- SHOWREEL — sous le stack technique -->
-<section class="px-6 md:px-12 pb-12 md:pb-16">
-  <div class="r w-full" style="max-width: 1024px; margin-left: auto; margin-right: auto;">
-    <div class="flex justify-between items-end mb-3 w-full">
-      <span class="text-xs uppercase tracking-[0.18em] text-dim" style="font-family:'Inter',sans-serif;" data-cms="showreel.kicker">→ Showreel 2025</span>
-      <span class="text-xs uppercase tracking-[0.18em] text-dim" style="font-family:'Inter',sans-serif;" data-cms="showreel.duration">02:14</span>
+<!-- CV VIDÉO — juste après À propos, avec quote card artisanal -->
+<section id="cv-video" class="px-6 md:px-12 pb-16 md:pb-24">
+  <div class="w-full" style="max-width: 1024px; margin-left: auto; margin-right: auto;">
+
+    <!-- Quote card artisanal avec mini photo cercle -->
+    <div class="quote-card r" data-cms-block="cv_quote">
+      <div class="quote-circle">
+        <img data-cms="cv_video.circle_photo" src="./assets/thomas-cutout.png" alt="Thomas" />
+      </div>
+      <div class="tag tag-dim mb-3" data-cms="cv_video.kicker">→ POUR LE PETIT MOT</div>
+      <p class="quote-main script" data-cms="cv_video.quote_main">Envie de me connaître un peu plus ?</p>
+      <p class="quote-sub" data-cms="cv_video.quote_sub">Voici mon CV vidéo réalisé en 2025.</p>
     </div>
-    <div class="relative bg-ink overflow-hidden w-full" style="aspect-ratio: 16/9;">
-      <video
-        data-cms="showreel.video"
-        src="./assets/T5ng7vlGggLKHz0KU5hcCgnioc.mp4"
-        controls playsinline preload="metadata"
-        poster="./assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg"
-        class="absolute inset-0 w-full h-full object-cover"
-        style="object-position: center;"
-      ></video>
+
+    <!-- Video CV -->
+    <div class="r d1 w-full mt-8 md:mt-10">
+      <div class="relative bg-ink overflow-hidden w-full" style="aspect-ratio: 16/9; border-radius: 6px;">
+        <iframe data-cms="cv_video.iframe" src="" class="absolute inset-0 w-full h-full" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        <!-- Placeholder si pas de YouTube ID encore : on affiche un texte -->
+        <div data-cms="cv_video.placeholder" class="absolute inset-0 flex items-center justify-center text-cream/60 text-sm" style="font-family:'Inter',sans-serif;">
+          (Ajoute l'ID YouTube de ton CV vidéo dans le CMS)
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -601,7 +662,27 @@
 </section>
 
 <!-- DASHES -->
-<div class="dashes mb-20 md:mb-32"></div>
+<div class="dashes mb-12 md:mb-20"></div>
+
+<!-- SHOWREEL — descendu juste avant Contact -->
+<section id="showreel" class="px-6 md:px-12 pb-16 md:pb-24">
+  <div class="r w-full" style="max-width: 1024px; margin-left: auto; margin-right: auto;">
+    <div class="flex justify-between items-end mb-3 w-full">
+      <span class="text-xs uppercase tracking-[0.18em] text-dim" style="font-family:'Inter',sans-serif;" data-cms="showreel.kicker">→ Showreel 2025</span>
+      <span class="text-xs uppercase tracking-[0.18em] text-dim" style="font-family:'Inter',sans-serif;" data-cms="showreel.duration">02:14</span>
+    </div>
+    <div class="relative bg-ink overflow-hidden w-full" style="aspect-ratio: 16/9; border-radius: 6px;">
+      <video
+        data-cms="showreel.video"
+        src="./assets/T5ng7vlGggLKHz0KU5hcCgnioc.mp4"
+        controls playsinline preload="metadata"
+        poster="./assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg"
+        class="absolute inset-0 w-full h-full object-cover"
+        style="object-position: center;"
+      ></video>
+    </div>
+  </div>
+</section>
 
 <!-- CONTACT -->
 <section id="contact" class="px-6 md:px-12 pb-20 relative overflow-hidden">

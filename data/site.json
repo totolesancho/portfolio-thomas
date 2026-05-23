@@ -35,7 +35,7 @@
   },
   "projets_section": {
     "kicker": "— TRAVAUX SÉLECTIONNÉS",
-    "title_prefix": "10 projets,",
+    "title_prefix": "Plein de projets,",
     "title_suffix": "une seule obsession."
   },
   "showreel": {
@@ -67,5 +67,14 @@
     "DOCU",
     "CV VIDÉO",
     "REELS"
-  ]
+  ],
+  "cv_video": {
+    "kicker": "→ POUR LE PETIT MOT",
+    "quote_main": "Envie de me connaître un peu plus ?",
+    "quote_sub": "Voici mon CV vidéo réalisé en 2025.",
+    "circle_photo": "./assets/thomas-cutout.png",
+    "video": "",
+    "youtube_id": "",
+    "duration": "01:45"
+  }
 }

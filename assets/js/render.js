@@ -129,6 +129,24 @@
       setAttr('showreel.poster', 'poster', site.showreel.poster);
     }
 
+    // CV vidéo
+    if (site.cv_video) {
+      setText('cv_video.kicker', site.cv_video.kicker);
+      setText('cv_video.quote_main', site.cv_video.quote_main);
+      setText('cv_video.quote_sub', site.cv_video.quote_sub);
+      setAttr('cv_video.circle_photo', 'src', site.cv_video.circle_photo);
+      // Si YouTube ID renseigné → on charge iframe et on cache le placeholder
+      const iframe = document.querySelector('[data-cms="cv_video.iframe"]');
+      const placeholder = document.querySelector('[data-cms="cv_video.placeholder"]');
+      if (site.cv_video.youtube_id && site.cv_video.youtube_id.trim()) {
+        if (iframe) iframe.src = 'https://www.youtube.com/embed/' + site.cv_video.youtube_id + '?rel=0&modestbranding=1';
+        if (placeholder) placeholder.style.display = 'none';
+      } else {
+        if (iframe) iframe.style.display = 'none';
+        if (placeholder) placeholder.style.display = 'flex';
+      }
+    }
+
     // Testimonials kicker
     setText('testimonials.kicker', site.testimonials_kicker);
 

@@ -114,6 +114,18 @@ collections:
               - { label: "Fichier vidéo (mp4)", name: "video", widget: "file", default: "./assets/T5ng7vlGggLKHz0KU5hcCgnioc.mp4" }
               - { label: "Poster (image affichée avant lecture)", name: "poster", widget: "image", default: "./assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg" }
 
+          # --- CV VIDÉO ---
+          - label: "CV Vidéo (section quote + vidéo, après À propos)"
+            name: "cv_video"
+            widget: "object"
+            fields:
+              - { label: "Kicker (au-dessus de la quote)", name: "kicker", widget: "string", default: "→ POUR LE PETIT MOT" }
+              - { label: "Phrase principale (handwritten Caveat)", name: "quote_main", widget: "string", default: "Envie de me connaître un peu plus ?" }
+              - { label: "Sous-phrase italique", name: "quote_sub", widget: "string", default: "Voici mon CV vidéo réalisé en 2025." }
+              - { label: "Photo cercle (mini portrait dans le coin)", name: "circle_photo", widget: "image", default: "./assets/thomas-cutout.png" }
+              - { label: "ID YouTube du CV vidéo (ex: dQw4w9WgXcQ)", name: "youtube_id", widget: "string", required: false, hint: "Laisse vide pour afficher un placeholder. Sinon : juste l'ID YouTube (la partie après v=)." }
+              - { label: "Durée affichée", name: "duration", widget: "string", default: "01:45", required: false }
+
           # --- TESTIMONIALS kicker ---
           - { label: "Kicker section témoignages", name: "testimonials_kicker", widget: "string", default: "— ILS ONT TRAVAILLÉ AVEC MOI" }
 
