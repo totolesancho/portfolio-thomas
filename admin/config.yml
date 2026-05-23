@@ -203,14 +203,17 @@ collections:
 
               # ━━━ ④ AFFICHAGE ACCUEIL (featured) ━━━
               - { label: "④ ⭐ Featured (afficher sur l'accueil ?)", name: "featured", widget: "boolean", default: false, hint: "Coche pour faire apparaître ce projet dans le bento de 4 cards sur la home. Max 4 projets featured." }
-              - { label: "④ Position bento accueil (0=pas featured, 1→4)", name: "featured_order", widget: "select", default: 0,
-                  options:
-                    - { label: "0 — Pas featured", value: 0 }
-                    - { label: "1 — Tuile principale (horizontale en haut)", value: 1 }
-                    - { label: "2 — Vertical gauche", value: 2 }
-                    - { label: "3 — Vertical milieu", value: 3 }
-                    - { label: "4 — Petite tuile droite", value: 4 }
-                  hint: "Position dans le bento accueil. Si 'Featured' est décoché, mets 0." }
+              - label: "④ Position bento accueil (0=pas featured, 1→4)"
+                name: "featured_order"
+                widget: "select"
+                default: 0
+                hint: "Position dans le bento accueil. Si 'Featured' est décoché, mets 0."
+                options:
+                  - { label: "0 — Pas featured", value: 0 }
+                  - { label: "1 — Tuile principale (horizontale en haut)", value: 1 }
+                  - { label: "2 — Vertical gauche", value: 2 }
+                  - { label: "3 — Vertical milieu", value: 3 }
+                  - { label: "4 — Petite tuile droite", value: 4 }
 
               # ━━━ ⑤ MÉDIAS (vidéos + galerie) ━━━
               - label: "⑤ Vidéos YouTube (page détail)"
