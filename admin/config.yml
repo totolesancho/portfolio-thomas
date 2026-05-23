@@ -197,9 +197,7 @@ collections:
 
               # ━━━ ③ VIGNETTE (la plus importante visuellement) ━━━
               - { label: "③ Vignette (carte catalogue + accueil)", name: "thumb", widget: "image", hint: "📸 Format conseillé : photo PAYSAGE (4:3 idéal, 16:9 OK). Au moins 1200×900 px. La carte du catalogue est affichée en 4:3. Le focal point ci-dessous décide quoi reste visible si recadrage." }
-              - { label: "③ Focal point (recadrage)", name: "thumb_focal", widget: "select", default: "center",
-                  options: ["center", "top", "bottom", "left", "right", "left top", "right top", "left bottom", "right bottom"],
-                  hint: "Si la photo est rognée, ce point reste TOUJOURS visible. 'center' marche dans 80% des cas. 'top' si visage en haut. 'bottom' si sujet en bas." }
+              - { label: "③ Focal point — clique sur le sujet à garder visible", name: "thumb_focal", widget: "focal_point", default: "center", required: false, hint: "Clique sur l'image pour poser le point qui doit TOUJOURS rester visible quand la card 4:3 du catalogue rogne la photo. Aperçu live à droite." }
 
               # ━━━ ④ AFFICHAGE ACCUEIL (featured) ━━━
               - { label: "④ ⭐ Featured (afficher sur l'accueil ?)", name: "featured", widget: "boolean", default: false, hint: "Coche pour faire apparaître ce projet dans le bento de 4 cards sur la home. Max 4 projets featured." }
