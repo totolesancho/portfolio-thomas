@@ -255,8 +255,8 @@
                 <div class="w-12 h-12 ${s.avatarBg} flex items-center justify-center text-2xl" style="border-radius:9999px !important;">${escapeHTML(t.emoji || '')}</div>
                 <span class="${s.numCls}" style="${s.numStyle}">${escapeHTML(t.num || '')}</span>
               </div>
-              <blockquote style="font-family:'Inter',sans-serif; font-weight:500; font-size: clamp(15px, 1.5vw, 19px); line-height:1.45;">
-                &laquo;&nbsp;${escapeHTML(t.quote)}&nbsp;&raquo;
+              <blockquote class="display text-xl md:text-2xl" style="line-height:1.15; letter-spacing:0.005em; font-feature-settings:'liga' 0;">
+                &quot;${escapeHTML(t.quote)}&quot;
               </blockquote>
               <figcaption>
                 <div class="${s.clientCls}" style="${s.clientStyle}; font-weight:600;">${escapeHTML(t.client)}</div>

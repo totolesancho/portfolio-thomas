@@ -45,18 +45,22 @@
       return;
     }
 
-    // Pattern de rangées propres :
-    // - mixed-hv : Horizontal + Vertical (H gauche, V droite)
-    // - mixed-vh : Vertical + Horizontal (V gauche, H droite — inversé)
-    // - three    : 3 verticales (4:5)
-    // - hero     : 1 grosse horizontale 16:9 (rare, pour ouvrir/fermer)
-    // Boucle : hero → mixed-hv → three → mixed-vh → ...
-    const PATTERN = [
+    // Catégories qui forcent un layout 100% vertical (reels = format vertical natif)
+    const VERTICAL_ONLY = ['REEL'];
+    const verticalOnly = VERTICAL_ONLY.includes(cat);
+
+    // Pattern normal (TOUS et autres filtres) : mix H+V + 3 verticales
+    const PATTERN_NORMAL = [
       { type: 'hero',     size: 1, shapes: ['hori'] },
       { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] },
       { type: 'three',    size: 3, shapes: ['vert', 'vert', 'vert'] },
       { type: 'mixed-vh', size: 2, shapes: ['vert', 'hori'] },
     ];
+    // Pattern vertical-only : que des verticales (3 par row)
+    const PATTERN_VERTICAL = [
+      { type: 'three', size: 3, shapes: ['vert','vert','vert'] },
+    ];
+    const PATTERN = verticalOnly ? PATTERN_VERTICAL : PATTERN_NORMAL;
 
     let i = 0;
     let html = '';
@@ -65,11 +69,17 @@
       let row = PATTERN[patternIdx % PATTERN.length];
       let remaining = items.length - i;
 
-      // Adapter si moins d'items restants
+      // Adapter pour le reste si pas assez d'items
       if (remaining < row.size) {
-        if (remaining === 1) row = { type: 'hero', size: 1, shapes: ['hori'] };
-        else if (remaining === 2) row = { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] };
-        else if (remaining === 3) row = { type: 'three', size: 3, shapes: ['vert','vert','vert'] };
+        if (verticalOnly) {
+          if (remaining === 1)      row = { type: 'one-vert', size: 1, shapes: ['vert'] };
+          else if (remaining === 2) row = { type: 'two-vert', size: 2, shapes: ['vert','vert'] };
+          else                       row = { type: 'three',    size: 3, shapes: ['vert','vert','vert'] };
+        } else {
+          if (remaining === 1)      row = { type: 'hero',     size: 1, shapes: ['hori'] };
+          else if (remaining === 2) row = { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] };
+          else                       row = { type: 'three',    size: 3, shapes: ['vert','vert','vert'] };
+        }
       }
 
       const slice = items.slice(i, i + row.size);

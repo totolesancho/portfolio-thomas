@@ -240,17 +240,19 @@
     .intro { opacity: 1; transform: none; transition: none; }
   }
 
-  /* ============ HEADER STICKY ============ */
-  /* Header reste collé en haut au scroll, fond cream avec petite ombre */
+  /* ============ HEADER STICKY (transparent) ============ */
   header {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: var(--cream);
-    transition: box-shadow .25s ease, padding .25s ease;
+    background: transparent;
+    transition: background .25s ease;
   }
+  /* Quand on a scrollé, fond légèrement opaque avec blur pour rester lisible */
   header.scrolled {
-    box-shadow: 0 4px 12px -6px rgba(14,14,14,0.12);
+    background: rgba(244, 241, 234, 0.75);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
   }
 
   /* ============ BURGER MENU MOBILE ============ */
@@ -555,9 +557,9 @@
       <span class="block" style="transform: translateX(0.08em); display:block;"><span data-cms="hero.title_line2">DES FILMS</span><span class="text-rec">.</span></span>
     </h1>
 
-    <!-- PNG CUTOUT (z-20) — légèrement plus bas qu'avant, animé en 2e -->
+    <!-- PNG CUTOUT (z-20) — descendue encore légèrement -->
     <div class="relative z-20 flex justify-center intro t2"
-         style="margin-top: clamp(-170px, -11vw, -80px);">
+         style="margin-top: clamp(-130px, -8vw, -50px);">
       <img data-cms="hero.photo" src="./assets/thomas-cutout.png"
            alt="Thomas Etcheverry — vidéaste"
            onerror="this.src='./assets/hero-thomas-blended.png'"
@@ -566,8 +568,8 @@
     </div>
   </div>
 
-  <!-- Bottom row : handwritten quote + CTA — animé en 3e -->
-  <div class="mt-6 md:mt-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10 relative z-30 intro t3">
+  <!-- Bottom row : passioné + CTA — remontée presque collée au bas de la photo -->
+  <div class="-mt-4 md:-mt-2 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 relative z-30 intro t3">
     <span class="script text-2xl md:text-3xl text-rec rotate-[-2deg] inline-block" data-cms="hero.tagline">— passionné &amp; motivé</span>
     <a data-cms="hero.cta_link" href="#contact" class="btn-cta">
       <span data-cms="hero.cta_label">ON DISCUTE ?</span>
