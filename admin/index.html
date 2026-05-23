@@ -6,13 +6,41 @@
   <title>Admin — Thomas Etcheverry</title>
   <meta name="robots" content="noindex" />
   <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+  <style>
+    /* ============================================================
+       Polish visuel du form Decap — séparateurs entre sections ①→⑧
+       Decap render chaque field dans un <div> avec un <label> dedans.
+       On utilise :has(label[for*="..."]) pour ajouter des séparateurs
+       avant chaque nouveau groupe (label commençant par ②, ③, etc.)
+       ============================================================ */
+    /* Espace + ligne avant chaque nouveau groupe numéroté */
+    [class*="ControlPane"] [class*="root"] > div:has(label[for$="-slug"]),
+    [class*="ControlPane"] [class*="root"] > div:has(label[for$="-thumb"]),
+    [class*="ControlPane"] [class*="root"] > div:has(label[for$="-featured"]),
+    [class*="ControlPane"] [class*="root"] > div:has(label[for$="-videos"]),
+    [class*="ControlPane"] [class*="root"] > div:has(label[for$="-brief"]),
+    [class*="ControlPane"] [class*="root"] > div:has(label[for$="-stack_camera"]),
+    [class*="ControlPane"] [class*="root"] > div:has(label[for$="-impact_metric1"]) {
+      border-top: 2px solid #f0eee8;
+      margin-top: 24px !important;
+      padding-top: 24px !important;
+    }
+    /* Quand on uploade — le focal_point widget */
+    .focal-point-widget { font-family: inherit; }
+  </style>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@3.1.10/dist/decap-cms.js"></script>
   <script>
-    /* Aliases courts (Decap CMS expose h + createClass globalement) */
-    const h = CMS.h;
-    const createClass = CMS.createClass;
+    /* ============================================================
+       Decap CMS v3 expose h + createClass + PropTypes en globals window.*
+       (pas sur CMS.*). Fallback sur CMS.* si jamais.
+       ============================================================ */
+    const h = window.h || (window.CMS && window.CMS.h);
+    const createClass = window.createClass || (window.CMS && window.CMS.createClass);
+    if (!h || !createClass) {
+      console.error('[admin] Decap helpers h/createClass introuvables — custom widgets désactivés');
+    }
 
     /* Charger la stylesheet de la preview pane */
     CMS.registerPreviewStyle('/admin/preview.css');
@@ -224,7 +252,12 @@
       }
     });
 
-    CMS.registerWidget('focal_point', FocalPointControl, FocalPointPreview);
+    try {
+      CMS.registerWidget('focal_point', FocalPointControl, FocalPointPreview);
+      console.log('[admin] Custom widget focal_point enregistré ✓');
+    } catch (e) {
+      console.error('[admin] Erreur enregistrement widget focal_point:', e);
+    }
 
     /* Helper : rend une image dans la preview */
     const img = (src) => src ? `<img src="${src}" alt="" />` : '';
