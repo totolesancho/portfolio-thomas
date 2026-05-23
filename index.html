@@ -193,6 +193,11 @@
   /* Marquee */
   .marquee { animation: marquee 50s linear infinite; }
   .marquee-slow { animation: marquee 90s linear infinite; }
+  /* Mobile : tailles réduites pour pas que ça soit géant */
+  @media (max-width: 768px) {
+    [data-cms-block="marquee_formats"] { font-size: 28px !important; }
+    [data-cms-block="marquee_clients"] { font-size: 32px !important; }
+  }
   @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .marquee-mask {
     -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
@@ -213,18 +218,89 @@
 
   ::selection { background: var(--rec); color: var(--cream); }
 
-  /* ============ BENTO 4 (homepage featured) — clean tetris ============ */
+  /* ============ BURGER MENU MOBILE ============ */
+  .burger-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px;
+    background: var(--ink); color: var(--cream);
+    border-radius: 4px; border: 0; cursor: pointer;
+    transition: background .25s;
+  }
+  .burger-btn:hover { background: var(--rec); }
+  .burger-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: var(--cream);
+    display: none;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px 32px 40px;
+  }
+  .burger-overlay.open { display: flex; }
+  .burger-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    background: var(--ink); color: var(--cream);
+    border-radius: 4px; border: 0; cursor: pointer;
+    font-size: 18px; font-weight: 600;
+  }
+  .burger-nav {
+    display: flex; flex-direction: column; gap: 24px;
+    text-align: center;
+  }
+  .burger-nav a {
+    font-family: 'Bowlby One', sans-serif;
+    font-size: clamp(28px, 8vw, 44px);
+    color: var(--ink);
+    line-height: 1;
+    text-decoration: none;
+    transition: color .25s;
+  }
+  .burger-nav a:hover { color: var(--rec); }
+  .burger-nav a.burger-cta {
+    background: var(--rec); color: var(--cream);
+    padding: 14px 32px; border-radius: 4px;
+    font-size: clamp(20px, 5vw, 28px);
+    margin-top: 12px;
+  }
+  .burger-socials {
+    position: absolute; bottom: 32px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 28px;
+  }
+  .burger-socials a {
+    font-family: 'Inter', sans-serif; font-weight: 500;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1.5px solid var(--ink); padding-bottom: 2px;
+  }
+
+  /* ============ BENTO 4 (homepage featured) — 2 rangées H+V alternées ============ */
   [data-cms-block="featured_bento"] { max-width: 1100px; margin: 0 auto; }
+  .bento-row {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;     /* centre les 2 cards de la row */
+    gap: 16px;
+    height: clamp(280px, 32vw, 460px);
+    margin-bottom: 16px;
+  }
   .bento-card {
     position: relative; overflow: hidden; background: #1a1817;
     text-decoration: none;
-    border-radius: 6px !important;       /* léger arrondi cinéma */
+    height: 100%;
+    border-radius: 6px !important;
   }
-  .bento-hero { aspect-ratio: 16/7; }
-  .bento-vert, .bento-hori-small { aspect-ratio: 4/5; }
+  .bento-card[data-shape="hori"] { aspect-ratio: 16/9; }
+  .bento-card[data-shape="vert"] { aspect-ratio: 9/16; }
+
   @media (max-width: 768px) {
-    .bento-hero { aspect-ratio: 16/9; }
-    .bento-vert, .bento-hori-small { aspect-ratio: 4/5; }
+    .bento-row {
+      grid-template-columns: 1fr;
+      height: auto;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .bento-card[data-shape="hori"] { aspect-ratio: 16/9; }
+    .bento-card[data-shape="vert"] { aspect-ratio: 4/5; }
   }
 
   .bento-thumb {
@@ -290,17 +366,13 @@
   .bento-fade-wrap { padding-top: 24px; }
 
   /* ============ QUOTE CARD CV VIDÉO — style artisanal ============ */
-  /* Wrapper qui contient la quote card ET le cercle, pour pouvoir centrer le tout */
+  /* Wrapper SANS padding-right : la card occupe 100% largeur (= largeur de la vidéo en dessous).
+     Le cercle est positionné en absolu sur la card avec top:-28px right:-20px,
+     overflow visible nécessaire pour qu'il dépasse en haut/droite. */
   .quote-wrap {
     position: relative;
     width: 100%;
-    /* Padding-right pour réserver l'espace du cercle qui dépasse */
-    padding-right: 44px;
-    padding-top: 28px;            /* pour que le cercle dépasse en haut */
-    box-sizing: border-box;
-  }
-  @media (max-width: 768px) {
-    .quote-wrap { padding-right: 24px; padding-top: 24px; }
+    margin-top: 36px;   /* breathing room pour le cercle qui dépasse en haut */
   }
   .quote-card {
     position: relative;
@@ -312,12 +384,12 @@
     width: 100%;
   }
   @media (max-width: 768px) {
-    .quote-card { padding: 28px 24px; padding-right: 60px; box-shadow: 4px 4px 0 var(--rec); }
+    .quote-card { padding: 28px 24px; padding-right: 80px; box-shadow: 4px 4px 0 var(--rec); }
   }
   .quote-circle {
     position: absolute;
-    top: 0;
-    right: 0;                       /* dans le padding du wrap, pas hors */
+    top: -28px;
+    right: -20px;
     width: 88px; height: 88px;
     background: var(--cream);
     border: 2px solid var(--ink);
@@ -333,7 +405,7 @@
     object-position: center 25%;
   }
   @media (max-width: 768px) {
-    .quote-circle { width: 64px; height: 64px; }
+    .quote-circle { width: 64px; height: 64px; top: -16px; right: -8px; }
   }
   .quote-main {
     font-family: 'Caveat', cursive;
@@ -372,7 +444,27 @@
     <a href="#showreel" class="tag hover:text-rec transition">Showreel</a>
     <a href="#contact" class="btn-ink">Discutons →</a>
   </nav>
-  <a href="#contact" class="md:hidden btn-ink">→</a>
+  <!-- Burger mobile -->
+  <button class="md:hidden burger-btn" id="burger-btn" aria-label="Menu">
+    <svg width="22" height="16" viewBox="0 0 22 16"><circle cx="3" cy="3" r="2.5" fill="currentColor"/><circle cx="11" cy="3" r="2.5" fill="currentColor"/><circle cx="19" cy="3" r="2.5" fill="currentColor"/><circle cx="3" cy="13" r="2.5" fill="currentColor"/><circle cx="11" cy="13" r="2.5" fill="currentColor"/><circle cx="19" cy="13" r="2.5" fill="currentColor"/></svg>
+  </button>
+
+<!-- Menu overlay mobile -->
+<div class="burger-overlay" id="burger-overlay">
+  <button class="burger-close" id="burger-close" aria-label="Fermer">✕</button>
+  <nav class="burger-nav">
+    <a href="./projets.html" onclick="closeBurger()">Projets</a>
+    <a href="#cv-video" onclick="closeBurger()">CV Vidéo</a>
+    <a href="#showreel" onclick="closeBurger()">Showreel</a>
+    <a href="#about" onclick="closeBurger()">À propos</a>
+    <a href="#contact" onclick="closeBurger()" class="burger-cta">Discutons →</a>
+  </nav>
+  <div class="burger-socials">
+    <a data-cms="social.instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+    <a data-cms="social.tiktok" href="#" target="_blank" rel="noopener">TikTok</a>
+    <a data-cms="social.linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</div>
 </header>
 
 <main>
@@ -473,55 +565,49 @@
 
 <!-- TRAVAUX -->
 <section id="projets" class="px-6 md:px-12 pt-16 md:pt-28 pb-20 md:pb-32">
-  <div class="mb-12 md:mb-16 r">
-    <div class="tag tag-dim mb-3" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
-    <h2 class="display display-tight text-[clamp(2rem,7vw,5.5rem)]">
-      <span data-cms="projets.title_prefix">Plein de projets,</span> <span class="script text-rec text-[1.2em] inline-block rotate-[-1deg]" data-cms="projets.title_suffix">une seule obsession.</span>
+  <div class="mb-14 md:mb-20 r max-w-[1100px] mx-auto">
+    <div class="tag tag-dim mb-8" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
+    <h2 class="display display-tight" style="font-size: clamp(2.2rem, 6.5vw, 5rem); line-height: 1.05;">
+      <span data-cms="projets.title_prefix">Plein de projets,</span>
+      <br>
+      <span class="script text-rec inline-block rotate-[-1deg] mt-2" style="font-size: clamp(2.6rem, 8vw, 6rem); line-height: 0.9;" data-cms="projets.title_suffix">une seule obsession.</span>
     </h2>
   </div>
 
-  <!-- BENTO 4 — featured projects -->
+  <!-- BENTO 4 — featured projects (2 rangées de H+V alternés, vrai tetris) -->
   <div data-cms-block="featured_bento" class="relative">
-    <!-- Slot 1 : Big hero horizontal -->
-    <a data-bento-slot="1" href="#" class="bento-card bento-hero r block">
-      <div class="bento-thumb"></div>
-      <div class="bento-veil"></div>
-      <div class="bento-meta">
-        <span class="bento-cat tag"></span>
-        <div class="bento-sub tag tag-dim"></div>
-      </div>
-    </a>
-    <!-- Row 2 : 3 columns -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-3 md:mt-4">
-      <a data-bento-slot="2" href="#" class="bento-card bento-vert r d1 block">
-        <div class="bento-thumb"></div>
-        <div class="bento-veil"></div>
+    <!-- Row 1 : Horizontal (slot 1) + Vertical (slot 2) -->
+    <div class="bento-row">
+      <a data-bento-slot="1" href="#" class="bento-card r" data-shape="hori">
+        <div class="bento-thumb"></div><div class="bento-veil"></div>
         <div class="bento-meta">
           <span class="bento-cat tag"></span>
-          <div class="bento-title display"></div>
           <div class="bento-sub tag tag-dim"></div>
         </div>
-        <span class="bento-arrow">↗</span>
       </a>
-      <a data-bento-slot="3" href="#" class="bento-card bento-vert r d2 block">
-        <div class="bento-thumb"></div>
-        <div class="bento-veil"></div>
+      <a data-bento-slot="2" href="#" class="bento-card r d1" data-shape="vert">
+        <div class="bento-thumb"></div><div class="bento-veil"></div>
         <div class="bento-meta">
           <span class="bento-cat tag"></span>
-          <div class="bento-title display"></div>
           <div class="bento-sub tag tag-dim"></div>
         </div>
-        <span class="bento-arrow">↗</span>
       </a>
-      <a data-bento-slot="4" href="#" class="bento-card bento-hori-small r d3 block">
-        <div class="bento-thumb"></div>
-        <div class="bento-veil"></div>
+    </div>
+    <!-- Row 2 : Vertical (slot 3) + Horizontal (slot 4) — inversé pour rythme -->
+    <div class="bento-row">
+      <a data-bento-slot="3" href="#" class="bento-card r d2" data-shape="vert">
+        <div class="bento-thumb"></div><div class="bento-veil"></div>
         <div class="bento-meta">
           <span class="bento-cat tag"></span>
-          <div class="bento-title display"></div>
           <div class="bento-sub tag tag-dim"></div>
         </div>
-        <span class="bento-arrow">↗</span>
+      </a>
+      <a data-bento-slot="4" href="#" class="bento-card r d3" data-shape="hori">
+        <div class="bento-thumb"></div><div class="bento-veil"></div>
+        <div class="bento-meta">
+          <span class="bento-cat tag"></span>
+          <div class="bento-sub tag tag-dim"></div>
+        </div>
       </a>
     </div>
   </div>
@@ -595,12 +681,12 @@
 <section id="cv-video" class="px-6 md:px-12 pb-16 md:pb-24">
   <div class="w-full" style="max-width: 1024px; margin-left: auto; margin-right: auto;">
 
-    <!-- Quote card artisanal avec mini photo cercle (wrap inclus pour alignement) -->
+    <!-- Quote card artisanal — card pleine largeur, cercle en absolu qui dépasse -->
     <div class="quote-wrap r" data-cms-block="cv_quote">
-      <div class="quote-circle">
-        <img data-cms="cv_video.circle_photo" src="./assets/thomas-cutout.png" alt="Thomas" />
-      </div>
       <div class="quote-card">
+        <div class="quote-circle">
+          <img data-cms="cv_video.circle_photo" src="./assets/thomas-cutout.png" alt="Thomas" />
+        </div>
         <div class="tag tag-dim mb-3" data-cms="cv_video.kicker">→ POUR LE PETIT MOT</div>
         <p class="quote-main script" data-cms="cv_video.quote_main">Envie de me connaître un peu plus ?</p>
         <p class="quote-sub" data-cms="cv_video.quote_sub">Voici mon CV vidéo réalisé en 2025.</p>
@@ -610,12 +696,13 @@
     <!-- Video CV -->
     <div class="r d1 w-full mt-8 md:mt-10">
       <div class="relative bg-ink overflow-hidden w-full" style="aspect-ratio: 16/9; border-radius: 6px;">
-        <iframe data-cms="cv_video.iframe" src="" class="absolute inset-0 w-full h-full" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-        <!-- Placeholder si pas de YouTube ID encore : on affiche un texte -->
-        <div data-cms="cv_video.placeholder" class="absolute inset-0 flex items-center justify-center text-cream/60 text-sm" style="font-family:'Inter',sans-serif;">
-          (Ajoute l'ID YouTube de ton CV vidéo dans le CMS)
+        <!-- L'iframe sera injectée par render.js uniquement si youtube_id renseigné -->
+        <div data-cms="cv_video.player_slot" class="absolute inset-0">
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-cream/70 text-sm gap-2 px-6 text-center" style="font-family:'Inter',sans-serif;">
+            <span style="font-size:24px;opacity:0.5">🎬</span>
+            <span>CV vidéo à venir</span>
+            <span style="font-size:11px;opacity:0.6">Ajoute l'ID YouTube dans le CMS</span>
+          </div>
         </div>
       </div>
     </div>
@@ -762,25 +849,52 @@
   <div class="absolute inset-0 flex items-center justify-center opacity-15 pointer-events-none">
     <span class="display text-[18vw] whitespace-nowrap">THOMAS·ETCHEVERRY</span>
   </div>
-  <div class="relative z-10 px-6 md:px-12 py-12 md:py-20">
-    <div class="flex flex-wrap justify-between items-end gap-8">
-      <div>
-        <div class="display text-3xl md:text-4xl">THOMAS ETCHEVERRY<span>®</span></div>
-        <div class="tag mt-3" style="color:var(--cream)">VIDÉASTE · EST. 2022 · MADE IN FR</div>
-      </div>
-      <div class="flex flex-wrap gap-x-8 gap-y-2 tag" style="color:var(--cream)">
-        <a href="#projets" class="hover:underline">PROJETS</a>
-        <a href="#about" class="hover:underline">À PROPOS</a>
-        <a href="#contact" class="hover:underline">CONTACT</a>
-        <a href="#" class="hover:underline">CV (PDF) ↓</a>
-      </div>
+  <div class="relative z-10 px-6 md:px-12 py-12 md:py-16">
+
+    <!-- Socials icônes en haut -->
+    <div class="flex justify-center gap-6 mb-10">
+      <a data-cms="social.instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram" class="social-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="currentColor"/></svg>
+      </a>
+      <a data-cms="social.tiktok" href="#" target="_blank" rel="noopener" aria-label="TikTok" class="social-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 6.5a5.5 5.5 0 0 1-3.7-1.4v8.4a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v2.7c-.3-.1-.6-.1-.9-.1a2.9 2.9 0 1 0 2.9 2.9V2.5h2.7a5.5 5.5 0 0 0 3.7 4z"/></svg>
+      </a>
+      <a data-cms="social.linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v16H4zM6 1a2 2 0 110 4 2 2 0 010-4zM10 8h4v2a4 4 0 018 0v10h-4v-9a2 2 0 10-4 0v9h-4z"/></svg>
+      </a>
     </div>
-    <div class="border-t border-cream/30 mt-12 pt-6 flex flex-wrap justify-between gap-4 tag" style="color:var(--cream); opacity:0.7">
-      <span>© 2026 — Tous droits réservés</span>
+
+    <!-- Liens nav centrés -->
+    <nav class="flex justify-center flex-wrap gap-x-8 gap-y-3 tag mb-10" style="color:var(--cream)">
+      <a href="./projets.html" class="hover:underline">Projets</a>
+      <a href="#cv-video" class="hover:underline">CV Vidéo</a>
+      <a href="#showreel" class="hover:underline">Showreel</a>
+      <a href="#about" class="hover:underline">À propos</a>
+      <a href="#contact" class="hover:underline">Contact</a>
+      <a href="./mentions-legales.html" class="hover:underline">Mentions légales</a>
+    </nav>
+
+    <!-- Logo centré -->
+    <div class="text-center mb-6">
+      <div class="display text-3xl md:text-4xl">THOMAS ETCHEVERRY<span>®</span></div>
+      <div class="tag mt-3" style="color:var(--cream)" data-cms="footer.tagline">VIDÉASTE · EST. 2022 · MADE IN FR</div>
+    </div>
+
+    <!-- Copyright bas -->
+    <div class="border-t border-cream/30 mt-8 pt-6 flex flex-wrap justify-between gap-4 tag" style="color:var(--cream); opacity:0.7">
+      <span data-cms="footer.copyright">© 2026 — Tous droits réservés</span>
       <span>Site conçu &amp; codé sur mesure</span>
     </div>
   </div>
 </footer>
+<style>
+  .social-icon {
+    color: var(--cream);
+    transition: transform .25s ease, color .25s;
+    display: inline-flex;
+  }
+  .social-icon:hover { transform: translateY(-3px); color: var(--ink); }
+</style>
 
 <!-- BOTTOM DASHES -->
 <div class="dashes"></div>
@@ -813,6 +927,22 @@
 
   // Card hover arrows (initial pass)
   window.__attachCardArrows();
+
+  // Burger menu mobile
+  const burgerBtn = document.getElementById('burger-btn');
+  const burgerOverlay = document.getElementById('burger-overlay');
+  const burgerClose = document.getElementById('burger-close');
+  if (burgerBtn && burgerOverlay) {
+    burgerBtn.addEventListener('click', () => {
+      burgerOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+  window.closeBurger = function () {
+    if (burgerOverlay) burgerOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  if (burgerClose) burgerClose.addEventListener('click', window.closeBurger);
 
   // Back to top
   const topBtn = document.getElementById('topBtn');

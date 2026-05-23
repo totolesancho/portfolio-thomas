@@ -175,13 +175,83 @@
 </section>
 
 <!-- BACK + NEXT -->
-<section class="px-6 md:px-12 pb-20 border-t border-line pt-14">
+<section class="px-6 md:px-12 pb-16 border-t border-line pt-14">
   <div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-5xl mx-auto">
     <a data-proj="prev_link" href="#" class="group tag hover:text-rec text-center md:text-left">← PROJET PRÉCÉDENT<br><span class="display text-xl mt-2 inline-block" data-proj="prev_title">—</span></a>
     <a href="../index.html" class="btn-ink">RETOUR ACCUEIL ↺</a>
     <a data-proj="next_link" href="#" class="group tag hover:text-rec text-center md:text-right">PROJET SUIVANT →<br><span class="display text-xl mt-2 inline-block" data-proj="next_title">—</span></a>
   </div>
 </section>
+
+<!-- DASHES + CONTACT FORM -->
+<div class="dashes mb-12 md:mb-16"></div>
+
+<section class="px-6 md:px-12 pb-20">
+  <div class="max-w-3xl mx-auto text-center">
+    <div class="tag tag-dim mb-6 r">→ DISCUTER D'UN PROJET SIMILAIRE ?</div>
+    <h2 class="display display-tight r" style="font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1;">
+      Ton projet,<br>
+      <span class="script text-rec inline-block rotate-[-1deg] mt-2" style="font-size: clamp(2.6rem, 6vw, 4.5rem);">on en parle ?</span>
+    </h2>
+  </div>
+  <form
+    action="https://formspree.io/f/mredlpnl"
+    method="POST"
+    class="mt-12 max-w-2xl mx-auto space-y-4 r d1"
+    id="proj-contact-form"
+  >
+    <div class="grid md:grid-cols-2 gap-4">
+      <input type="text" name="name" placeholder="VOTRE NOM" required class="proj-form-input" />
+      <input type="email" name="email" placeholder="EMAIL" required class="proj-form-input" />
+    </div>
+    <textarea name="message" placeholder="PARLEZ-MOI DE VOTRE PROJET…" required rows="5" class="proj-form-input resize-none"></textarea>
+    <div class="flex items-center justify-center pt-4">
+      <button type="submit" class="btn-rec-proj">ENVOYER ↗</button>
+    </div>
+  </form>
+</section>
+<style>
+  .proj-form-input {
+    width: 100%; background: transparent;
+    border: 1px solid rgba(14,14,14,0.2);
+    padding: 16px 20px;
+    font-family: 'Inter', sans-serif; font-size: 15px;
+    color: var(--ink);
+    border-radius: 4px !important;
+    transition: border-color .25s;
+  }
+  .proj-form-input:focus { outline: none; border-color: var(--rec); }
+  .proj-form-input::placeholder { color: #999; font-family: 'Inter', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 500; }
+  .btn-rec-proj {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--rec); color: var(--cream);
+    padding: 16px 30px; border: 0; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    border-radius: 4px !important;
+    transition: all .25s;
+  }
+  .btn-rec-proj:hover { background: var(--ink); }
+</style>
+<script>
+  (function () {
+    const f = document.getElementById('proj-contact-form');
+    if (!f) return;
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = f.querySelector('button[type=submit]');
+      const original = btn.textContent;
+      btn.textContent = 'ENVOI…'; btn.disabled = true;
+      try {
+        const res = await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }});
+        if (res.ok) { btn.textContent = 'MESSAGE ENVOYÉ ✓'; f.reset(); setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 4000); }
+        else { btn.textContent = 'ERREUR — RÉESSAYE'; setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 3500); }
+      } catch (err) {
+        btn.textContent = 'ERREUR RÉSEAU'; setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 3500);
+      }
+    });
+  })();
+</script>
 
 </main>
 

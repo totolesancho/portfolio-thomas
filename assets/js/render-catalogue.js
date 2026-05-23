@@ -45,16 +45,17 @@
       return;
     }
 
-    // Pattern de rangées qui remplissent TOUTES 100% largeur :
-    // - hero  : 1 grosse horizontale (16:7)
-    // - three : 3 verticales (4:5) côte à côte
-    // - mixed : 1 horizontale + 1 verticale (hauteur forcée identique)
-    // Boucle : hero → three → mixed → three → hero
+    // Pattern de rangées propres :
+    // - mixed-hv : Horizontal + Vertical (H gauche, V droite)
+    // - mixed-vh : Vertical + Horizontal (V gauche, H droite — inversé)
+    // - three    : 3 verticales (4:5)
+    // - hero     : 1 grosse horizontale 16:9 (rare, pour ouvrir/fermer)
+    // Boucle : hero → mixed-hv → three → mixed-vh → ...
     const PATTERN = [
-      { type: 'hero',  size: 1 },
-      { type: 'three', size: 3 },
-      { type: 'mixed', size: 2 },
-      { type: 'three', size: 3 },
+      { type: 'hero',     size: 1, shapes: ['hori'] },
+      { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] },
+      { type: 'three',    size: 3, shapes: ['vert', 'vert', 'vert'] },
+      { type: 'mixed-vh', size: 2, shapes: ['vert', 'hori'] },
     ];
 
     let i = 0;
@@ -64,19 +65,17 @@
       let row = PATTERN[patternIdx % PATTERN.length];
       let remaining = items.length - i;
 
-      // Si moins d'items restants que la rangée le demande, on adapte
-      // (toujours en gardant une rangée qui remplit 100% largeur) :
-      // - 1 restant → hero
-      // - 2 restants → mixed
-      // - 3 restants → three
+      // Adapter si moins d'items restants
       if (remaining < row.size) {
-        if (remaining === 1) row = { type: 'hero', size: 1 };
-        else if (remaining === 2) row = { type: 'mixed', size: 2 };
-        else if (remaining === 3) row = { type: 'three', size: 3 };
+        if (remaining === 1) row = { type: 'hero', size: 1, shapes: ['hori'] };
+        else if (remaining === 2) row = { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] };
+        else if (remaining === 3) row = { type: 'three', size: 3, shapes: ['vert','vert','vert'] };
       }
 
       const slice = items.slice(i, i + row.size);
-      html += `<div class="cat-row row-${row.type}">` + slice.map(cardHTML).join('') + '</div>';
+      html += `<div class="cat-row row-${row.type}">` +
+        slice.map((p, idx) => cardHTML(p, row.shapes[idx] || 'vert')).join('') +
+        '</div>';
       i += row.size;
       patternIdx++;
     }
@@ -89,12 +88,13 @@
     });
   }
 
-  function cardHTML(p) {
+  function cardHTML(p, shape) {
     const focal = p.thumb_focal || 'center';
     const sub = p.card_subtitle || (p.client + ' · ' + p.year);
     return `
       <a href="./projets/${escapeHTML(p.slug)}.html"
          class="cat-card"
+         data-shape="${shape || 'vert'}"
          data-category="${escapeHTML(p.category || '')}">
         <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); background-position:${escapeAttr(focal)};"></div>
         <div class="cat-card-veil"></div>

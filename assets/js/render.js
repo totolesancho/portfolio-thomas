@@ -135,15 +135,11 @@
       setText('cv_video.quote_main', site.cv_video.quote_main);
       setText('cv_video.quote_sub', site.cv_video.quote_sub);
       setAttr('cv_video.circle_photo', 'src', site.cv_video.circle_photo);
-      // Si YouTube ID renseigné → on charge iframe et on cache le placeholder
-      const iframe = document.querySelector('[data-cms="cv_video.iframe"]');
-      const placeholder = document.querySelector('[data-cms="cv_video.placeholder"]');
-      if (site.cv_video.youtube_id && site.cv_video.youtube_id.trim()) {
-        if (iframe) iframe.src = 'https://www.youtube-nocookie.com/embed/' + site.cv_video.youtube_id + '?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0';
-        if (placeholder) placeholder.style.display = 'none';
-      } else {
-        if (iframe) iframe.style.display = 'none';
-        if (placeholder) placeholder.style.display = 'flex';
+      // Si YouTube ID renseigné → on REMPLACE le slot par une iframe
+      const slot = document.querySelector('[data-cms="cv_video.player_slot"]');
+      if (slot && site.cv_video.youtube_id && site.cv_video.youtube_id.trim()) {
+        const id = site.cv_video.youtube_id.trim();
+        slot.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
       }
     }
 
@@ -253,16 +249,17 @@
           const s = styleMap[t.style] || styleMap.ink;
           const delay = i === 0 ? '' : i === 1 ? 'd1' : 'd2';
           return `
-            <figure class="aspect-square ${s.fig} p-7 md:p-9 flex flex-col justify-between r ${delay}">
+            <figure class="aspect-square ${s.fig} p-7 md:p-9 flex flex-col justify-between r ${delay}"
+                    style="border-radius:8px !important;">
               <div class="flex justify-between items-start">
-                <div class="w-12 h-12 ${s.avatarBg} flex items-center justify-center text-2xl">${escapeHTML(t.emoji || '')}</div>
+                <div class="w-12 h-12 ${s.avatarBg} flex items-center justify-center text-2xl" style="border-radius:9999px !important;">${escapeHTML(t.emoji || '')}</div>
                 <span class="${s.numCls}" style="${s.numStyle}">${escapeHTML(t.num || '')}</span>
               </div>
-              <blockquote class="display text-xl md:text-2xl" style="line-height:1.15; letter-spacing:0.005em; font-feature-settings:'liga' 0;">
-                &quot;${escapeHTML(t.quote)}&quot;
+              <blockquote style="font-family:'Inter',sans-serif; font-weight:500; font-size: clamp(15px, 1.5vw, 19px); line-height:1.45;">
+                &laquo;&nbsp;${escapeHTML(t.quote)}&nbsp;&raquo;
               </blockquote>
               <figcaption>
-                <div class="${s.clientCls}" style="${s.clientStyle}">${escapeHTML(t.client)}</div>
+                <div class="${s.clientCls}" style="${s.clientStyle}; font-weight:600;">${escapeHTML(t.client)}</div>
                 <div class="${s.roleCls} mt-1" style="${s.roleStyle}">${escapeHTML(t.role)}</div>
               </figcaption>
             </figure>`;
