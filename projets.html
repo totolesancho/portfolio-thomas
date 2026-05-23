@@ -75,7 +75,7 @@
   .filter-chip .count { opacity: 0.55; margin-left: 6px; font-size: 11px; font-weight: 500; }
   .filter-chip.active .count { opacity: 0.85; }
 
-  /* ============ CATALOGUE BENTO — clean tetris by rows ============ */
+  /* ============ CATALOGUE BENTO — tetris par rangées remplissant 100% largeur ============ */
   .cat-grid-wrap { max-width: 1100px; margin: 0 auto; }
   .cat-row {
     display: grid;
@@ -86,23 +86,31 @@
     .cat-row { gap: 16px; margin-bottom: 16px; }
   }
 
-  /* Row variants */
-  .cat-row.row-hero  { grid-template-columns: 1fr; }                    /* 1 grosse */
-  .cat-row.row-three { grid-template-columns: 1fr 1fr 1fr; }            /* 3 égales */
-  .cat-row.row-two   { grid-template-columns: 1fr 1fr; }                /* 2 égales */
+  /* Row variants — chacune remplit 100% largeur sans gap vertical */
+  /* hero      : 1 grosse horizontale 16:7
+     three     : 3 verticales 4:5 (full width)
+     mixed     : 1 horizontale + 1 verticale (full width, hauteurs forcées identiques) */
+  .cat-row.row-hero  { grid-template-columns: 1fr; }
+  .cat-row.row-three { grid-template-columns: 1fr 1fr 1fr; }
+  .cat-row.row-mixed { grid-template-columns: 2.5fr 1fr; }
   @media (max-width: 768px) {
     .cat-row.row-three { grid-template-columns: 1fr; }
-    .cat-row.row-two { grid-template-columns: 1fr; }
+    .cat-row.row-mixed { grid-template-columns: 1fr; }
   }
 
   .cat-card {
     position: relative; overflow: hidden; background: #1a1817;
     text-decoration: none;
-    aspect-ratio: 4/5;  /* default: portrait */
   }
-  .cat-row.row-hero .cat-card  { aspect-ratio: 16/7; }
-  .cat-row.row-two  .cat-card  { aspect-ratio: 16/9; }
-  /* row-three garde 4:5 par défaut → tetris propre */
+  /* Aspect ratios par row-type */
+  .cat-row.row-hero  .cat-card  { aspect-ratio: 16/7; }
+  .cat-row.row-three .cat-card  { aspect-ratio: 4/5; }
+  /* Mixed : forcer même hauteur entre les 2 via height fixe selon viewport */
+  .cat-row.row-mixed { align-items: stretch; }
+  .cat-row.row-mixed .cat-card { aspect-ratio: unset; height: clamp(280px, 32vw, 460px); }
+  @media (max-width: 768px) {
+    .cat-row.row-mixed .cat-card { height: auto; aspect-ratio: 4/5; }
+  }
 
   .cat-card-thumb {
     position: absolute; inset: 0;

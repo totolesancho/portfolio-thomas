@@ -45,12 +45,15 @@
       return;
     }
 
-    // Pattern de rangées : hero(1) → three(3) → two(2) → three(3) → hero(1) → boucle
-    // Chaque rangée a un nombre fixe de tuiles
+    // Pattern de rangées qui remplissent TOUTES 100% largeur :
+    // - hero  : 1 grosse horizontale (16:7)
+    // - three : 3 verticales (4:5) côte à côte
+    // - mixed : 1 horizontale + 1 verticale (hauteur forcée identique)
+    // Boucle : hero → three → mixed → three → hero
     const PATTERN = [
-      { type: 'hero', size: 1 },
+      { type: 'hero',  size: 1 },
       { type: 'three', size: 3 },
-      { type: 'two', size: 2 },
+      { type: 'mixed', size: 2 },
       { type: 'three', size: 3 },
     ];
 
@@ -61,13 +64,14 @@
       let row = PATTERN[patternIdx % PATTERN.length];
       let remaining = items.length - i;
 
-      // Si moins d'items restants que la rangée le demande, on adapte :
+      // Si moins d'items restants que la rangée le demande, on adapte
+      // (toujours en gardant une rangée qui remplit 100% largeur) :
       // - 1 restant → hero
-      // - 2 restants → two
+      // - 2 restants → mixed
       // - 3 restants → three
       if (remaining < row.size) {
         if (remaining === 1) row = { type: 'hero', size: 1 };
-        else if (remaining === 2) row = { type: 'two', size: 2 };
+        else if (remaining === 2) row = { type: 'mixed', size: 2 };
         else if (remaining === 3) row = { type: 'three', size: 3 };
       }
 
