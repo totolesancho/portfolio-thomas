@@ -45,7 +45,7 @@
       "impact_metric2": "",
       "slug": "galeries-lafayette",
       "client": "Vincent Salur",
-      "featured": true,
+      "featured": false,
       "stack_optique": "Sigma 24-70 + 85mm f/1.4",
       "approche_1": "J'ai mélangé un setup interview avec une voix-off illustrée par des images de son parcours. C'était la meilleure façon de raconter son histoire sans tomber dans quelque chose de trop posé ou trop marketing. Je voulais que ça reste humain, sincère, proche de lui. Un format qui laisse le spectateur entrer dans son monde.",
       "approche_2": "La vidéo devait aussi annoncer son stand aux Galeries Lafayette Gourmet. Plutôt que de l'afficher frontalement, j'ai préféré replacer cette annonce dans son récit. On repart de son enfance, de la petite boutique de son père, de ses premières enseignes, et on remonte jusqu'à cette nouvelle étape qui représente quasiment une consécration. Au final : un format ultra-court (45-60s) qui mélange inspiration, émotion et storytelling, pensé pour lancer un contenu plus personnel.",
@@ -362,6 +362,33 @@
       "year": "2024",
       "featured_order": 1,
       "category": "CORPO"
+    },
+    {
+      "num": "11",
+      "card_subtitle": "Hiving · 2026",
+      "stack_group": {
+        "stack_montage": "DaVinci Resolve",
+        "stack_etalonnage": "",
+        "stack_camera": "FX3",
+        "stack_optique": "24-70mm et 12-14mm"
+      },
+      "slug": "aftermovie-hiving",
+      "client": "Hiving",
+      "featured": true,
+      "approche_1": "Essayer de toujours ajouter quelque chose de créatif dans les aftermovies mais sans trop sortir de ce qu'un client à l'habitude de faire pour ne pas froisser la communauté. ",
+      "approche_2": "Utiliser des techniques comme le match cut rapide sur le badge ou encore mêler des plans très smooth / stabs + des mouvement à la main au grand angle.",
+      "role": "RÉALISATION · MONTAGE",
+      "thumb": "/assets/uploads/aftermovie-hiving-x-tiktok.png",
+      "format": "16:9",
+      "title": "Aftermovie Tiktok x Hiving",
+      "videos": [
+        "6c54kkJjBhw"
+      ],
+      "brief": "L'objectif : Filmer une matinée organisée au poil afin d'en sortir une vidéo type \"aftermovie\" afin de la diffuser sur les réseaux sociaux d\"Hiving\"",
+      "thumb_focal": "center",
+      "year": "2026",
+      "featured_order": 3,
+      "category": "AFTERMOVIE"
     }
   ]
 }
