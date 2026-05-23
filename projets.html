@@ -7,7 +7,7 @@
 <meta name="description" content="Catalogue complet des projets vidéo de Thomas Etcheverry : pubs, reels, aftermovies, showreels, documentaires." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo+Black&family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo+Black&family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -17,7 +17,6 @@
           display: ['Bowlby One', 'Archivo Black', 'sans-serif'],
           script: ['Caveat', 'cursive'],
           sans: ['Inter', 'sans-serif'],
-          mono: ['Special Elite', 'monospace'],
         },
         colors: {
           cream: '#f4f1ea', ink: '#0e0e0e', rec: '#ff3b1c', dim: '#8a8580',
@@ -39,11 +38,17 @@
   main, header, footer { position: relative; z-index: 3; }
   .dashes { height: 14px; background-image: repeating-linear-gradient(to right, var(--rec) 0px, var(--rec) 4px, transparent 4px, transparent 10px); }
   .display { font-family: 'Bowlby One', sans-serif; line-height: 0.95; letter-spacing: -0.005em; }
-  .display-tight { line-height: 0.88; }
   .script { font-family: 'Caveat', cursive; }
-  .tag { font-family: 'Special Elite', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink); }
+  .tag { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink); }
   .tag-dim { color: var(--dim); }
-  .btn-ink { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--cream); padding: 14px 22px; font-family: 'Special Elite', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; transition: all .25s; }
+  .btn-ink {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--ink); color: var(--cream);
+    padding: 14px 22px; border-radius: 0;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px;
+    text-transform: uppercase; letter-spacing: .16em;
+    transition: all .25s;
+  }
   .btn-ink:hover { background: var(--rec); }
   .r { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1); }
   .r.in { opacity: 1; transform: translateY(0); }
@@ -55,35 +60,50 @@
     padding: 8px 0;
   }
   .filter-chip {
-    padding: 10px 18px;
+    padding: 10px 20px;
     background: transparent;
     border: 1.5px solid var(--ink);
     color: var(--ink);
-    font-family: 'Special Elite', monospace;
-    font-size: 11px; letter-spacing: 0.16em;
+    font-family: 'Inter', sans-serif; font-weight: 600;
+    font-size: 12px; letter-spacing: 0.14em;
     text-transform: uppercase;
     cursor: pointer;
     transition: all .2s ease;
   }
   .filter-chip:hover { background: var(--ink); color: var(--cream); }
   .filter-chip.active { background: var(--rec); border-color: var(--rec); color: var(--cream); }
-  .filter-chip .count { opacity: 0.55; margin-left: 6px; font-size: 10px; }
+  .filter-chip .count { opacity: 0.55; margin-left: 6px; font-size: 11px; font-weight: 500; }
   .filter-chip.active .count { opacity: 0.85; }
 
-  /* ============ CATALOGUE BENTO ============ */
-  .cat-grid {
+  /* ============ CATALOGUE BENTO — clean tetris by rows ============ */
+  .cat-grid-wrap { max-width: 1100px; margin: 0 auto; }
+  .cat-row {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
     gap: 12px;
+    margin-bottom: 12px;
   }
-  @media (min-width: 768px) { .cat-grid { gap: 16px; } }
+  @media (min-width: 768px) {
+    .cat-row { gap: 16px; margin-bottom: 16px; }
+  }
+
+  /* Row variants */
+  .cat-row.row-hero  { grid-template-columns: 1fr; }                    /* 1 grosse */
+  .cat-row.row-three { grid-template-columns: 1fr 1fr 1fr; }            /* 3 égales */
+  .cat-row.row-two   { grid-template-columns: 1fr 1fr; }                /* 2 égales */
+  @media (max-width: 768px) {
+    .cat-row.row-three { grid-template-columns: 1fr; }
+    .cat-row.row-two { grid-template-columns: 1fr; }
+  }
 
   .cat-card {
     position: relative; overflow: hidden; background: #1a1817;
     text-decoration: none;
-    transition: opacity .35s ease, transform .35s ease;
+    aspect-ratio: 4/5;  /* default: portrait */
   }
-  .cat-card.is-hidden { display: none; }
+  .cat-row.row-hero .cat-card  { aspect-ratio: 16/7; }
+  .cat-row.row-two  .cat-card  { aspect-ratio: 16/9; }
+  /* row-three garde 4:5 par défaut → tetris propre */
+
   .cat-card-thumb {
     position: absolute; inset: 0;
     background-size: cover;
@@ -103,19 +123,19 @@
   }
   .cat-card-cat {
     display: inline-block; background: var(--rec); color: var(--cream);
-    padding: 5px 9px; margin-bottom: 10px;
-    font-family: 'Special Elite', monospace;
-    font-size: 10px; letter-spacing: 0.2em;
+    padding: 5px 10px; margin-bottom: 10px;
+    font-family: 'Inter', sans-serif; font-weight: 600;
+    font-size: 10px; letter-spacing: 0.18em;
   }
   .cat-card-title {
     font-family: 'Bowlby One', sans-serif;
-    font-size: clamp(18px, 1.8vw, 28px);
+    font-size: clamp(18px, 1.8vw, 26px);
     line-height: 1; letter-spacing: -0.015em;
     color: var(--cream);
   }
   .cat-card-sub {
-    font-family: 'Special Elite', monospace;
-    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-family: 'Inter', sans-serif; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--cream); opacity: 0.85; margin-top: 8px;
   }
   .cat-card-arrow {
@@ -125,28 +145,18 @@
   }
   .cat-card:hover .cat-card-arrow { transform: translate(6px,-6px); opacity: 1; }
 
-  /* Mobile: 1 col, all 16:9 */
-  .cat-card { grid-column: span 12; aspect-ratio: 16/9; }
-
-  /* Desktop: bento layout */
-  @media (min-width: 768px) {
-    .cat-card { grid-column: span 4; aspect-ratio: 4/3; }
-    .cat-card[data-shape="hero"]   { grid-column: span 8; aspect-ratio: 16/9; }
-    .cat-card[data-shape="tall"]   { grid-column: span 4; aspect-ratio: 9/16; }
-    .cat-card[data-shape="wide"]   { grid-column: span 8; aspect-ratio: 16/9; }
-    .cat-card[data-shape="medium"] { grid-column: span 6; aspect-ratio: 16/10; }
-    .cat-card[data-shape="square"] { grid-column: span 4; aspect-ratio: 1/1; }
-    .cat-card[data-shape="small"]  { grid-column: span 4; aspect-ratio: 4/3; }
-  }
+  /* Hidden state for filter */
+  .cat-card.is-hidden { display: none; }
+  /* Hide entire row if all its cards are hidden */
+  .cat-row.is-empty { display: none; }
 
   .empty-state {
-    grid-column: 1 / -1;
     padding: 80px 20px;
     text-align: center;
     color: var(--dim);
-    font-family: 'Special Elite', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 </style>
@@ -168,29 +178,29 @@
 <main>
 
 <!-- PAGE TITLE -->
-<section class="px-6 md:px-12 pt-10 md:pt-16 pb-10 md:pb-12">
+<section class="px-6 md:px-12 pt-10 md:pt-16 pb-8 md:pb-10">
   <div class="max-w-7xl mx-auto text-center">
     <div class="tag tag-dim mb-6 r">→ CATALOGUE COMPLET</div>
-    <h1 class="display r d1" style="font-size: clamp(2.8rem, 9vw, 8rem); line-height: 0.95;">
+    <h1 class="display r d1" style="font-size: clamp(2.6rem, 8vw, 7rem); line-height: 0.95;">
       TOUS LES PROJETS<span class="text-rec">.</span>
     </h1>
     <p class="mt-6 text-base md:text-lg text-ink/70 max-w-2xl mx-auto r d2">
-      Pubs, reels, aftermovies, docus, showreels. Filtre par format ou scroll tout en bas — y'a forcément un truc qui te parle.
+      Pubs, reels, aftermovies, docus, showreels. Filtre par format ou scroll pour tout voir.
     </p>
   </div>
 </section>
 
 <!-- FILTER BAR (sticky) -->
-<section class="px-6 md:px-12 pb-8 md:pb-10 sticky top-0 z-30" style="background:linear-gradient(to bottom, var(--cream) 0%, var(--cream) 65%, rgba(244,241,234,0.7) 100%); padding-top: 14px;">
+<section class="px-6 md:px-12 pb-8 md:pb-10 sticky top-0 z-30" style="background:linear-gradient(to bottom, var(--cream) 0%, var(--cream) 70%, rgba(244,241,234,0.6) 100%); padding-top: 14px;">
   <div data-cat-block="filter_bar" class="filter-bar max-w-7xl mx-auto r d2">
     <!-- generated by JS -->
   </div>
 </section>
 
-<!-- CATALOGUE GRID -->
+<!-- CATALOGUE — tetris par rangées -->
 <section class="px-6 md:px-12 pb-20 md:pb-32">
-  <div data-cat-block="catalogue_grid" class="cat-grid max-w-7xl mx-auto">
-    <!-- generated by JS -->
+  <div data-cat-block="catalogue_grid" class="cat-grid-wrap">
+    <!-- generated by JS — rangées hero / three / two qui alternent -->
   </div>
 </section>
 

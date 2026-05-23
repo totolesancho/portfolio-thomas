@@ -7,7 +7,7 @@
 <meta name="description" content="Projet vidéo par Thomas Etcheverry, vidéaste freelance." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo+Black&family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600&family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo+Black&family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -17,7 +17,7 @@
           display: ['Bowlby One', 'Archivo Black', 'sans-serif'],
           script: ['Caveat', 'cursive'],
           sans: ['Inter', 'sans-serif'],
-          mono: ['Special Elite', 'Courier Prime', 'monospace'],
+          mono: ['Inter', 'monospace'],
         },
         colors: {
           cream: '#f4f1ea', ink: '#0e0e0e', rec: '#ff3b1c', dim: '#8a8580',
@@ -43,9 +43,9 @@
   .display-tight { line-height: 0.88; }
   .display-red { color: var(--rec); }
   .script { font-family: 'Caveat', cursive; font-weight: 500; line-height: 0.95; }
-  .tag { font-family: 'Special Elite', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink); }
+  .tag { font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink); }
   .tag-dim { color: var(--dim, #8a8580); }
-  .btn-ink { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--cream); padding: 14px 22px; font-family: 'Special Elite', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; transition: all .25s; border-radius: 0; }
+  .btn-ink { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--cream); padding: 14px 22px; font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; transition: all .25s; border-radius: 0; }
   .btn-ink:hover { background: var(--rec); }
   .r { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1); }
   .r.in { opacity: 1; transform: translateY(0); }
@@ -61,13 +61,13 @@
   .gallery-img { aspect-ratio: 4/3; background-size: cover; background-position: center; transition: transform .8s cubic-bezier(0.22,1,0.36,1); }
   .gallery-tile { overflow: hidden; background: #1a1817; cursor: pointer; }
   .gallery-tile:hover .gallery-img { transform: scale(1.04); }
-  .video-tile-label { font-family: 'Special Elite', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+  .video-tile-label { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
 
   /* Lightbox */
   .lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(14,14,14,0.95); display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out; }
   .lightbox.open { display: flex; }
   .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  .lightbox-close { position: absolute; top: 24px; right: 32px; color: var(--cream); font-size: 32px; cursor: pointer; font-family: 'Special Elite', monospace; }
+  .lightbox-close { position: absolute; top: 24px; right: 32px; color: var(--cream); font-size: 32px; cursor: pointer; font-family: 'Inter', sans-serif; }
 </style>
 </head>
 <body>
@@ -154,7 +154,7 @@
 
     <div class="text-block r">
       <div class="tag mb-6" style="color:var(--cream); opacity:0.6">→ STACK</div>
-      <ul class="space-y-3 text-base md:text-lg" style="font-family:'Special Elite', monospace; line-height: 1.5;" data-proj="stack_list">
+      <ul class="space-y-3 text-base md:text-lg" style="font-family:'Inter', sans-serif; line-height: 1.5;" data-proj="stack_list">
         <li>· (chargement…)</li>
       </ul>
     </div>

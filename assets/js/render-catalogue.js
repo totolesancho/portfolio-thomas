@@ -1,7 +1,8 @@
 /* ------------------------------------------------------------------
-   render-catalogue.js — Rendu de la page projets.html :
-   - Filter chips par catégorie (TOUS / PUB / REEL / AFTERMOVIE / ...)
-   - Bento grid avec ratios alternés (style SÔM)
+   render-catalogue.js — projets.html
+   - Filter chips par catégorie
+   - Bento en rangées propres (hero / three / two) — pas de gaps irréguliers
+   - Re-render à chaque filtre pour garder le tetris parfait
    ------------------------------------------------------------------ */
 
 (async function () {
@@ -14,93 +15,108 @@
   } catch (e) { console.warn('[catalogue] fetch fail', e); return; }
   if (!projects || !Array.isArray(projects.projects)) return;
 
-  const items = projects.projects;
+  const ALL = projects.projects;
   const CATS = ['TOUS', 'PUB', 'REEL', 'AFTERMOVIE', 'SHOWREEL', 'DOCU', 'CORPO'];
+  let currentFilter = 'TOUS';
 
   // ---------- FILTER BAR ----------
   const filterBar = document.querySelector('[data-cat-block="filter_bar"]');
   if (filterBar) {
-    // Count per category
-    const counts = {};
-    items.forEach((p) => {
-      counts[p.category] = (counts[p.category] || 0) + 1;
-    });
-    counts.TOUS = items.length;
+    const counts = { TOUS: ALL.length };
+    ALL.forEach((p) => { counts[p.category] = (counts[p.category] || 0) + 1; });
 
     filterBar.innerHTML = CATS
       .filter((c) => c === 'TOUS' || counts[c] > 0)
       .map(
-        (c) =>
-          `<button class="filter-chip${c === 'TOUS' ? ' active' : ''}" data-cat="${c}">${c}<span class="count">${counts[c] || 0}</span></button>`
+        (c) => `<button class="filter-chip${c === 'TOUS' ? ' active' : ''}" data-cat="${c}">${c}<span class="count">${counts[c] || 0}</span></button>`
       )
       .join('');
   }
 
-  // ---------- BENTO SHAPE PATTERN ----------
-  // Pattern de 6 cases (puis répété) : hero(8) + tall(4), wide(8) + small(4), medium(6) + medium(6)
-  // Donne un mix harmonieux 16:9, 9:16, 4:3
-  const SHAPES = ['hero', 'tall', 'wide', 'small', 'medium', 'medium'];
+  // ---------- RENDER GRID (called on init + filter change) ----------
+  const gridWrap = document.querySelector('[data-cat-block="catalogue_grid"]');
 
-  // ---------- CATALOGUE GRID ----------
-  const grid = document.querySelector('[data-cat-block="catalogue_grid"]');
-  if (grid) {
-    grid.innerHTML = items
-      .map((p, i) => {
-        const shape = SHAPES[i % SHAPES.length];
-        const focal = p.thumb_focal || 'center';
-        return `
-          <a href="./projets/${escapeHTML(p.slug)}.html"
-             class="cat-card r"
-             data-shape="${shape}"
-             data-category="${escapeHTML(p.category || '')}">
-            <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); background-position: ${escapeAttr(focal)};"></div>
-            <div class="cat-card-veil"></div>
-            <span class="cat-card-arrow">↗</span>
-            <div class="cat-card-meta">
-              <span class="cat-card-cat">${escapeHTML(p.category || '')}</span>
-              <div class="cat-card-title">${escapeHTML(p.title)}</div>
-              <div class="cat-card-sub">${escapeHTML(p.card_subtitle || (p.client + ' · ' + p.year))}</div>
-            </div>
-          </a>`;
-      })
-      .join('');
+  function renderGrid(cat) {
+    if (!gridWrap) return;
+    const items = cat === 'TOUS' ? ALL : ALL.filter((p) => p.category === cat);
 
-    // Reveal observer
-    grid.querySelectorAll('.r').forEach((el) => {
+    if (items.length === 0) {
+      gridWrap.innerHTML = `<div class="empty-state">— Aucun projet dans cette catégorie pour l'instant —</div>`;
+      return;
+    }
+
+    // Pattern de rangées : hero(1) → three(3) → two(2) → three(3) → hero(1) → boucle
+    // Chaque rangée a un nombre fixe de tuiles
+    const PATTERN = [
+      { type: 'hero', size: 1 },
+      { type: 'three', size: 3 },
+      { type: 'two', size: 2 },
+      { type: 'three', size: 3 },
+    ];
+
+    let i = 0;
+    let html = '';
+    let patternIdx = 0;
+    while (i < items.length) {
+      let row = PATTERN[patternIdx % PATTERN.length];
+      let remaining = items.length - i;
+
+      // Si moins d'items restants que la rangée le demande, on adapte :
+      // - 1 restant → hero
+      // - 2 restants → two
+      // - 3 restants → three
+      if (remaining < row.size) {
+        if (remaining === 1) row = { type: 'hero', size: 1 };
+        else if (remaining === 2) row = { type: 'two', size: 2 };
+        else if (remaining === 3) row = { type: 'three', size: 3 };
+      }
+
+      const slice = items.slice(i, i + row.size);
+      html += `<div class="cat-row row-${row.type}">` + slice.map(cardHTML).join('') + '</div>';
+      i += row.size;
+      patternIdx++;
+    }
+    gridWrap.innerHTML = html;
+
+    // Reveal animation
+    gridWrap.querySelectorAll('.cat-card').forEach((el) => {
+      el.classList.add('r');
       if (window.__revealObserver) window.__revealObserver.observe(el);
     });
   }
 
-  // ---------- FILTER LOGIC ----------
+  function cardHTML(p) {
+    const focal = p.thumb_focal || 'center';
+    const sub = p.card_subtitle || (p.client + ' · ' + p.year);
+    return `
+      <a href="./projets/${escapeHTML(p.slug)}.html"
+         class="cat-card"
+         data-category="${escapeHTML(p.category || '')}">
+        <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); background-position:${escapeAttr(focal)};"></div>
+        <div class="cat-card-veil"></div>
+        <span class="cat-card-arrow">↗</span>
+        <div class="cat-card-meta">
+          <span class="cat-card-cat">${escapeHTML(p.category || '')}</span>
+          <div class="cat-card-title">${escapeHTML(p.title)}</div>
+          <div class="cat-card-sub">${escapeHTML(sub)}</div>
+        </div>
+      </a>`;
+  }
+
+  // Initial render
+  renderGrid('TOUS');
+
+  // ---------- FILTER CLICK HANDLER ----------
   document.querySelectorAll('.filter-chip').forEach((chip) => {
     chip.addEventListener('click', () => {
       const cat = chip.dataset.cat;
       document.querySelectorAll('.filter-chip').forEach((c) => c.classList.remove('active'));
       chip.classList.add('active');
-
-      let visibleCount = 0;
-      document.querySelectorAll('.cat-card').forEach((card) => {
-        const cardCat = card.dataset.category;
-        if (cat === 'TOUS' || cardCat === cat) {
-          card.classList.remove('is-hidden');
-          visibleCount++;
-        } else {
-          card.classList.add('is-hidden');
-        }
-      });
-
-      // Empty state
-      const existing = grid.querySelector('.empty-state');
-      if (existing) existing.remove();
-      if (visibleCount === 0) {
-        const empty = document.createElement('div');
-        empty.className = 'empty-state';
-        empty.textContent = '— Aucun projet dans cette catégorie pour l\'instant —';
-        grid.appendChild(empty);
-      }
+      currentFilter = cat;
+      renderGrid(cat);
 
       // Smooth scroll au top de la grille
-      const top = grid.getBoundingClientRect().top + window.scrollY - 100;
+      const top = gridWrap.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top, behavior: 'smooth' });
     });
   });
@@ -114,12 +130,7 @@
 
   function escapeHTML(s) {
     if (s == null) return '';
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
   }
   function escapeAttr(s) {
     if (s == null) return '';
