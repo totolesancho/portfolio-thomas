@@ -139,7 +139,7 @@
       const iframe = document.querySelector('[data-cms="cv_video.iframe"]');
       const placeholder = document.querySelector('[data-cms="cv_video.placeholder"]');
       if (site.cv_video.youtube_id && site.cv_video.youtube_id.trim()) {
-        if (iframe) iframe.src = 'https://www.youtube.com/embed/' + site.cv_video.youtube_id + '?rel=0&modestbranding=1';
+        if (iframe) iframe.src = 'https://www.youtube-nocookie.com/embed/' + site.cv_video.youtube_id + '?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0';
         if (placeholder) placeholder.style.display = 'none';
       } else {
         if (iframe) iframe.style.display = 'none';

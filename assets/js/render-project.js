@@ -61,7 +61,7 @@
   const videos = Array.isArray(p.videos) ? p.videos.filter(Boolean) : [];
   const mainVideoEl = document.querySelector('[data-proj="video_main"]');
   if (mainVideoEl && videos.length > 0) {
-    mainVideoEl.src = 'https://www.youtube.com/embed/' + videos[0] + '?rel=0&modestbranding=1';
+    mainVideoEl.src = 'https://www.youtube-nocookie.com/embed/' + videos[0] + '?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0';
   }
 
   // ---------- SECONDARY VIDEOS (si > 1) ----------
@@ -74,7 +74,7 @@
       .map(
         (vid, i) =>
           `<div class="relative bg-ink overflow-hidden aspect-video r">
-            <iframe src="https://www.youtube.com/embed/${escapeHTML(vid)}?rel=0&modestbranding=1"
+            <iframe src="https://www.youtube-nocookie.com/embed/${escapeHTML(vid)}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0"
                     class="absolute inset-0 w-full h-full" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen></iframe>
