@@ -241,19 +241,19 @@
   }
 
   /* ============ HEADER STICKY ============ */
-  /* Par défaut (au top) : fond cream solide, invisible vs body */
+  /* Par défaut (au top, pas scrollé) : fond TRANSPARENT — pas de séparation visuelle avec le body */
   header {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: var(--cream);
+    background: transparent;
     transition: background .3s ease, backdrop-filter .3s ease;
   }
-  /* Au scroll : transparent avec blur (effet glass) */
+  /* Au scroll : glass effect (cream semi-transparent + blur) */
   header.scrolled {
-    background: rgba(244, 241, 234, 0.55);
-    backdrop-filter: saturate(180%) blur(12px);
-    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    background: rgba(244, 241, 234, 0.75);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
   }
 
   /* ============ BURGER MENU MOBILE ============ */

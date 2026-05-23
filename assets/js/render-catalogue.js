@@ -45,51 +45,8 @@
       return;
     }
 
-    // Filtre REEL = tout en vertical (reels = format natif vertical)
-    const VERTICAL_ONLY = ['REEL'];
-    const verticalOnly = VERTICAL_ONLY.includes(cat);
-
-    // Pattern normal : alterner mixed-hv et mixed-vh (V change de côté à chaque row)
-    // Toujours 2 items par row. Pas de hero (= pas de vidéo full-width).
-    const PATTERN_NORMAL = [
-      { type: 'mixed-hv', size: 2, shapes: ['hori', 'vert'] },  // H gauche, V droite
-      { type: 'mixed-vh', size: 2, shapes: ['vert', 'hori'] },  // V gauche, H droite
-    ];
-    // Pattern vertical-only : 3 verticales par row
-    const PATTERN_VERTICAL = [
-      { type: 'three', size: 3, shapes: ['vert','vert','vert'] },
-    ];
-    const PATTERN = verticalOnly ? PATTERN_VERTICAL : PATTERN_NORMAL;
-
-    let i = 0;
-    let html = '';
-    let patternIdx = 0;
-    while (i < items.length) {
-      let row = PATTERN[patternIdx % PATTERN.length];
-      let remaining = items.length - i;
-
-      // Adapter pour le reste si pas assez d'items
-      if (remaining < row.size) {
-        if (verticalOnly) {
-          if (remaining === 1)      row = { type: 'single', size: 1, shapes: ['vert'] };
-          else if (remaining === 2) row = { type: 'two-hori', size: 2, shapes: ['vert','vert'] };
-        } else {
-          if (remaining === 1)      row = { type: 'single',   size: 1, shapes: ['vert'] };
-        }
-      }
-
-      // Fallback two-hori : si pas assez de V dans le pool restant
-      // (utile si beaucoup d'items et que le filtre courant ne contient que des projets H-friendly)
-      // Pour l'instant on garde mixed et single ; two-hori arrive si besoin futur
-
-      const slice = items.slice(i, i + row.size);
-      html += `<div class="cat-row row-${row.type}">` +
-        slice.map((p, idx) => cardHTML(p, row.shapes[idx] || 'vert')).join('') +
-        '</div>';
-      i += row.size;
-      patternIdx++;
-    }
-    gridWrap.innerHTML = html;
+    // Grid uniforme : tous les cards en format carré-landscape (aspect 4:3 via CSS)
+    gridWrap.innerHTML = `<div class="cat-grid">${items.map((p) => cardHTML(p)).join('')}</div>`;
 
     // Reveal animation
     gridWrap.querySelectorAll('.cat-card').forEach((el) => {
@@ -98,13 +55,12 @@
     });
   }
 
-  function cardHTML(p, shape) {
+  function cardHTML(p) {
     const focal = p.thumb_focal || 'center';
     const sub = p.card_subtitle || (p.client + ' · ' + p.year);
     return `
       <a href="./projets/${escapeHTML(p.slug)}.html"
          class="cat-card"
-         data-shape="${shape || 'vert'}"
          data-category="${escapeHTML(p.category || '')}">
         <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); background-position:${escapeAttr(focal)};"></div>
         <div class="cat-card-veil"></div>

@@ -77,58 +77,25 @@
   .filter-chip .count { opacity: 0.55; margin-left: 6px; font-size: 11px; font-weight: 500; }
   .filter-chip.active .count { opacity: 0.85; }
 
-  /* ============ CATALOGUE BENTO — tetris H+V ou 3V (logique identique à l'accueil) ============ */
-  .cat-grid-wrap { max-width: 1100px; margin: 0 auto; }
-  .cat-row {
+  /* ============ CATALOGUE GRID — uniforme carré-landscape ============ */
+  .cat-grid-wrap { max-width: 1200px; margin: 0 auto; }
+  .cat-grid {
     display: grid;
-    gap: 12px;
-    margin-bottom: 12px;
-    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
-  @media (min-width: 768px) {
-    .cat-row { gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 1024px) {
+    .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
   }
-
-  /* Variants — toutes les cards d'une row ont la MÊME hauteur, largeur totale identique */
-  /* row-mixed-hv : H gauche + V droite — H réduit, V agrandi
-     row-mixed-vh : V gauche + H droite (alternance côté)
-     row-two-hori : 2 horizontales côte à côte (fallback quand pas de V dispo)
-     row-three    : 3 verticales (vertical-only, ex: filtre REEL)
-     row-single   : 1 card seule centrée (reste impair) */
-  .cat-row.row-mixed-hv  { grid-template-columns: 1.8fr 1fr; height: clamp(260px, 30vw, 420px); }
-  .cat-row.row-mixed-vh  { grid-template-columns: 1fr 1.8fr; height: clamp(260px, 30vw, 420px); }
-  .cat-row.row-two-hori  { grid-template-columns: 1fr 1fr; height: clamp(220px, 26vw, 360px); }
-  .cat-row.row-three     { grid-template-columns: 1fr 1fr 1fr; }
-  .cat-row.row-single    { grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto; }
-
-  @media (max-width: 768px) {
-    .cat-row.row-mixed-hv,
-    .cat-row.row-mixed-vh,
-    .cat-row.row-two-hori,
-    .cat-row.row-three     { grid-template-columns: 1fr; height: auto; }
+  @media (max-width: 640px) {
+    .cat-grid { grid-template-columns: 1fr; gap: 12px; }
   }
 
   .cat-card {
     position: relative; overflow: hidden; background: #1a1817;
     text-decoration: none;
     border-radius: 6px !important;
-  }
-
-  /* Cards remplissent leur cellule grid (pas d'aspect-ratio fixé en desktop sur mixed) */
-  .cat-row.row-mixed-hv .cat-card,
-  .cat-row.row-mixed-vh .cat-card,
-  .cat-row.row-two-hori .cat-card { height: 100%; }
-  .cat-row.row-three .cat-card    { aspect-ratio: 9/16; }
-  .cat-row.row-single .cat-card   { aspect-ratio: 9/16; }
-  @media (max-width: 768px) {
-    .cat-row .cat-card[data-shape="hori"] { aspect-ratio: 16/9; }
-    .cat-row .cat-card[data-shape="vert"] { aspect-ratio: 4/5; }
-  }
-
-  @media (max-width: 768px) {
-    .cat-row.row-mixed-hv .cat-card,
-    .cat-row.row-mixed-vh .cat-card { height: auto; aspect-ratio: 4/5; }
-    .cat-row.row-hero .cat-card { aspect-ratio: 16/9; }
+    aspect-ratio: 4 / 3;  /* carré légèrement plus large */
   }
 
   .cat-card-thumb {
