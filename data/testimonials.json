@@ -2,26 +2,26 @@
   "testimonials": [
     {
       "num": "01",
-      "emoji": "🎬",
-      "quote": "Thomas comprend la marque avant même de tourner.",
-      "client": "— HIVING FOOD",
-      "role": "Brand Manager",
+      "emoji": "🎙️",
+      "quote": "Thomas c'est le genre de gars qui donne envie de faire de la vidéo rien qu'en le regardant bosser. Toujours calme, drôle, pro, et surtout inspirant. Un vrai plaisir de l'avoir eu dans l'équipe, et d'avoir participé à certaines productions !",
+      "client": "Mattis SIMON",
+      "role": "",
       "style": "ink"
     },
     {
       "num": "02",
-      "emoji": "👨🏻‍💼",
-      "quote": "Un oeil de directeur, une exécution de réalisateur.",
-      "client": "— EDGE TECH",
-      "role": "Founder",
+      "emoji": "🚀",
+      "quote": "Thomas a su être un élément polyvalent. Grâce à ses différentes productions (showreels, reels, publicités) nous avons pu renvoyer une belle image sur nos réseaux sociaux.",
+      "client": "Louis CAPELLE",
+      "role": "Co-Fondateur Digital Edge Studio",
       "style": "rec"
     },
     {
       "num": "03",
-      "emoji": "🎨",
-      "quote": "Ultra réactif. Le résultat dépasse ce qu'on imaginait.",
-      "client": "— VINCENT SALUR",
-      "role": "Créateur",
+      "emoji": "🎬",
+      "quote": "Production d'une série documentaire. Thomas a su cerner avec justesse l'image que nous souhaitions transmettre à travers cette série, ce qui nous a permis de disposer d'un support de qualité à destination de nos clients.",
+      "client": "Maxime DEMURGER",
+      "role": "Co-Fondateur Business sans filtre",
       "style": "cream"
     }
   ]
