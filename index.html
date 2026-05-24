@@ -127,7 +127,7 @@
   .btn-ink {
     display: inline-flex; align-items: center; gap: 10px;
     background: var(--ink); color: var(--cream);
-    padding: 14px 22px; border-radius: 0;
+    padding: 14px 22px; border-radius: 9999px;
     font-family: 'Inter', sans-serif; font-size: 11px;
     text-transform: uppercase; letter-spacing: 0.18em;
     transition: all .25s;
@@ -263,21 +263,26 @@
     /* Cache les barres rouges en haut (sinon décalage de 16px quand on
        ouvre le burger : le header saute de 16px). Sur mobile, on s'en passe. */
     .dashes { display: none !important; }
+    /* Pas d'animation d'entrée sur le titre hero (pas de flicker / délai) */
+    .intro.t1 { opacity: 1 !important; transform: none !important; transition: none !important; }
   }
   @media (max-width: 640px) {
     /* Cache le badge "Ouvert aux collabs" pour alléger */
     [data-cms-block="hero.status"] { display: none !important; }
+    /* Hero section : remontée vers le haut un peu (pousse pas trop bas) +
+       hauteur contenue → la section "Plusieurs projets" peeks en bas */
+    section.hero-section { padding-top: 28px !important; padding-bottom: 8px !important; }
     /* Hero title : floor plus petit pour iPhone SE (375px) */
     .hero-title { font-size: clamp(2.2rem, 13vw, 4.5rem) !important; }
-    /* Photo hero : moins large pour pas dominer */
-    .hero-photo { max-width: min(560px, 88vw) !important; max-height: 42vh !important; }
+    /* Photo hero : plus contenue → moins d'espace vertical → projets visibles */
+    .hero-photo { max-width: min(560px, 78vw) !important; max-height: 36vh !important; }
     /* Tagline : plus petite + ligne sous CTA */
     .hero-tagline { font-size: 1.4rem !important; }
     /* CTA hero : plus petit ('ON DISCUTE ?') */
     .btn-cta { padding: 14px 24px !important; font-size: 12px !important; box-shadow: 4px 4px 0 var(--ink) !important; gap: 10px; }
     .btn-cta:hover { box-shadow: 6px 6px 0 var(--ink) !important; }
-    /* Bloc tagline+CTA : descendre un peu sous la photo */
-    .hero-bottom-row { margin-top: 18px !important; gap: 14px !important; }
+    /* Bloc tagline+CTA : descendre légèrement sous la photo */
+    .hero-bottom-row { margin-top: 14px !important; gap: 12px !important; }
     /* CV vidéo : quote Caveat plus petite */
     [data-cms="cv_video.quote_main"] { font-size: clamp(1.5rem, 7vw, 2rem) !important; line-height: 1.1 !important; }
     /* "VOIR TOUS LES PROJETS" plus petit, reste centré */
@@ -285,6 +290,8 @@
     .btn-view-more:hover { box-shadow: 5px 5px 0 var(--rec) !important; }
     /* Réduire padding sections lourdes */
     section.px-6 { padding-left: 1rem; padding-right: 1rem; }
+    /* Section "Plusieurs projets" : marge top plus serrée pour qu'elle peeks en bas du hero */
+    .projets-section { padding-top: 8px !important; margin-top: 0 !important; }
   }
 
   /* Sticky CTA mobile : bouton flottant "Discutons" bas-droite */
@@ -500,7 +507,7 @@
 <main>
 
 <!-- HERO v15 — compact + doodles humains -->
-<section class="px-5 md:px-12 pt-4 md:pt-1 pb-5 md:pb-4 relative overflow-hidden" style="margin-top: 0;">
+<section class="hero-section px-5 md:px-12 pt-4 md:pt-1 pb-5 md:pb-4 relative overflow-hidden" style="margin-top: 0;">
 
   <!-- DOODLES — hand-drawn, rouge only, minimaux -->
   <!-- Asterisk 8 branches — gauche haute -->
@@ -594,7 +601,7 @@
 </section>
 
 <!-- TRAVAUX -->
-<section id="projets" class="px-6 md:px-12 pt-14 md:pt-20 pb-14 md:pb-20">
+<section id="projets" class="projets-section px-6 md:px-12 pt-14 md:pt-20 pb-14 md:pb-20">
   <div class="mb-14 md:mb-20 r max-w-[1100px] mx-auto">
     <div class="tag tag-dim mb-8" data-cms="projets.kicker">— TRAVAUX SÉLECTIONNÉS</div>
     <h2 class="display display-tight" style="font-size: clamp(2.2rem, 6.5vw, 5rem); line-height: 1.05;">
