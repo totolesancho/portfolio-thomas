@@ -88,7 +88,7 @@
     .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
   }
   @media (max-width: 640px) {
-    .cat-grid { grid-template-columns: 1fr; gap: 12px; }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   }
 
   .cat-card {
@@ -132,6 +132,12 @@
     font-family: 'Inter', sans-serif; font-weight: 500;
     font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--cream); opacity: 0.75; margin-top: 8px;
+  }
+  /* Mobile : cards plus petites en 2 cols → réduire padding interne + tags */
+  @media (max-width: 640px) {
+    .cat-card-meta { bottom: 10px; left: 10px; right: 10px; }
+    .cat-card-cat { font-size: 8px; padding: 3px 6px; margin-bottom: 5px; letter-spacing: 0.14em; }
+    .cat-card-sub { font-size: 8px; letter-spacing: 0.1em; margin-top: 4px; }
   }
   /* Flèche retirée — trop "vlog" */
   .cat-card-arrow { display: none; }

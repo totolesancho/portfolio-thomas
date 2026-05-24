@@ -18,7 +18,7 @@
   const css = `
     .burger-btn {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 40px; height: 40px;
+      width: 44px; height: 44px;
       background: transparent; color: var(--ink, #0e0e0e);
       border: 0; cursor: pointer;
       transition: opacity .2s;
@@ -47,7 +47,7 @@
     }
     .burger-logo .text-rec { color: var(--rec, #ff3b1c); }
     .burger-close {
-      width: 40px; height: 40px;
+      width: 44px; height: 44px;
       background: transparent; color: var(--ink, #0e0e0e);
       border: 0; cursor: pointer;
       font-size: 22px; font-weight: 400;
@@ -93,6 +93,24 @@
     .burger-cta-btn:hover { background: var(--ink, #0e0e0e); }
     /* Lock body scroll when burger open */
     body.burger-open { overflow: hidden; }
+
+    /* Sticky CTA mobile — bouton "Discutons" flottant bas-droite */
+    .sticky-cta {
+      display: none;
+      position: fixed; bottom: 18px; right: 18px;
+      z-index: 90;
+      background: var(--rec, #ff3b1c); color: var(--cream, #f4f1ea);
+      padding: 14px 22px;
+      border-radius: 9999px;
+      font-family: 'Inter', sans-serif; font-weight: 600;
+      font-size: 14px; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(255,59,28,.35), 0 2px 6px rgba(0,0,0,.15);
+      transition: transform .2s, box-shadow .2s;
+      align-items: center; gap: 8px;
+    }
+    .sticky-cta:active { transform: scale(0.96); }
+    @media (max-width: 768px) { .sticky-cta { display: inline-flex; } }
+    body.burger-open .sticky-cta { display: none !important; }
   `;
   const style = document.createElement('style');
   style.textContent = css;
@@ -138,8 +156,21 @@
   `;
 
   // Si une overlay existe déjà dans la page, on ne fait rien (page legacy avec overlay inline)
-  if (document.getElementById('burger-overlay')) return;
-  document.body.insertAdjacentHTML('beforeend', overlayHTML);
+  if (!document.getElementById('burger-overlay')) {
+    document.body.insertAdjacentHTML('beforeend', overlayHTML);
+  }
+
+  // ---------- Sticky CTA mobile (bouton flottant "Discutons") ----------
+  if (!document.querySelector('.sticky-cta')) {
+    const stickyHTML = `
+      <a href="${anchorTo('#contact')}" class="sticky-cta" aria-label="Me contacter">
+        <span>Discutons</span>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="1" y1="5" x2="12" y2="5"/><polyline points="8,1 12,5 8,9"/>
+        </svg>
+      </a>`;
+    document.body.insertAdjacentHTML('beforeend', stickyHTML);
+  }
 
   // ---------- Wiring : open / close ----------
   const btn = document.getElementById('burger-btn');

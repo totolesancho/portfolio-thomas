@@ -258,6 +258,43 @@
 
   /* Burger menu — CSS + HTML + JS gérés par /assets/js/burger.js */
 
+  /* ============ MOBILE POLISH ============ */
+  @media (max-width: 640px) {
+    /* Cache le badge "Ouvert aux collabs" pour alléger */
+    [data-cms-block="hero.status"] { display: none !important; }
+    /* Hero title : floor plus petit pour iPhone SE (375px) */
+    .hero-title { font-size: clamp(2.2rem, 13vw, 4.5rem) !important; }
+    /* Photo hero : moins large pour pas dominer */
+    .hero-photo { max-width: min(560px, 88vw) !important; max-height: 42vh !important; }
+    /* Tagline : plus petite + ligne sous CTA */
+    .hero-tagline { font-size: 1.4rem !important; }
+    /* CV vidéo : quote Caveat plus petite */
+    [data-cms="cv_video.quote_main"] { font-size: clamp(1.5rem, 7vw, 2rem) !important; line-height: 1.1 !important; }
+    /* Réduire padding sections lourdes */
+    section.px-6 { padding-left: 1rem; padding-right: 1rem; }
+  }
+
+  /* Sticky CTA mobile : bouton flottant "Discutons" bas-droite */
+  .sticky-cta {
+    display: none;
+    position: fixed; bottom: 18px; right: 18px;
+    z-index: 90;
+    background: var(--rec); color: var(--cream);
+    padding: 14px 22px;
+    border-radius: 9999px;
+    font-family: 'Inter', sans-serif; font-weight: 600;
+    font-size: 14px; text-decoration: none;
+    box-shadow: 0 8px 24px rgba(255,59,28,.35), 0 2px 6px rgba(0,0,0,.15);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .sticky-cta:active { transform: scale(0.96); }
+  .sticky-cta:hover { box-shadow: 0 12px 32px rgba(255,59,28,.5); }
+  @media (max-width: 768px) {
+    .sticky-cta { display: inline-flex; align-items: center; gap: 8px; }
+  }
+  /* Masque le sticky CTA quand le burger overlay est ouvert */
+  body.burger-open .sticky-cta { display: none !important; }
+
   /* ============ BENTO 4 (homepage featured) — 2 rangées H+V alternées ============ */
   [data-cms-block="featured_bento"] { max-width: 1100px; margin: 0 auto; }
   .bento-row {
@@ -279,13 +316,14 @@
 
   @media (max-width: 768px) {
     .bento-row {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;  /* 2 cols 2x2 grid */
       height: auto;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
-    .bento-card[data-shape="hori"] { aspect-ratio: 16/9; }
-    .bento-card[data-shape="vert"] { aspect-ratio: 4/5; }
+    /* Tous les cards en 4:3 sur mobile (uniforme, plus dense) */
+    .bento-card[data-shape="hori"],
+    .bento-card[data-shape="vert"] { aspect-ratio: 4/3; }
   }
 
   .bento-thumb {
@@ -325,6 +363,12 @@
   .bento-hero .bento-title { font-size: clamp(24px, 3.4vw, 52px); }
   .bento-sub {
     color: var(--cream); opacity: 0.75; margin-top: 8px; font-size: 11px;
+  }
+  /* Mobile bento : meta compacts en 2x2 grid */
+  @media (max-width: 768px) {
+    .bento-meta { bottom: 10px !important; left: 10px !important; right: 10px !important; }
+    .bento-cat { font-size: 8px !important; padding: 3px 6px; margin-bottom: 5px; letter-spacing: 0.14em; }
+    .bento-sub { font-size: 8px !important; letter-spacing: 0.1em; margin-top: 4px; }
   }
   /* Flèche retirée — trop "vlog" */
   .bento-arrow { display: none; }
@@ -481,7 +525,7 @@
   <div class="relative w-full mx-auto" style="max-width:1800px;">
 
     <!-- DISPLAY TEXT — animé en premier -->
-    <h1 class="display relative z-10 pointer-events-none text-center intro t1"
+    <h1 class="display hero-title relative z-10 pointer-events-none text-center intro t1"
         style="
           font-size: clamp(2.8rem, 12vw, 12rem);
           line-height: 0.95;
@@ -499,14 +543,14 @@
       <img data-cms="hero.photo" src="./assets/thomas-cutout.png"
            alt="Thomas Etcheverry — vidéaste"
            onerror="this.src='./assets/hero-thomas-blended.png'"
-           class="block w-auto h-auto select-none pointer-events-none"
+           class="block w-auto h-auto select-none pointer-events-none hero-photo"
            style="max-width: min(1100px, 78vw); max-height: 50vh; filter: drop-shadow(0 8px 24px rgba(14,14,14,0.08));" />
     </div>
   </div>
 
   <!-- Bottom row : passioné + CTA — remontée presque collée au bas de la photo -->
   <div class="-mt-4 md:-mt-2 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 relative z-30 intro t3">
-    <span class="script text-2xl md:text-3xl text-rec rotate-[-2deg] inline-block" data-cms="hero.tagline">— passionné &amp; motivé</span>
+    <span class="script hero-tagline text-2xl md:text-3xl text-rec rotate-[-2deg] inline-block" data-cms="hero.tagline">— passionné &amp; motivé</span>
     <a data-cms="hero.cta_link" href="#contact" class="btn-cta">
       <span data-cms="hero.cta_label">ON DISCUTE ?</span>
       <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cta-arrow">
@@ -968,6 +1012,8 @@
     });
   }
 </script>
+
+<!-- Sticky CTA mobile + overlay burger : injectés automatiquement par /assets/js/burger.js -->
 
 <!-- CMS render — charge /data/*.json et injecte le contenu (fallback : HTML statique) -->
 <script src="./assets/js/render.js" defer></script>
