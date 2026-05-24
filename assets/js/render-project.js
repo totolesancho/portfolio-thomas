@@ -81,15 +81,61 @@
   setText('format', p.format);
   setText('role', p.role);
 
-  // ---------- MAIN VIDEO ----------
+  // ---------- VIDEO HELPERS (YouTube + TikTok) ----------
   // Decap peut sauver videos comme ['id1', 'id2'] (legacy) OU [{id:'id1'}, {id:'id2'}] (config actuelle)
-  // On normalise pour gérer les 2 cas
   const videos = Array.isArray(p.videos)
     ? p.videos.map((v) => (typeof v === 'string' ? v : (v && v.id))).filter(Boolean)
     : [];
+
+  // Détecte plateforme + extrait ID depuis ID brut OU URL complète
+  function parseVideo(raw) {
+    if (!raw) return null;
+    const s = String(raw).trim();
+    // TikTok URL : extraire l'ID de /video/<id>
+    const tt = s.match(/tiktok\.com\/.*?\/video\/(\d+)/i);
+    if (tt) return { kind: 'tiktok', id: tt[1] };
+    // TikTok URL avec format différent (vm.tiktok.com/XXX) — non supporté en embed direct, on garde le link
+    if (/tiktok\.com/i.test(s)) return { kind: 'tiktok_link', url: s };
+    // YouTube URL : extraire l'ID
+    const yt = s.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    if (yt) return { kind: 'youtube', id: yt[1] };
+    // Sinon : on suppose YouTube ID brut (11 chars typique)
+    if (/^[A-Za-z0-9_-]{11}$/.test(s)) return { kind: 'youtube', id: s };
+    // ID numérique long → TikTok ID brut
+    if (/^\d{15,}$/.test(s)) return { kind: 'tiktok', id: s };
+    // Fallback : YouTube
+    return { kind: 'youtube', id: s };
+  }
+
+  function videoEmbedHTML(raw, extraClass) {
+    const v = parseVideo(raw);
+    if (!v) return '';
+    if (v.kind === 'youtube') {
+      return `<iframe src="https://www.youtube-nocookie.com/embed/${escapeHTML(v.id)}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0"
+                class="absolute inset-0 w-full h-full ${extraClass||''}" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>`;
+    }
+    if (v.kind === 'tiktok') {
+      // TikTok official embed iframe
+      return `<iframe src="https://www.tiktok.com/embed/v2/${escapeHTML(v.id)}"
+                class="absolute inset-0 w-full h-full ${extraClass||''}" frameborder="0"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>`;
+    }
+    return '';
+  }
+
+  // ---------- MAIN VIDEO ----------
   const mainVideoEl = document.querySelector('[data-proj="video_main"]');
   if (mainVideoEl && videos.length > 0) {
-    mainVideoEl.src = 'https://www.youtube-nocookie.com/embed/' + videos[0] + '?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0';
+    const v = parseVideo(videos[0]);
+    if (v && v.kind === 'youtube') {
+      mainVideoEl.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0';
+    } else if (v && v.kind === 'tiktok') {
+      // Remplace l'iframe YouTube par une iframe TikTok dans le même container
+      mainVideoEl.src = 'https://www.tiktok.com/embed/v2/' + v.id;
+    }
   }
 
   // ---------- SECONDARY VIDEOS (si > 1) ----------
@@ -98,9 +144,13 @@
   if (secondaryWrap && secondaryGrid && videos.length > 1) {
     secondaryWrap.style.display = '';
     const secondaryCount = videos.length - 1;
-    // S'il n'y a qu'1 seule vidéo secondaire → pleine largeur (même taille que la main).
-    // Sinon → grille 2 colonnes (par défaut du template).
-    if (secondaryCount === 1) {
+    // 3 layouts :
+    // - "full" (override projet) → 1 col toujours, chaque vidéo pleine largeur
+    // - secondaryCount === 1 → 1 col (même taille que main)
+    // - sinon → 2 cols (par défaut)
+    const layout = (p.secondary_videos_layout || 'auto').toLowerCase();
+    const useFull = layout === 'full' || secondaryCount === 1;
+    if (useFull) {
       secondaryGrid.classList.remove('md:grid-cols-2');
       secondaryGrid.classList.add('md:grid-cols-1');
     } else {
@@ -109,15 +159,7 @@
     }
     secondaryGrid.innerHTML = videos
       .slice(1)
-      .map(
-        (vid, i) =>
-          `<div class="relative bg-ink overflow-hidden aspect-video r">
-            <iframe src="https://www.youtube-nocookie.com/embed/${escapeHTML(vid)}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white&cc_load_policy=0"
-                    class="absolute inset-0 w-full h-full" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-          </div>`
-      )
+      .map((vid) => `<div class="relative bg-ink overflow-hidden aspect-video r">${videoEmbedHTML(vid)}</div>`)
       .join('');
     // Re-observe new .r elements
     secondaryGrid.querySelectorAll('.r').forEach((el) => {
@@ -175,23 +217,35 @@
   }
 
   // ---------- IMPACT ----------
+  const impactSection = document.querySelector('[data-proj="impact_block"]');
   const impactList = document.querySelector('[data-proj="impact_list"]');
   if (impactList) {
     const isEmpty = (v) => !v || v === '—' || String(v).trim() === '';
-    const impacts = [
-      (!isEmpty(p.impact_metric1) || !isEmpty(p.impact_label1)) && { metric: p.impact_metric1, label: p.impact_label1 },
-      (!isEmpty(p.impact_metric2) || !isEmpty(p.impact_label2)) && { metric: p.impact_metric2, label: p.impact_label2 },
-    ].filter(Boolean);
-    if (impacts.length === 0) {
-      impactList.innerHTML = '<li style="opacity:.6">—</li>';
+    // Nouveau format : impacts: [string] OU [{text}]  (priorité)
+    let bullets = [];
+    if (Array.isArray(p.impacts) && p.impacts.length) {
+      bullets = p.impacts
+        .map((it) => typeof it === 'string' ? it : (it && it.text))
+        .filter((s) => !isEmpty(s));
+    }
+    // Fallback legacy : metric1/label1 + metric2/label2
+    if (bullets.length === 0) {
+      const legacy = [
+        (!isEmpty(p.impact_metric1) || !isEmpty(p.impact_label1)) && { metric: p.impact_metric1, label: p.impact_label1 },
+        (!isEmpty(p.impact_metric2) || !isEmpty(p.impact_label2)) && { metric: p.impact_metric2, label: p.impact_label2 },
+      ].filter(Boolean);
+      bullets = legacy.map(({ metric, label }) => {
+        const m = isEmpty(metric) ? '' : metric;
+        const l = isEmpty(label)  ? '' : label;
+        return m && l ? `${m} — ${l}` : (m || l);
+      });
+    }
+    if (bullets.length === 0) {
+      // Cache le bloc impact si rien à afficher
+      if (impactSection) impactSection.style.display = 'none';
     } else {
-      impactList.innerHTML = impacts
-        .map((it) => {
-          const metric = isEmpty(it.metric) ? '' : `<strong>${escapeHTML(it.metric)}</strong>`;
-          const label  = isEmpty(it.label)  ? '' : escapeHTML(it.label);
-          const sep    = metric && label ? ' — ' : '';
-          return `<li style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--cream);opacity:.7;font-size:1.1em;line-height:1">•</span><span>${metric}${sep}${label}</span></li>`;
-        })
+      impactList.innerHTML = bullets
+        .map((txt) => `<li style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--cream);opacity:.7;font-size:1.1em;line-height:1">•</span><span>${escapeHTML(txt)}</span></li>`)
         .join('');
     }
   }

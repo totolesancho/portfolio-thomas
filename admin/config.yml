@@ -214,12 +214,21 @@ collections:
                   - { label: "4 — Petite tuile droite", value: 4 }
 
               # ━━━ ⑤ MÉDIAS (vidéos + galerie) ━━━
-              - label: "⑤ Vidéos YouTube (page détail)"
+              - label: "⑤ Vidéos (YouTube ou TikTok)"
                 name: "videos"
                 widget: "list"
-                field: { label: "ID YouTube", name: "id", widget: "string", hint: "Juste l'ID (ex : _97hKgYPm0k), pas l'URL entière." }
-                summary: "ID : {{fields.id}}"
-                hint: "🎥 La 1ère vidéo s'affiche grand en haut, les suivantes en grille dessous. ⚠️ La vidéo DOIT être 'Non répertoriée' sur YouTube ('Privé' = écran noir)."
+                field: { label: "ID YouTube ou URL TikTok complète", name: "id", widget: "string", hint: "YouTube : juste l'ID (ex : _97hKgYPm0k). TikTok : colle l'URL entière (ex : https://www.tiktok.com/@user/video/123…)." }
+                summary: "{{fields.id}}"
+                hint: "🎥 La 1ère vidéo s'affiche grand en haut, les suivantes en grille dessous. ⚠️ La vidéo DOIT être 'Non répertoriée' sur YouTube ('Privé' = écran noir). TikTok : la vidéo doit être publique."
+              - label: "⑤ Layout vidéos secondaires"
+                name: "secondary_videos_layout"
+                widget: "select"
+                default: "auto"
+                required: false
+                hint: "Auto = 1 col si une seule vidéo secondaire, sinon 2 cols. 'Full' force toutes les vidéos secondaires en pleine largeur (ex: docu, série de vidéos longues)."
+                options:
+                  - { label: "Auto (recommandé)", value: "auto" }
+                  - { label: "Full width — toutes en pleine largeur", value: "full" }
               - label: "⑤ Galerie photos (optionnel)"
                 name: "images"
                 widget: "list"
@@ -241,11 +250,14 @@ collections:
               - { label: "⑦ Montage", name: "stack_montage", widget: "string", default: "DaVinci Resolve", required: false }
               - { label: "⑦ Sound", name: "stack_sound", widget: "string", required: false, hint: "Ex : RØDE Wireless Pro + sound design" }
 
-              # ━━━ ⑧ IMPACT (optionnel) ━━━
-              - { label: "⑧ Metric 1 — chiffre", name: "impact_metric1", widget: "string", required: false, hint: "Ex : 45K, 1.2M, +30%" }
-              - { label: "⑧ Metric 1 — légende", name: "impact_label1", widget: "string", required: false, hint: "Ex : VUES INSTAGRAM" }
-              - { label: "⑧ Metric 2 — chiffre", name: "impact_metric2", widget: "string", required: false }
-              - { label: "⑧ Metric 2 — légende", name: "impact_label2", widget: "string", required: false }
+              # ━━━ ⑧ IMPACT (liste à puces, optionnel) ━━━
+              - label: "⑧ Impact / résultats (puces, libre)"
+                name: "impacts"
+                widget: "list"
+                required: false
+                summary: "{{fields.text}}"
+                field: { label: "Une ligne (puce)", name: "text", widget: "string", hint: "Ex : '220K vues TikTok', 'Acquisition mission freelance', 'Première pub réalisée'" }
+                hint: "📊 Chaque entrée = une puce dans la section IMPACT (encadré rouge). Mets ce que tu veux : chiffres, résultats qualitatifs, jalons clés. Cache la section si vide."
 
   # ----------------------------------------------------------
   # 3) TÉMOIGNAGES — fichier unique

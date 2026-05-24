@@ -5,8 +5,6 @@
       "stack_etalonnage": "Resolve Color",
       "num": "01",
       "card_subtitle": "Hiving Food · 2025",
-      "impact_metric1": "—",
-      "impact_metric2": "",
       "slug": "publicite-hiving",
       "client": "Hiving Food",
       "featured": true,
@@ -14,9 +12,7 @@
       "approche_1": "J'ai opté pour une forme de jeu muet, mêlant comédie et créativité. De l'humour, des images contrastées en studio, de la voix-off, des formats dynamiques alternant avec des plans plus calmes — tout en mettant en avant les coulisses des studios cuisine internes. Pas de pitch corpo, juste un format qui accroche.",
       "approche_2": "C'est sur ce projet que j'ai commencé à intégrer l'IA dans mon workflow. Ces outils m'ont permis de générer des plans qui auraient normalement nécessité un prestataire 3D : le travelling sur l'objectif menant à l'intérieur du four, le lancer de sandwich en plein vol, la transition fumée. Une expérience complète et stimulante, menée avec une vraie préparation et une intention précise à chaque étape.",
       "role": "RÉALISATION · CADRAGE · MONTAGE",
-      "impact_label1": "DIFFUSION B2B / CHEFS PRO",
       "thumb": "/assets/uploads/pub-hiving-food.avif",
-      "impact_label2": "",
       "format": "Publicité · format horizontal",
       "stack_sound": "Voix-off + sound design · Plans IA (Google Nano Banana, Kling)",
       "title": "Publicité — Hiving Food",
@@ -46,15 +42,27 @@
       "thumb_focal": "50% 34% / 115%",
       "year": "2025",
       "featured_order": 2,
-      "category": "PUB"
+      "category": "PUB",
+      "impacts": [
+        {
+          "text": "Première pub réalisée"
+        },
+        {
+          "text": "Travail poussé sur l'image"
+        },
+        {
+          "text": "75 000 vues"
+        },
+        {
+          "text": "Diffusion B2B / chefs pro"
+        }
+      ]
     },
     {
       "stack_montage": "DaVinci Resolve",
       "stack_etalonnage": "Resolve Color",
       "num": "02",
       "card_subtitle": "Vincent Salur · 2025",
-      "impact_metric1": "—",
-      "impact_metric2": "",
       "slug": "galeries-lafayette",
       "client": "Vincent Salur",
       "featured": false,
@@ -62,9 +70,7 @@
       "approche_1": "J'ai mélangé un setup interview avec une voix-off illustrée par des images de son parcours. C'était la meilleure façon de raconter son histoire sans tomber dans quelque chose de trop posé ou trop marketing. Je voulais que ça reste humain, sincère, proche de lui. Un format qui laisse le spectateur entrer dans son monde.",
       "approche_2": "La vidéo devait aussi annoncer son stand aux Galeries Lafayette Gourmet. Plutôt que de l'afficher frontalement, j'ai préféré replacer cette annonce dans son récit. On repart de son enfance, de la petite boutique de son père, de ses premières enseignes, et on remonte jusqu'à cette nouvelle étape qui représente quasiment une consécration. Au final : un format ultra-court (45-60s) qui mélange inspiration, émotion et storytelling, pensé pour lancer un contenu plus personnel.",
       "role": "FILMMAKER · RÉALISATION · MONTAGE",
-      "impact_label1": "ANNONCE GALERIES LAFAYETTE GOURMET",
       "thumb": "/assets/uploads/annonce-vincent-salur.png",
-      "impact_label2": "",
       "format": "Short video storytelling · horizontale + carrée · 45–60s",
       "stack_sound": "Voix-off + sound design",
       "title": "Annonce Vincent Salur — Galeries Lafayette",
@@ -94,15 +100,27 @@
       "thumb_focal": "48% 49%",
       "year": "2025",
       "featured_order": 4,
-      "category": "PUB"
+      "category": "PUB",
+      "impacts": [
+        {
+          "text": "Première vidéo parlée pour storytellé Vincent Salur"
+        },
+        {
+          "text": "226K vues"
+        },
+        {
+          "text": "7K likes"
+        },
+        {
+          "text": "613 commentaires"
+        }
+      ]
     },
     {
       "stack_montage": "Premiere Pro",
       "stack_etalonnage": "Lumetri",
       "num": "03",
       "card_subtitle": "Uber Eats × Vincent Salur · 2025",
-      "impact_metric1": "—",
-      "impact_metric2": "",
       "slug": "uber-eats",
       "client": "Uber Eats × Vincent Salur",
       "featured": false,
@@ -110,9 +128,7 @@
       "approche_1": "Collaboration avec un pilote pro pour les séquences de vélo freeride dans Paris, mêlées à de vrais plans de Vincent pour garder l'énergie et l'humour du concept. L'idée : faire ressentir la course contre la montre, sans tomber dans la pub Uber Eats classique.",
       "approche_2": "L'IA m'a également permis d'ajouter certains plans en post, en compensant le manque de temps de préparation initiale et en enrichissant le storytelling sans alourdir la production. Une vidéo courte, rythmée, qui met en avant l'audace de Vincent et le côté décalé de ses créations.",
       "role": "RÉALISATION · CADRAGE · MONTAGE",
-      "impact_label1": "COLLAB UBER EATS × CRÉATEUR",
       "thumb": "/assets/uploads/miniature-uber-eat.png",
-      "impact_label2": "",
       "format": "Publicité · carré + horizontal · LinkedIn + Instagram",
       "stack_sound": "Sound design + lib Epidemic · Plans IA additionnels",
       "title": "Publicité Uber Eats × Vincent Salur",
@@ -138,25 +154,32 @@
       "thumb_focal": "26% 25%",
       "year": "2025",
       "featured_order": 0,
-      "category": "PUB"
+      "category": "PUB",
+      "impacts": [
+        {
+          "text": "115K vues"
+        },
+        {
+          "text": "3 000 likes"
+        },
+        {
+          "text": "150 commentaires"
+        }
+      ]
     },
     {
       "stack_montage": "DaVinci Resolve",
       "stack_etalonnage": "Resolve Color",
       "num": "04",
       "card_subtitle": "Championnat Lédénon · 2025",
-      "impact_metric1": "6",
-      "impact_metric2": "3",
       "slug": "f4-ledenon",
       "client": "Championnat F4 · Lédénon",
       "featured": true,
       "stack_optique": "Sigma 100-400 + 24-70",
       "approche_1": "Direction : des capsules dynamiques au format Instagram, que les pilotes pourraient partager facilement sur leurs réseaux. Je voulais montrer non seulement l'action sur le circuit, mais aussi les coulisses : la préparation, la concentration, et tout ce qui fait le côté humain de la compétition.",
-      "approche_2": "En filmant à la fois les moments hors-piste et les courses, j'ai réalisé un montage qui rassemble toutes les facettes de cette aventure. Le but : un contenu moderne et vivant, qui transmet l'intensité des courses tout en laissant transparaître la personnalité de chaque pilote.",
+      "approche_2": "En filmant à la fois les moments hors-piste et les courses, j'ai réalisé des montages dans un format trendy, calé sur les codes des réseaux sociaux — une vraie rupture avec leur contenu précédent. Le but : un rendu moderne et vivant, qui transmet l'intensité des courses tout en laissant transparaître la personnalité de chaque pilote.",
       "role": "CADRAGE · MONTAGE",
-      "impact_label1": "CAPSULES LIVRÉES",
       "thumb": "/assets/projects/f4-ledenon/01.png",
-      "impact_label2": "PILOTES SUIVIS",
       "format": "Reels Instagram · 6 capsules",
       "stack_sound": "Sound design moteur + Artlist",
       "title": "Reels Pilotes Formule 4",
@@ -182,20 +205,29 @@
         "dAl8w8IE-Bo",
         "Q6h5da2iWZ8"
       ],
-      "brief": "J'ai suivi trois pilotes lors d'un championnat de Formule 4 à Lédénon pour documenter leur semaine en vidéo. L'idée était de capturer des images telles qu'elles se passaient — sans mise en scène — en se concentrant sur leurs actions et les moments clés du championnat.",
+      "brief": "J'ai suivi plusieurs pilotes lors d'un championnat de Formule 4 à Lédénon pour documenter leur semaine en vidéo. L'idée était de capturer des images telles qu'elles se passaient — sans mise en scène — en se concentrant sur leurs actions et les moments clés du championnat.",
       "stack_camera": "Sony FX3 + GoPro Hero (onboard)",
       "thumb_focal": "50% 46%",
       "year": "2025",
       "featured_order": 3,
-      "category": "REEL"
+      "category": "REEL",
+      "impacts": [
+        {
+          "text": "Plusieurs milliers de vues"
+        },
+        {
+          "text": "Innovation vs leur contenu précédent"
+        },
+        {
+          "text": "Format trendy / social-ready"
+        }
+      ]
     },
     {
       "stack_montage": "DaVinci Resolve",
       "stack_etalonnage": "Resolve Color",
       "num": "05",
       "card_subtitle": "Digital Edge · 2025",
-      "impact_metric1": "5",
-      "impact_metric2": "40h+",
       "slug": "serie-documentaire",
       "client": "Business sans filtre · Digital Edge",
       "featured": false,
@@ -203,9 +235,7 @@
       "approche_1": "J'ai réalisé l'ensemble de la série, du tournage au montage. Six jours de tournage en solo, plus de 40 heures de rushs captés caméra à l'épaule, des journées de 7 heures non-stop, puis des semaines de postproduction pour structurer, monter et donner vie à un ensemble cohérent. Format vivant, spontané, agréable à regarder.",
       "approche_2": "Cette série est à ce jour la réalisation la plus importante que j'ai menée, autant en volume qu'en intensité. Elle m'a fait progresser sur tous les plans : organisation, narration, rigueur, patience et vision d'ensemble. J'ai veillé à conserver l'équilibre entre pédagogie, rythme et esthétique — pas un tuto YouTube, mais un vrai documentaire qui se regarde.",
       "role": "CADRAGE · MONTAGE",
-      "impact_label1": "ÉPISODES LIVRÉS",
       "thumb": "/assets/projects/serie-documentaire/01.png",
-      "impact_label2": "DE RUSHS CAPTÉS",
       "format": "Série · 5 épisodes · YouTube",
       "stack_sound": "Sound design immersif",
       "title": "Série Documentaire",
@@ -236,15 +266,28 @@
       "thumb_focal": "37% 41%",
       "year": "2025",
       "featured_order": 2,
-      "category": "DOCU"
+      "category": "DOCU",
+      "impacts": [
+        {
+          "text": "Création de miniatures via IA"
+        },
+        {
+          "text": "50h de rushs"
+        },
+        {
+          "text": "Setup multi-caméras"
+        },
+        {
+          "text": "Image de marque construite"
+        }
+      ],
+      "secondary_videos_layout": "full"
     },
     {
       "stack_montage": "DaVinci Resolve + Premiere",
       "stack_etalonnage": "Resolve Color",
       "num": "06",
       "card_subtitle": "Digital Edge Studio · 2024",
-      "impact_metric1": "—",
-      "impact_metric2": "",
       "slug": "edge-tech",
       "client": "Digital Edge Studio",
       "featured": true,
@@ -252,9 +295,7 @@
       "approche_1": "Direction visuelle sobre, lisible, sans gimmicks — l'audience B2B ne pardonne pas le marketing trop appuyé. Je voulais une signature reconnaissable qu'on repère immédiatement dans le feed, mais sans surcharge.",
       "approche_2": "Le challenge sur ce type de contenu, c'est de rester accessible sans simplifier au point de perdre la valeur tech. Solution : raconter chaque concept comme un mini-problème résolu, avec un visuel qui aide vraiment la pédagogie.",
       "role": "CADRAGE · MONTAGE",
-      "impact_label1": "SÉRIE RÉCURRENTE LINKEDIN + INSTA",
       "thumb": "/assets/uploads/edge-tech.avif",
-      "impact_label2": "",
       "format": "Reels · LinkedIn + Instagram",
       "stack_sound": "Lib Artlist",
       "title": "Reels — Digital Edge Studio",
@@ -285,7 +326,18 @@
       "thumb_focal": "60% 25%",
       "year": "2024",
       "featured_order": 2,
-      "category": "REEL"
+      "category": "REEL",
+      "impacts": [
+        {
+          "text": "Création de leur communication vidéo"
+        },
+        {
+          "text": "Nouveau concept de format"
+        },
+        {
+          "text": "Acquisition LinkedIn"
+        }
+      ]
     },
     {
       "stack_montage": "After Effects + Premiere",
@@ -497,6 +549,49 @@
       "year": "2026",
       "featured_order": 3,
       "category": "AFTERMOVIE"
+    },
+    {
+      "slug": "cv-video",
+      "num": "12",
+      "title": "CV Vidéo — Présentation 2025",
+      "client": "Personnel",
+      "card_subtitle": "Présentation perso · 2025",
+      "year": "2025",
+      "format": "Vertical · 9:16 · TikTok",
+      "role": "RÉALISATION · CADRAGE · MONTAGE",
+      "category": "REEL",
+      "featured": false,
+      "featured_order": 0,
+      "thumb": "/assets/uploads/aftermovie-hiving-x-tiktok.png",
+      "thumb_focal": "center",
+      "videos": [
+        "https://www.tiktok.com/@totolesancho_/video/7524358140301708566"
+      ],
+      "images": [],
+      "brief": "Un CV vidéo court et impactant pour me présenter, montrer mon univers visuel, et déclencher des opportunités. Format vertical TikTok, à diffuser sur les réseaux pour toucher les recruteurs et clients potentiels.",
+      "approche_1": "Concept : me filmer dans des situations qui résument mon profil — réa, créativité, énergie — sur un format dynamique calé sur les codes TikTok. Voix-off pour porter le pitch, sound design pour donner du rythme, et un montage punchy qui retient l'attention dès la 1ère seconde.",
+      "approche_2": "Le résultat a dépassé mes attentes : la vidéo est devenue mon premier vrai canal d'acquisition. Elle m'a permis de décrocher des missions freelance et de trouver mon alternance. Preuve qu'un bon CV vidéo peut faire le job d'un site portfolio entier.",
+      "stack_camera": "Sony FX3",
+      "stack_optique": "Sigma 24-70 f/2.8",
+      "stack_montage": "DaVinci Resolve",
+      "stack_sound": "Voix-off + sound design",
+      "impacts": [
+        {
+          "text": "Acquisition de missions freelance"
+        },
+        {
+          "text": "Alternance trouvée grâce à cette vidéo"
+        },
+        {
+          "text": "220 000 vues sur TikTok"
+        },
+        {
+          "text": "31 000 likes"
+        },
+        {
+          "text": "715 commentaires"
+        }
+      ]
     }
   ]
 }
