@@ -50,15 +50,15 @@
   "showreel": {
     "kicker": "→ Showreel 2025",
     "duration": "02:14",
-    "video": "./assets/T5ng7vlGggLKHz0KU5hcCgnioc.mp4",
-    "poster": "./assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg"
+    "video": "/assets/T5ng7vlGggLKHz0KU5hcCgnioc.mp4",
+    "poster": "/assets/G7EccQFH1FQI2YaJN3DE1P1ZVcs.jpg"
   },
   "hero": {
     "graffiti_tag": "always a creative mind",
     "cta_label": "ON DISCUTE ?",
     "status_visible": true,
     "tagline": "passionné & motivé",
-    "photo": "./assets/thomas-cutout.png",
+    "photo": "/assets/thomas-cutout.png",
     "title_line1": "JE FAIS",
     "title_line2": "DES FILMS",
     "status_text": "Ouvert aux collabs",

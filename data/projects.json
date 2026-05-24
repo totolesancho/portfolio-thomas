@@ -22,19 +22,19 @@
       "title": "Publicité — Hiving Food",
       "images": [
         {
-          "img": "./assets/projects/publicite-hiving/01.png",
+          "img": "/assets/projects/publicite-hiving/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/publicite-hiving/02.png",
+          "img": "/assets/projects/publicite-hiving/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/publicite-hiving/03.png",
+          "img": "/assets/projects/publicite-hiving/03.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/publicite-hiving/04.png",
+          "img": "/assets/projects/publicite-hiving/04.png",
           "focal": "center"
         }
       ],
@@ -70,19 +70,19 @@
       "title": "Annonce Vincent Salur — Galeries Lafayette",
       "images": [
         {
-          "img": "./assets/projects/galeries-lafayette/01.png",
+          "img": "/assets/projects/galeries-lafayette/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/galeries-lafayette/02.png",
+          "img": "/assets/projects/galeries-lafayette/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/galeries-lafayette/03.png",
+          "img": "/assets/projects/galeries-lafayette/03.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/galeries-lafayette/04.png",
+          "img": "/assets/projects/galeries-lafayette/04.png",
           "focal": "center"
         }
       ],
@@ -118,15 +118,15 @@
       "title": "Publicité Uber Eats × Vincent Salur",
       "images": [
         {
-          "img": "./assets/projects/uber-eats/01.png",
+          "img": "/assets/projects/uber-eats/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/uber-eats/02.png",
+          "img": "/assets/projects/uber-eats/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/uber-eats/04.png",
+          "img": "/assets/projects/uber-eats/04.png",
           "focal": "center"
         }
       ],
@@ -155,22 +155,22 @@
       "approche_2": "En filmant à la fois les moments hors-piste et les courses, j'ai réalisé un montage qui rassemble toutes les facettes de cette aventure. Le but : un contenu moderne et vivant, qui transmet l'intensité des courses tout en laissant transparaître la personnalité de chaque pilote.",
       "role": "CADRAGE · MONTAGE",
       "impact_label1": "CAPSULES LIVRÉES",
-      "thumb": "./assets/projects/f4-ledenon/01.png",
+      "thumb": "/assets/projects/f4-ledenon/01.png",
       "impact_label2": "PILOTES SUIVIS",
       "format": "Reels Instagram · 6 capsules",
       "stack_sound": "Sound design moteur + Artlist",
       "title": "Reels Pilotes Formule 4",
       "images": [
         {
-          "img": "./assets/projects/f4-ledenon/01.png",
+          "img": "/assets/projects/f4-ledenon/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/f4-ledenon/02.png",
+          "img": "/assets/projects/f4-ledenon/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/f4-ledenon/03.png",
+          "img": "/assets/projects/f4-ledenon/03.png",
           "focal": "center"
         }
       ],
@@ -204,26 +204,26 @@
       "approche_2": "Cette série est à ce jour la réalisation la plus importante que j'ai menée, autant en volume qu'en intensité. Elle m'a fait progresser sur tous les plans : organisation, narration, rigueur, patience et vision d'ensemble. J'ai veillé à conserver l'équilibre entre pédagogie, rythme et esthétique — pas un tuto YouTube, mais un vrai documentaire qui se regarde.",
       "role": "CADRAGE · MONTAGE",
       "impact_label1": "ÉPISODES LIVRÉS",
-      "thumb": "./assets/projects/serie-documentaire/01.png",
+      "thumb": "/assets/projects/serie-documentaire/01.png",
       "impact_label2": "DE RUSHS CAPTÉS",
       "format": "Série · 5 épisodes · YouTube",
       "stack_sound": "Sound design immersif",
       "title": "Série Documentaire",
       "images": [
         {
-          "img": "./assets/projects/serie-documentaire/01.png",
+          "img": "/assets/projects/serie-documentaire/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/serie-documentaire/02.png",
+          "img": "/assets/projects/serie-documentaire/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/serie-documentaire/03.png",
+          "img": "/assets/projects/serie-documentaire/03.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/serie-documentaire/04.png",
+          "img": "/assets/projects/serie-documentaire/04.png",
           "focal": "center"
         }
       ],
@@ -260,19 +260,19 @@
       "title": "Reels — Digital Edge Studio",
       "images": [
         {
-          "img": "./assets/projects/edge-tech/01.png",
+          "img": "/assets/projects/edge-tech/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/edge-tech/02.png",
+          "img": "/assets/projects/edge-tech/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/edge-tech/03.png",
+          "img": "/assets/projects/edge-tech/03.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/edge-tech/04.png",
+          "img": "/assets/projects/edge-tech/04.png",
           "focal": "center"
         }
       ],
@@ -309,19 +309,19 @@
       "title": "Showreel — Digital Edge Studio",
       "images": [
         {
-          "img": "./assets/projects/digital-edge/01.png",
+          "img": "/assets/projects/digital-edge/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/digital-edge/02.png",
+          "img": "/assets/projects/digital-edge/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/digital-edge/03.png",
+          "img": "/assets/projects/digital-edge/03.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/digital-edge/04.png",
+          "img": "/assets/projects/digital-edge/04.png",
           "focal": "center"
         }
       ],
@@ -357,11 +357,11 @@
       "title": "Aftermovie Institutionnel — Skilliance",
       "images": [
         {
-          "img": "./assets/projects/skilliance/01.png",
+          "img": "/assets/projects/skilliance/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/skilliance/02.png",
+          "img": "/assets/projects/skilliance/02.png",
           "focal": "center"
         }
       ],
@@ -397,19 +397,19 @@
       "title": "Film Recrutement",
       "images": [
         {
-          "img": "./assets/projects/film-recrutement/01.png",
+          "img": "/assets/projects/film-recrutement/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/film-recrutement/02.png",
+          "img": "/assets/projects/film-recrutement/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/film-recrutement/03.png",
+          "img": "/assets/projects/film-recrutement/03.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/film-recrutement/04.png",
+          "img": "/assets/projects/film-recrutement/04.png",
           "focal": "center"
         }
       ],
@@ -445,19 +445,19 @@
       "title": "Intro Podcast",
       "images": [
         {
-          "img": "./assets/projects/podcast/01.png",
+          "img": "/assets/projects/podcast/01.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/podcast/02.png",
+          "img": "/assets/projects/podcast/02.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/podcast/03.png",
+          "img": "/assets/projects/podcast/03.png",
           "focal": "center"
         },
         {
-          "img": "./assets/projects/podcast/04.png",
+          "img": "/assets/projects/podcast/04.png",
           "focal": "center"
         }
       ],
