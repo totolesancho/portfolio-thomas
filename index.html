@@ -259,6 +259,11 @@
   /* Burger menu — CSS + HTML + JS gérés par /assets/js/burger.js */
 
   /* ============ MOBILE POLISH ============ */
+  @media (max-width: 768px) {
+    /* Cache les barres rouges en haut (sinon décalage de 16px quand on
+       ouvre le burger : le header saute de 16px). Sur mobile, on s'en passe. */
+    .dashes { display: none !important; }
+  }
   @media (max-width: 640px) {
     /* Cache le badge "Ouvert aux collabs" pour alléger */
     [data-cms-block="hero.status"] { display: none !important; }

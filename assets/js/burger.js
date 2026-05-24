@@ -123,6 +123,12 @@
     /* Lock body scroll when burger open */
     body.burger-open { overflow: hidden; }
 
+    /* Mobile : cache les barres rouges du haut pour éviter le saut visuel
+       quand on ouvre le burger (le header gagne 16px de hauteur sinon). */
+    @media (max-width: 768px) {
+      .dashes { display: none !important; }
+    }
+
     /* Sticky CTA mobile — bouton "Discutons" flottant bas-droite */
     .sticky-cta {
       display: none;
