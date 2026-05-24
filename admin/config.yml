@@ -239,7 +239,6 @@ collections:
               - { label: "⑦ Caméra", name: "stack_camera", widget: "string", required: false, hint: "Ex : Sony FX3" }
               - { label: "⑦ Optique", name: "stack_optique", widget: "string", required: false, hint: "Ex : Sigma 24-70mm f/2.8" }
               - { label: "⑦ Montage", name: "stack_montage", widget: "string", default: "DaVinci Resolve", required: false }
-              - { label: "⑦ Étalonnage", name: "stack_etalonnage", widget: "string", default: "Resolve Color", required: false }
               - { label: "⑦ Sound", name: "stack_sound", widget: "string", required: false, hint: "Ex : RØDE Wireless Pro + sound design" }
 
               # ━━━ ⑧ IMPACT (optionnel) ━━━

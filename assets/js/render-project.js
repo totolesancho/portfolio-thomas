@@ -167,24 +167,33 @@
       p.stack_camera && { label: 'Caméra', val: p.stack_camera },
       p.stack_optique && { label: 'Optique', val: p.stack_optique },
       p.stack_montage && { label: 'Montage', val: p.stack_montage },
-      p.stack_etalonnage && { label: 'Étalonnage', val: p.stack_etalonnage },
       p.stack_sound && { label: 'Sound', val: p.stack_sound },
     ].filter(Boolean);
     stackList.innerHTML = items
-      .map((it) => `<li>· ${escapeHTML(it.label)} : ${escapeHTML(it.val)}</li>`)
+      .map((it) => `<li style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--rec);font-size:1.1em;line-height:1">•</span><span><strong>${escapeHTML(it.label)} :</strong> ${escapeHTML(it.val)}</span></li>`)
       .join('');
   }
 
   // ---------- IMPACT ----------
-  setText('impact_metric1', p.impact_metric1);
-  setText('impact_label1', p.impact_label1);
-  setText('impact_metric2', p.impact_metric2);
-  setText('impact_label2', p.impact_label2);
-
-  // Hide impact block 2 if empty
-  const impact2 = document.querySelector('[data-proj="impact_block2"]');
-  if (impact2 && (!p.impact_metric2 || p.impact_metric2 === '—' || p.impact_metric2 === '')) {
-    impact2.style.display = 'none';
+  const impactList = document.querySelector('[data-proj="impact_list"]');
+  if (impactList) {
+    const isEmpty = (v) => !v || v === '—' || String(v).trim() === '';
+    const impacts = [
+      (!isEmpty(p.impact_metric1) || !isEmpty(p.impact_label1)) && { metric: p.impact_metric1, label: p.impact_label1 },
+      (!isEmpty(p.impact_metric2) || !isEmpty(p.impact_label2)) && { metric: p.impact_metric2, label: p.impact_label2 },
+    ].filter(Boolean);
+    if (impacts.length === 0) {
+      impactList.innerHTML = '<li style="opacity:.6">—</li>';
+    } else {
+      impactList.innerHTML = impacts
+        .map((it) => {
+          const metric = isEmpty(it.metric) ? '' : `<strong>${escapeHTML(it.metric)}</strong>`;
+          const label  = isEmpty(it.label)  ? '' : escapeHTML(it.label);
+          const sep    = metric && label ? ' — ' : '';
+          return `<li style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--cream);opacity:.7;font-size:1.1em;line-height:1">•</span><span>${metric}${sep}${label}</span></li>`;
+        })
+        .join('');
+    }
   }
 
   // ---------- PREV / NEXT ----------
