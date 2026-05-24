@@ -5,8 +5,9 @@
       "emoji": "🎙️",
       "quote": "Thomas c'est le genre de gars qui donne envie de faire de la vidéo rien qu'en le regardant bosser. Toujours calme, drôle, pro, et surtout inspirant. Un vrai plaisir de l'avoir eu dans l'équipe, et d'avoir participé à certaines productions !",
       "client": "Mattis SIMON",
-      "role": "",
-      "style": "ink"
+      "role": "Brand content manager",
+      "style": "ink",
+      "photo": "/assets/uploads/mattis-simon.avif"
     },
     {
       "num": "02",
@@ -14,7 +15,8 @@
       "quote": "Thomas a su être un élément polyvalent. Grâce à ses différentes productions (showreels, reels, publicités) nous avons pu renvoyer une belle image sur nos réseaux sociaux.",
       "client": "Louis CAPELLE",
       "role": "Co-Fondateur Digital Edge Studio",
-      "style": "rec"
+      "style": "rec",
+      "photo": "/assets/uploads/louis.avif"
     },
     {
       "num": "03",
