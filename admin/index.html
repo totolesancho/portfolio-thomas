@@ -22,44 +22,8 @@
       padding-top: 24px !important;
     }
 
-    /* ============================================================
-       SCROLL INDÉPENDANT — chaque panneau scroll de son côté
-       Force tout le viewport à être en flex column, l'éditeur prend
-       100vh - toolbar, et CHAQUE pane a son propre overflow-y.
-       ============================================================ */
-    html, body, #nc-root, #nc-root > div {
-      height: 100vh !important;
-      max-height: 100vh !important;
-      overflow: hidden !important;
-    }
-    /* Le conteneur 2-panes (CollectionTop + Editor) */
-    [class*="EditorContainer"],
-    [class*="Editor___"],
-    [class*="StyledEditorMain"],
-    main > section,
-    [class*="Workflow"] {
-      height: 100% !important;
-      overflow: hidden !important;
-    }
-    /* Les 2 panes : form (gauche) et preview (droite) — overflow auto chacun */
-    [class*="ControlPane"],
-    [class*="PreviewPane"],
-    [class*="PreviewPaneFrame"],
-    [class*="PreviewPaneContainer"] {
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-      max-height: 100vh !important;
-      height: 100vh !important;
-      box-sizing: border-box !important;
-    }
-    /* Si la preview est un iframe, force qu'il prenne 100% de la hauteur dispo */
-    [class*="PreviewPane"] iframe,
-    [class*="PreviewPaneFrame"] iframe {
-      width: 100% !important;
-      height: 100% !important;
-      min-height: 100vh !important;
-      border: 0 !important;
-    }
+    /* (CSS scroll indépendant retiré — cassait l'app entière.
+        Decap a déjà son propre layout 2-panes, on laisse faire.) */
   </style>
 </head>
 <body>
