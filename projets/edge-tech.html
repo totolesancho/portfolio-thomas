@@ -86,7 +86,14 @@
 
 <header class="px-6 md:px-12 py-5 flex justify-between items-center">
   <a href="../" class="display text-xl md:text-2xl">THOMAS ETCHEVERRY<span class="text-rec">®</span></a>
-  <a href="../projets" class="tag hover:text-rec transition">← TOUS LES PROJETS</a>
+  <a href="../projets" class="hidden md:inline tag hover:text-rec transition">← TOUS LES PROJETS</a>
+  <!-- Burger mobile (overlay injecté par /assets/js/burger.js) -->
+  <button class="md:hidden burger-btn" id="burger-btn" aria-label="Menu">
+    <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+      <line class="burger-lines" x1="1" y1="2" x2="21" y2="2"/>
+      <line class="burger-lines" x1="1" y1="12" x2="21" y2="12"/>
+    </svg>
+  </button>
 </header>
 
 <main>
@@ -292,6 +299,7 @@
 
 <!-- CMS render projet : détecte le slug dans l'URL et peuple depuis /data/projects.json -->
 <script src="../assets/js/render-project.js" defer></script>
+<script src="/assets/js/burger.js" defer></script>
 
 </body>
 </html>

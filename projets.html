@@ -170,7 +170,13 @@
     <a href="./#about" class="tag hover:text-rec transition">À propos</a>
     <a href="./#contact" class="btn-ink">Discutons →</a>
   </nav>
-  <a href="./#contact" class="md:hidden btn-ink">→</a>
+  <!-- Burger mobile (overlay injecté par /assets/js/burger.js) -->
+  <button class="md:hidden burger-btn" id="burger-btn" aria-label="Menu">
+    <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+      <line class="burger-lines" x1="1" y1="2" x2="21" y2="2"/>
+      <line class="burger-lines" x1="1" y1="12" x2="21" y2="12"/>
+    </svg>
+  </button>
 </header>
 
 <main>
@@ -227,5 +233,6 @@
 </script>
 
 <script src="./assets/js/render-catalogue.js" defer></script>
+<script src="/assets/js/burger.js" defer></script>
 </body>
 </html>
