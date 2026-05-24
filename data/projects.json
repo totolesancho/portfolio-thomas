@@ -557,7 +557,7 @@
       "client": "Personnel",
       "card_subtitle": "Présentation perso · 2025",
       "year": "2025",
-      "format": "Vertical · 9:16 · TikTok",
+      "format": "16:9 · YouTube + TikTok",
       "role": "RÉALISATION · CADRAGE · MONTAGE",
       "category": "REEL",
       "featured": false,
@@ -565,6 +565,7 @@
       "thumb": "/assets/uploads/aftermovie-hiving-x-tiktok.png",
       "thumb_focal": "center",
       "videos": [
+        "Y5mmlfgsXjg",
         "https://www.tiktok.com/@totolesancho_/video/7524358140301708566"
       ],
       "images": [],
