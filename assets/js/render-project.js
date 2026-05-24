@@ -97,6 +97,16 @@
   const secondaryGrid = document.querySelector('[data-proj="secondary_videos_grid"]');
   if (secondaryWrap && secondaryGrid && videos.length > 1) {
     secondaryWrap.style.display = '';
+    const secondaryCount = videos.length - 1;
+    // S'il n'y a qu'1 seule vidéo secondaire → pleine largeur (même taille que la main).
+    // Sinon → grille 2 colonnes (par défaut du template).
+    if (secondaryCount === 1) {
+      secondaryGrid.classList.remove('md:grid-cols-2');
+      secondaryGrid.classList.add('md:grid-cols-1');
+    } else {
+      secondaryGrid.classList.remove('md:grid-cols-1');
+      secondaryGrid.classList.add('md:grid-cols-2');
+    }
     secondaryGrid.innerHTML = videos
       .slice(1)
       .map(
