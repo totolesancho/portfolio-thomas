@@ -421,7 +421,7 @@
                 <div style="flex:0 0 280px">${renderCard(p)}</div>
                 <div style="flex:1;min-width:260px">
                   <h2 style="margin:0 0 4px 0">#${esc(p.num)} — ${esc(p.title)} ${p.featured ? '⭐' : ''}</h2>
-                  <p style="margin:0 0 12px 0;color:#666;font-size:13px">slug : <code>${esc(p.slug)}</code> → <code>/projets/${esc(p.slug)}.html</code></p>
+                  <p style="margin:0 0 12px 0;color:#666;font-size:13px">slug : <code>${esc(p.slug)}</code> → <code>/projets/${esc(p.slug)}</code></p>
                   <p style="margin:4px 0;font-size:13px"><strong>Catégorie :</strong> ${esc(p.category)} · <strong>Année :</strong> ${esc(p.year)}</p>
                   <p style="margin:4px 0;font-size:13px"><strong>Client :</strong> ${esc(p.client)}</p>
                   <p style="margin:4px 0;font-size:13px"><strong>Format :</strong> ${esc(p.format)} · <strong>Rôle :</strong> ${esc(p.role)}</p>
@@ -448,13 +448,18 @@
         return h('div', {}, [
           h('h1', {key:'t'}, `💬 ${list.length} témoignages`),
           h('hr', {key:'hr0'}),
-          ...list.map((t, i) => h('div', {key:`t${i}`, dangerouslySetInnerHTML: {__html:
-            `<h2>${esc(t.emoji)} ${esc(t.client)}</h2>` +
-            `<p><em>"${esc(t.quote)}"</em></p>` +
-            `<p><strong>Rôle :</strong> ${esc(t.role)}</p>` +
-            `<p><strong>Style :</strong> ${esc(t.style)}</p>` +
-            `<hr/>`
-          }})),
+          ...list.map((t, i) => {
+            // Avatar : photo (avec focal point) ou emoji fallback
+            const st = focalToStyle(t.photo_focal || 'center');
+            const avatar = t.photo
+              ? `<div style="width:48px;height:48px;border-radius:50%;background-image:url('${esc(t.photo)}');background-position:${st.backgroundPosition};background-size:${st.backgroundSize};background-repeat:no-repeat;border:2px solid #0e0e0e;display:inline-block;vertical-align:middle;margin-right:10px"></div>`
+              : `<span style="display:inline-block;width:48px;height:48px;border-radius:50%;background:#f0eee8;text-align:center;line-height:48px;font-size:22px;vertical-align:middle;margin-right:10px">${esc(t.emoji || '🎬')}</span>`;
+            return h('div', {key:`t${i}`, style:{margin:'20px 0',padding:'16px',background:'#fafafa',borderRadius:'8px',border:'1px solid #eee'}, dangerouslySetInnerHTML: {__html:
+              `<div style="display:flex;align-items:center;margin-bottom:8px">${avatar}<h2 style="margin:0;font-size:18px">${esc(t.client)}</h2></div>` +
+              `<p style="margin:6px 0;font-size:13px;line-height:1.5"><em>"${esc(t.quote)}"</em></p>` +
+              `<p style="margin:4px 0;font-size:12px;color:#666"><strong>Rôle :</strong> ${esc(t.role)} · <strong>Style :</strong> ${esc(t.style)}${t.photo ? ' · 📷 photo' : ' · '+esc(t.emoji||'🎬')+' emoji'}</p>`
+            }});
+          }),
         ]);
       }
     }));

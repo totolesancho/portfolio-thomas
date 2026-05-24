@@ -178,9 +178,9 @@
   }
 
   // ---------- PREV / NEXT ----------
-  setAttr('prev_link', 'href', './' + prev.slug + '.html');
+  setAttr('prev_link', 'href', './' + prev.slug);
   setText('prev_title', prev.title);
-  setAttr('next_link', 'href', './' + next.slug + '.html');
+  setAttr('next_link', 'href', './' + next.slug);
   setText('next_title', next.title);
 
   function escapeHTML(s) {

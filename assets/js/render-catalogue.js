@@ -82,7 +82,7 @@
     const css = focalToCSS(p.thumb_focal);
     const sub = p.card_subtitle || (p.client + ' · ' + p.year);
     return `
-      <a href="./projets/${escapeHTML(p.slug)}.html"
+      <a href="./projets/${escapeHTML(p.slug)}"
          class="cat-card"
          data-category="${escapeHTML(p.category || '')}">
         <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); ${css}"></div>

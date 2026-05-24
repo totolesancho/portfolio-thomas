@@ -267,8 +267,12 @@ collections:
             max: 6
             fields:
               - { label: "Numéro (01, 02, 03)", name: "num", widget: "string" }
-              - { label: "Emoji (ex: 🎬)", name: "emoji", widget: "string", default: "🎬" }
               - { label: "Citation (entre guillemets)", name: "quote", widget: "text" }
               - { label: "Nom du client", name: "client", widget: "string", hint: "Ex: — HIVING FOOD" }
               - { label: "Rôle", name: "role", widget: "string", default: "Brand Manager" }
               - { label: "Style visuel", name: "style", widget: "select", options: ["ink", "rec", "cream"], default: "ink", hint: "ink = noir, rec = rouge, cream = beige" }
+
+              # ━━━ AVATAR : photo (priorité) OU emoji fallback ━━━
+              - { label: "📷 Photo du client (priorité sur l'emoji)", name: "photo", widget: "image", required: false, hint: "Si renseigné, remplace l'emoji par cette photo dans le cercle avatar. Format carré recommandé (ou utilise le focal point ci-dessous pour bien cadrer)." }
+              - { label: "Focal point + zoom de la photo", name: "photo_focal", widget: "focal_point", default: "center", required: false, image_field: "photo", preview_aspect: "1/1", hint: "Clique sur le visage à mettre en avant. L'avatar est rond, donc le focal centre détermine ce qu'on voit." }
+              - { label: "Emoji (fallback si pas de photo)", name: "emoji", widget: "string", default: "🎬", required: false, hint: "Affiché uniquement si aucune photo n'est uploadée." }

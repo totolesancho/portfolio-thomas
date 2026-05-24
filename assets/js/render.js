@@ -7,6 +7,29 @@
 (async function () {
   'use strict';
 
+  /* Helper : parse focal → string CSS prêt à coller en inline style */
+  function focalToCSS(val) {
+    if (!val) return 'background-position:center; background-size:cover;';
+    const v = String(val).trim().toLowerCase();
+    const keywords = {
+      'center':{x:50,y:50},'top':{x:50,y:0},'bottom':{x:50,y:100},
+      'left':{x:0,y:50},'right':{x:100,y:50},
+      'left top':{x:0,y:0},'top left':{x:0,y:0},
+      'right top':{x:100,y:0},'top right':{x:100,y:0},
+      'left bottom':{x:0,y:100},'bottom left':{x:0,y:100},
+      'right bottom':{x:100,y:100},'bottom right':{x:100,y:100},
+    };
+    const slashIdx = v.indexOf('/');
+    const posStr  = slashIdx >= 0 ? v.slice(0, slashIdx).trim() : v;
+    const zoomStr = slashIdx >= 0 ? v.slice(slashIdx + 1).trim() : '';
+    let x = 50, y = 50;
+    if (keywords[posStr]) { x = keywords[posStr].x; y = keywords[posStr].y; }
+    else { const m = posStr.match(/^([\d.]+)%\s+([\d.]+)%$/); if (m) { x = parseFloat(m[1]); y = parseFloat(m[2]); } }
+    let size = 'cover';
+    if (zoomStr) { const z = parseFloat(zoomStr); if (!isNaN(z) && z > 0 && z !== 100) size = z + '%'; }
+    return `background-position:${x}% ${y}%; background-size:${size}; background-repeat:no-repeat;`;
+  }
+
   /* Parse focal "X% Y%" / "X% Y% / Z%" / "center" → applique sur un élément DOM */
   function applyFocal(el, val) {
     if (!el) return;
@@ -216,7 +239,7 @@
     featured.forEach((p, i) => {
       const slot = document.querySelector(`[data-bento-slot="${i + 1}"]`);
       if (!slot) return;
-      slot.href = `./projets/${p.slug}.html`;
+      slot.href = `./projets/${p.slug}`;
       const thumbEl = slot.querySelector('.bento-thumb');
       if (thumbEl) {
         thumbEl.style.backgroundImage = `url('${p.thumb}')`;
@@ -274,11 +297,16 @@
           };
           const s = styleMap[t.style] || styleMap.ink;
           const delay = i === 0 ? '' : i === 1 ? 'd1' : 'd2';
+          // Avatar : si photo renseignée → image circulaire avec focal point, sinon emoji
+          const focalCSS = t.photo ? focalToCSS(t.photo_focal || 'center') : '';
+          const avatarInner = t.photo
+            ? `<div class="w-full h-full" style="background-image:url('${escapeHTML(t.photo)}'); ${focalCSS} border-radius:9999px;"></div>`
+            : `<span class="text-2xl">${escapeHTML(t.emoji || '')}</span>`;
           return `
             <figure class="aspect-square ${s.fig} p-7 md:p-9 flex flex-col justify-between r ${delay}"
                     style="border-radius:8px !important;">
               <div class="flex justify-between items-start">
-                <div class="w-12 h-12 ${s.avatarBg} flex items-center justify-center text-2xl" style="border-radius:9999px !important;">${escapeHTML(t.emoji || '')}</div>
+                <div class="w-12 h-12 ${s.avatarBg} flex items-center justify-center overflow-hidden" style="border-radius:9999px !important;">${avatarInner}</div>
                 <span class="${s.numCls}" style="${s.numStyle}">${escapeHTML(t.num || '')}</span>
               </div>
               <blockquote class="display text-xl md:text-2xl" style="line-height:1.15; letter-spacing:0.005em; font-feature-settings:'liga' 0;">
