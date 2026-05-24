@@ -264,58 +264,36 @@
       wrap.innerHTML = testimonials.testimonials
         .map((t, i) => {
           const styleMap = {
-            ink: {
-              fig: 'bg-ink text-cream',
-              avatarBg: 'bg-cream/10 border border-cream/20',
-              numCls: 'tag',
-              numStyle: 'color:var(--cream); opacity:0.5',
-              clientCls: 'tag',
-              clientStyle: 'color:var(--cream)',
-              roleCls: 'tag tag-dim',
-              roleStyle: 'opacity:0.6',
-            },
-            rec: {
-              fig: 'bg-rec text-cream',
-              avatarBg: 'bg-cream/15 border border-cream/30',
-              numCls: 'tag',
-              numStyle: 'color:var(--cream); opacity:0.6',
-              clientCls: 'tag',
-              clientStyle: 'color:var(--cream)',
-              roleCls: 'tag',
-              roleStyle: 'color:var(--cream); opacity:0.7',
-            },
-            cream: {
-              fig: 'bg-cream border border-line text-ink',
-              avatarBg: 'bg-ink/5 border border-line',
-              numCls: 'tag tag-dim',
-              numStyle: '',
-              clientCls: 'tag',
-              clientStyle: '',
-              roleCls: 'tag tag-dim',
-              roleStyle: '',
-            },
+            ink:   { bg: 'background:var(--ink); color:var(--cream); border:1px solid rgba(244,241,234,.08);', dim:'rgba(244,241,234,0.55)', quoteCol:'var(--cream)', borderAvatar:'2px solid rgba(244,241,234,.15)', accentCol:'var(--rec)' },
+            rec:   { bg: 'background:var(--rec); color:var(--cream);', dim:'rgba(244,241,234,0.75)', quoteCol:'var(--cream)', borderAvatar:'2px solid rgba(244,241,234,.25)', accentCol:'var(--cream)' },
+            cream: { bg: 'background:var(--cream); color:var(--ink); border:1px solid rgba(14,14,14,.10);', dim:'rgba(14,14,14,0.55)', quoteCol:'var(--ink)', borderAvatar:'2px solid rgba(14,14,14,.10)', accentCol:'var(--rec)' },
           };
           const s = styleMap[t.style] || styleMap.ink;
           const delay = i === 0 ? '' : i === 1 ? 'd1' : 'd2';
-          // Avatar : si photo renseignée → image circulaire avec focal point, sinon emoji
+          // Avatar : photo avec focal point > emoji fallback
           const focalCSS = t.photo ? focalToCSS(t.photo_focal || 'center') : '';
           const avatarInner = t.photo
-            ? `<div class="w-full h-full" style="background-image:url('${escapeHTML(t.photo)}'); ${focalCSS} border-radius:9999px;"></div>`
-            : `<span class="text-2xl">${escapeHTML(t.emoji || '')}</span>`;
+            ? `<div style="width:100%;height:100%;background-image:url('${escapeHTML(t.photo)}'); ${focalCSS}"></div>`
+            : `<span style="font-size:28px; line-height:1">${escapeHTML(t.emoji || '')}</span>`;
+          // 5 étoiles
+          const stars = `<div style="display:flex; gap:3px; color:${s.accentCol}; font-size:13px; letter-spacing:1px;">★★★★★</div>`;
           return `
-            <figure class="aspect-square ${s.fig} p-7 md:p-9 flex flex-col justify-between r ${delay}"
-                    style="border-radius:8px !important;">
-              <div class="flex justify-between items-start">
-                <div class="w-12 h-12 ${s.avatarBg} flex items-center justify-center overflow-hidden" style="border-radius:9999px !important;">${avatarInner}</div>
-                <span class="${s.numCls}" style="${s.numStyle}">${escapeHTML(t.num || '')}</span>
-              </div>
-              <blockquote class="display text-xl md:text-2xl" style="line-height:1.15; letter-spacing:0.005em; font-feature-settings:'liga' 0;">
-                &quot;${escapeHTML(t.quote)}&quot;
+            <figure class="r ${delay}" style="${s.bg} padding:32px 28px; border-radius:10px; display:flex; flex-direction:column; gap:24px; height:100%; min-height:360px;">
+              <!-- HEADER : avatar + nom + numéro -->
+              <header style="display:flex; align-items:center; gap:14px;">
+                <div style="flex:0 0 56px; width:56px; height:56px; border-radius:9999px; overflow:hidden; ${s.bg.includes('cream') ? 'background:rgba(14,14,14,.04);' : 'background:rgba(244,241,234,.08);'} border:${s.borderAvatar}; display:flex; align-items:center; justify-content:center;">${avatarInner}</div>
+                <div style="flex:1; min-width:0;">
+                  <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:15px; line-height:1.2; letter-spacing:0;">${escapeHTML(t.client)}</div>
+                  ${t.role ? `<div style="font-family:'Inter',sans-serif; font-weight:400; font-size:12px; color:${s.dim}; margin-top:2px; line-height:1.3;">${escapeHTML(t.role)}</div>` : ''}
+                </div>
+                <span style="font-family:'Inter',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.18em; color:${s.dim};">${escapeHTML(t.num || '')}</span>
+              </header>
+              <!-- QUOTE : Inter, lisible -->
+              <blockquote style="font-family:'Inter',sans-serif; font-weight:400; font-size:15px; line-height:1.55; color:${s.quoteCol}; flex:1; margin:0; letter-spacing:0;">
+                &laquo;&nbsp;${escapeHTML(t.quote)}&nbsp;&raquo;
               </blockquote>
-              <figcaption>
-                <div class="${s.clientCls}" style="${s.clientStyle}; font-weight:600;">${escapeHTML(t.client)}</div>
-                <div class="${s.roleCls} mt-1" style="${s.roleStyle}">${escapeHTML(t.role)}</div>
-              </figcaption>
+              <!-- FOOTER : étoiles -->
+              <footer>${stars}</footer>
             </figure>`;
         })
         .join('');
