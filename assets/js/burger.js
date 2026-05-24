@@ -22,27 +22,55 @@
       background: transparent; color: var(--ink, #0e0e0e);
       border: 0; cursor: pointer;
       transition: opacity .2s;
+      padding: 0;
     }
     .burger-btn:hover { opacity: 0.6; }
     .burger-btn svg { display: block; }
     .burger-btn .burger-lines { stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 
+    /* Animation : slide-down + fade quand on ouvre */
     .burger-overlay {
       position: fixed; inset: 0; z-index: 100;
       background: var(--cream, #f4f1ea);
-      display: none;
+      display: flex;
       flex-direction: column;
-      padding: 24px 28px 32px;
+      padding: 16px 24px 32px;   /* same py que le header pour alignement X ↔ ≡ */
       overflow-y: auto;
+      opacity: 0;
+      transform: translateY(-12px);
+      pointer-events: none;
+      transition: opacity .25s ease, transform .35s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .burger-overlay.open { display: flex; }
+    .burger-overlay.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    /* Animation staggered des liens du menu */
+    .burger-overlay .burger-nav a,
+    .burger-overlay .burger-socials,
+    .burger-overlay .burger-cta-btn {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .35s ease, transform .35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .burger-overlay.open .burger-nav a:nth-child(1) { transition-delay: .12s; opacity: 1; transform: none; }
+    .burger-overlay.open .burger-nav a:nth-child(2) { transition-delay: .17s; opacity: 1; transform: none; }
+    .burger-overlay.open .burger-nav a:nth-child(3) { transition-delay: .22s; opacity: 1; transform: none; }
+    .burger-overlay.open .burger-nav a:nth-child(4) { transition-delay: .27s; opacity: 1; transform: none; }
+    .burger-overlay.open .burger-nav a:nth-child(5) { transition-delay: .32s; opacity: 1; transform: none; }
+    .burger-overlay.open .burger-socials { transition-delay: .38s; opacity: 1; transform: none; }
+    .burger-overlay.open .burger-cta-btn { transition-delay: .44s; opacity: 1; transform: none; }
+
     .burger-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 56px;
+      margin-bottom: 48px;
+      /* Aligné exactement comme le header de la page (px-6 py-4 = 24px / 16px) */
     }
     .burger-logo {
       font-family: 'Bowlby One', sans-serif;
-      font-size: 22px; color: var(--ink, #0e0e0e); text-decoration: none;
+      font-size: 16px;        /* même taille que le header desktop md:text-lg ≈ 18px ; sur mobile c'est text-base = 16px */
+      color: var(--ink, #0e0e0e); text-decoration: none;
       letter-spacing: -0.01em;
     }
     .burger-logo .text-rec { color: var(--rec, #ff3b1c); }
@@ -52,6 +80,7 @@
       border: 0; cursor: pointer;
       font-size: 22px; font-weight: 400;
       display: inline-flex; align-items: center; justify-content: center;
+      padding: 0;
     }
     .burger-close:hover { opacity: 0.6; }
     .burger-nav {
@@ -130,7 +159,7 @@
   const overlayHTML = `
     <div class="burger-overlay" id="burger-overlay">
       <div class="burger-header">
-        <a href="${linkHome}" class="burger-logo">THOMAS<span class="text-rec">.</span></a>
+        <a href="${linkHome}" class="burger-logo">THOMAS ETCHEVERRY<span class="text-rec">®</span></a>
         <button class="burger-close" id="burger-close" aria-label="Fermer">✕</button>
       </div>
       <nav class="burger-nav">

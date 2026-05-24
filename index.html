@@ -268,8 +268,16 @@
     .hero-photo { max-width: min(560px, 88vw) !important; max-height: 42vh !important; }
     /* Tagline : plus petite + ligne sous CTA */
     .hero-tagline { font-size: 1.4rem !important; }
+    /* CTA hero : plus petit ('ON DISCUTE ?') */
+    .btn-cta { padding: 14px 24px !important; font-size: 12px !important; box-shadow: 4px 4px 0 var(--ink) !important; gap: 10px; }
+    .btn-cta:hover { box-shadow: 6px 6px 0 var(--ink) !important; }
+    /* Bloc tagline+CTA : descendre un peu sous la photo */
+    .hero-bottom-row { margin-top: 18px !important; gap: 14px !important; }
     /* CV vidéo : quote Caveat plus petite */
     [data-cms="cv_video.quote_main"] { font-size: clamp(1.5rem, 7vw, 2rem) !important; line-height: 1.1 !important; }
+    /* "VOIR TOUS LES PROJETS" plus petit, reste centré */
+    .btn-view-more { padding: 12px 20px !important; font-size: 11px !important; box-shadow: 4px 4px 0 var(--rec) !important; }
+    .btn-view-more:hover { box-shadow: 5px 5px 0 var(--rec) !important; }
     /* Réduire padding sections lourdes */
     section.px-6 { padding-left: 1rem; padding-right: 1rem; }
   }
@@ -549,7 +557,7 @@
   </div>
 
   <!-- Bottom row : passioné + CTA — remontée presque collée au bas de la photo -->
-  <div class="-mt-4 md:-mt-2 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 relative z-30 intro t3">
+  <div class="hero-bottom-row -mt-4 md:-mt-2 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 relative z-30 intro t3">
     <span class="script hero-tagline text-2xl md:text-3xl text-rec rotate-[-2deg] inline-block" data-cms="hero.tagline">— passionné &amp; motivé</span>
     <a data-cms="hero.cta_link" href="#contact" class="btn-cta">
       <span data-cms="hero.cta_label">ON DISCUTE ?</span>
