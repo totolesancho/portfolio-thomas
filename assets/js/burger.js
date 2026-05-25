@@ -136,7 +136,7 @@
       z-index: 90;
       background: var(--rec, #ff3b1c); color: var(--cream, #f4f1ea);
       padding: 14px 22px;
-      border-radius: 9999px;
+      border-radius: 9999px !important;  /* override le reset global * { border-radius: 0 } sur catalogue/projet */
       font-family: 'Inter', sans-serif; font-weight: 600;
       font-size: 14px; text-decoration: none;
       box-shadow: 0 8px 24px rgba(255,59,28,.35), 0 2px 6px rgba(0,0,0,.15);
