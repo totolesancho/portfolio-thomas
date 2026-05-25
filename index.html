@@ -269,8 +269,19 @@
   @media (max-width: 640px) {
     /* Cache le badge "Ouvert aux collabs" pour alléger */
     [data-cms-block="hero.status"] { display: none !important; }
-    /* Hero section : laisse de la place pour bien voir 'JE FAIS DES FILMS' */
-    section.hero-section { padding-top: 48px !important; padding-bottom: 32px !important; }
+
+    /* ========== HERO = ÉCRAN ENTIER (style Valentin Gassend) ==========
+       Seule la hero (titre + photo + tagline + CTA) est visible à l'arrivée.
+       Le bandeau noir DOCU/CV VIDÉO est bien plus bas, hors viewport. */
+    section.hero-section { padding-top: 0 !important; padding-bottom: 0 !important; }
+    .hero-fold {
+      min-height: calc(100svh - 70px); /* svh = small viewport height = compte la barre Safari */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 16px;
+      padding-bottom: 32px;
+    }
     /* Hero title : floor plus petit pour iPhone SE (375px) */
     .hero-title { font-size: clamp(2.2rem, 13vw, 4.5rem) !important; }
     /* Photo hero : taille naturelle qui respire */
@@ -282,6 +293,10 @@
     .btn-cta:hover { box-shadow: 6px 6px 0 var(--ink) !important; }
     /* Bloc tagline+CTA : marge confortable sous la photo */
     .hero-bottom-row { margin-top: 24px !important; gap: 16px !important; }
+
+    /* MARQUEE NOIR : grosse marge top pour le pousser bien sous le fold */
+    section.hero-section > .bg-ink { margin-top: 80px !important; }
+
     /* CV vidéo : quote Caveat plus petite */
     [data-cms="cv_video.quote_main"] { font-size: clamp(1.5rem, 7vw, 2rem) !important; line-height: 1.1 !important; }
     /* "VOIR TOUS LES PROJETS" plus petit, reste centré */
@@ -291,21 +306,27 @@
     section.px-6 { padding-left: 1rem; padding-right: 1rem; }
 
     /* ========== AÉRATION ENTRE SECTIONS (mobile) ========== */
-    /* Sections principales : padding vertical plus généreux (Tailwind pt-14=56px → ~80px, pb idem) */
     section.pt-14, section.pt-16 { padding-top: 72px !important; }
     section.pb-14, section.pb-16 { padding-bottom: 72px !important; }
     section.pt-20 { padding-top: 80px !important; }
     section.pb-20 { padding-bottom: 80px !important; }
-    /* Sections lourdes (showreel, contact) : plus aérées */
     section.pt-24, section.pt-32 { padding-top: 88px !important; }
     section.pb-24, section.pb-32 { padding-bottom: 88px !important; }
 
-    /* Projets section juste après hero : on garde un padding-top modéré (le hero a déjà sa marge) */
-    .projets-section { padding-top: 32px !important; }
+    .projets-section { padding-top: 56px !important; }
 
-    /* ========== AÉRATION DANS LES SECTIONS (mobile) ========== */
-    /* Bento accueil : gap plus généreux entre cards */
-    .bento-row { gap: 14px !important; margin-bottom: 14px !important; }
+    /* ========== BENTO PROJETS : 1 CARD PAR LIGNE 16:9 ==========
+       1 par ligne = 1 carte visible à la fois → focus, pas de saturation */
+    .bento-row {
+      grid-template-columns: 1fr !important;   /* 1 colonne */
+      gap: 14px !important;
+      margin-bottom: 14px !important;
+    }
+    .bento-card[data-shape="hori"],
+    .bento-card[data-shape="vert"] {
+      aspect-ratio: 16/9 !important;           /* format vidéo panoramique */
+    }
+
     /* Marquees + séparateurs : marge bottom plus aérée */
     .dashes.mb-14, .dashes.mb-20 { margin-bottom: 56px !important; }
     /* Titre de section + intro : marge bottom plus généreuse */
@@ -354,14 +375,14 @@
 
   @media (max-width: 768px) {
     .bento-row {
-      grid-template-columns: 1fr 1fr;  /* 2 cols 2x2 grid */
+      grid-template-columns: 1fr;  /* 1 col : focus, 1 carte à la fois */
       height: auto;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 14px;
+      margin-bottom: 14px;
     }
-    /* Tous les cards en 4:3 sur mobile (uniforme, plus dense) */
+    /* 16:9 sur mobile (format vidéo panoramique, lisible, focus) */
     .bento-card[data-shape="hori"],
-    .bento-card[data-shape="vert"] { aspect-ratio: 4/3; }
+    .bento-card[data-shape="vert"] { aspect-ratio: 16/9; }
   }
 
   .bento-thumb {
@@ -559,6 +580,9 @@
     <span class="graffiti-tag text-base md:text-xl" data-cms="hero.graffiti_tag">always a creative mind</span>
   </div>
 
+  <!-- Wrapper : prend ~100vh sur mobile pour que SEULE la hero soit visible à l'arrivée -->
+  <div class="hero-fold">
+
   <!-- Layered hero : text BEHIND, PNG cutout IN FRONT -->
   <div class="relative w-full mx-auto" style="max-width:1800px;">
 
@@ -597,6 +621,8 @@
       </svg>
     </a>
   </div>
+
+  </div><!-- /.hero-fold -->
 
   <!-- MARQUEE FORMATS — sous le fold (visible au scroll) -->
   <div class="mt-10 md:mt-24 -mx-6 md:-mx-12 bg-ink text-cream py-3 md:py-6 marquee-mask overflow-hidden relative z-30">
