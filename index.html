@@ -297,8 +297,42 @@
     /* MARQUEE NOIR : grosse marge top pour le pousser bien sous le fold */
     section.hero-section > .bg-ink { margin-top: 80px !important; }
 
-    /* CV vidéo : quote Caveat plus petite */
-    [data-cms="cv_video.quote_main"] { font-size: clamp(1.5rem, 7vw, 2rem) !important; line-height: 1.1 !important; }
+    /* ========== CV VIDÉO : QUOTE EN MODE MINI-NOTE ==========
+       Compacte, juste un kicker discret + 1 phrase + sous-phrase, puis cv direct */
+    .quote-card { padding: 18px 20px !important; padding-right: 60px !important; box-shadow: 3px 3px 0 var(--rec) !important; }
+    .quote-circle { width: 52px !important; height: 52px !important; top: -14px !important; right: -6px !important; }
+    [data-cms="cv_video.kicker"] { font-size: 9px !important; margin-bottom: 6px !important; letter-spacing: 0.16em; }
+    .quote-main { font-size: 1.3rem !important; line-height: 1.15 !important; margin-bottom: 4px !important; }
+    .quote-sub { font-size: 12px !important; line-height: 1.4 !important; }
+    /* Plus d'air entre la mini-note et la vidéo */
+    .cv-video-frame { margin-top: 32px !important; }
+
+    /* ========== TÉMOIGNAGES : SWIPE HORIZONTAL ==========
+       Au lieu de stacker 3 cards énormes en vertical, on les passe en
+       carousel horizontal avec scroll-snap. L'user swipe pour passer
+       d'un témoignage à l'autre. */
+    [data-cms-block="testimonials_grid"] {
+      display: flex !important;
+      grid-template-columns: none !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      scroll-padding-left: 16px;
+      gap: 14px !important;
+      padding: 4px 16px 16px !important;
+      margin-left: -16px !important;
+      margin-right: -16px !important;
+      max-width: none !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    [data-cms-block="testimonials_grid"]::-webkit-scrollbar { display: none; }
+    [data-cms-block="testimonials_grid"] > figure {
+      flex: 0 0 85%;
+      scroll-snap-align: start;
+      min-height: 0 !important;
+    }
+    /* Petit hint visuel : "→ swipe" sous le kicker */
+    .testimonials-swipe-hint { display: block !important; }
     /* "VOIR TOUS LES PROJETS" plus petit, reste centré */
     .btn-view-more { padding: 12px 20px !important; font-size: 11px !important; box-shadow: 4px 4px 0 var(--rec) !important; }
     .btn-view-more:hover { box-shadow: 5px 5px 0 var(--rec) !important; }
@@ -310,8 +344,10 @@
     section.pb-14, section.pb-16 { padding-bottom: 72px !important; }
     section.pt-20 { padding-top: 80px !important; }
     section.pb-20 { padding-bottom: 80px !important; }
-    section.pt-24, section.pt-32 { padding-top: 88px !important; }
-    section.pb-24, section.pb-32 { padding-bottom: 88px !important; }
+    section.pt-24, section.pt-32 { padding-top: 96px !important; }
+    section.pb-24, section.pb-32 { padding-bottom: 96px !important; }
+    /* Section contact (Discutons) : extra padding-top pour respirer après showreel */
+    section#contact { padding-top: 112px !important; }
 
     .projets-section { padding-top: 56px !important; }
 
@@ -775,7 +811,7 @@
     </div>
 
     <!-- Video CV -->
-    <div class="r d1 w-full mt-8 md:mt-10">
+    <div class="cv-video-frame r d1 w-full mt-8 md:mt-10">
       <div class="relative bg-ink overflow-hidden w-full" style="aspect-ratio: 16/9; border-radius: 6px;">
         <!-- L'iframe sera injectée par render.js uniquement si youtube_id renseigné -->
         <div data-cms="cv_video.player_slot" class="absolute inset-0">
@@ -795,7 +831,8 @@
 
 <!-- TÉMOIGNAGES -->
 <section class="px-6 md:px-12 pb-24 md:pb-40">
-  <div class="tag tag-dim mb-10 text-center r" data-cms="testimonials.kicker">— ILS ONT TRAVAILLÉ AVEC MOI</div>
+  <div class="tag tag-dim mb-3 text-center r" data-cms="testimonials.kicker">— ILS ONT TRAVAILLÉ AVEC MOI</div>
+  <div class="testimonials-swipe-hint text-center mb-8" style="display:none; font-family:'Inter',sans-serif; font-size:11px; color:var(--dim); letter-spacing:0.14em;">← Swipe →</div>
   <div data-cms-block="testimonials_grid" class="grid md:grid-cols-3 gap-4 max-w-6xl mx-auto">
 
     <figure class="aspect-square bg-ink text-cream p-7 md:p-9 flex flex-col justify-between r">
