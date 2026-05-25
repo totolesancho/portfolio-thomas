@@ -269,29 +269,47 @@
   @media (max-width: 640px) {
     /* Cache le badge "Ouvert aux collabs" pour alléger */
     [data-cms-block="hero.status"] { display: none !important; }
-    /* Hero section : remontée vers le haut un peu (pousse pas trop bas) +
-       hauteur contenue → la section "Plusieurs projets" peeks en bas */
-    section.hero-section { padding-top: 28px !important; padding-bottom: 8px !important; }
+    /* Hero section : laisse de la place pour bien voir 'JE FAIS DES FILMS' */
+    section.hero-section { padding-top: 48px !important; padding-bottom: 32px !important; }
     /* Hero title : floor plus petit pour iPhone SE (375px) */
     .hero-title { font-size: clamp(2.2rem, 13vw, 4.5rem) !important; }
-    /* Photo hero : plus contenue → moins d'espace vertical → projets visibles */
-    .hero-photo { max-width: min(560px, 78vw) !important; max-height: 36vh !important; }
+    /* Photo hero : taille naturelle qui respire */
+    .hero-photo { max-width: min(560px, 82vw) !important; max-height: 44vh !important; }
     /* Tagline : plus petite + ligne sous CTA */
     .hero-tagline { font-size: 1.4rem !important; }
     /* CTA hero : plus petit ('ON DISCUTE ?') */
     .btn-cta { padding: 14px 24px !important; font-size: 12px !important; box-shadow: 4px 4px 0 var(--ink) !important; gap: 10px; }
     .btn-cta:hover { box-shadow: 6px 6px 0 var(--ink) !important; }
-    /* Bloc tagline+CTA : descendre légèrement sous la photo */
-    .hero-bottom-row { margin-top: 14px !important; gap: 12px !important; }
+    /* Bloc tagline+CTA : marge confortable sous la photo */
+    .hero-bottom-row { margin-top: 24px !important; gap: 16px !important; }
     /* CV vidéo : quote Caveat plus petite */
     [data-cms="cv_video.quote_main"] { font-size: clamp(1.5rem, 7vw, 2rem) !important; line-height: 1.1 !important; }
     /* "VOIR TOUS LES PROJETS" plus petit, reste centré */
     .btn-view-more { padding: 12px 20px !important; font-size: 11px !important; box-shadow: 4px 4px 0 var(--rec) !important; }
     .btn-view-more:hover { box-shadow: 5px 5px 0 var(--rec) !important; }
-    /* Réduire padding sections lourdes */
+    /* Padding horizontal sections */
     section.px-6 { padding-left: 1rem; padding-right: 1rem; }
-    /* Section "Plusieurs projets" : marge top plus serrée pour qu'elle peeks en bas du hero */
-    .projets-section { padding-top: 8px !important; margin-top: 0 !important; }
+
+    /* ========== AÉRATION ENTRE SECTIONS (mobile) ========== */
+    /* Sections principales : padding vertical plus généreux (Tailwind pt-14=56px → ~80px, pb idem) */
+    section.pt-14, section.pt-16 { padding-top: 72px !important; }
+    section.pb-14, section.pb-16 { padding-bottom: 72px !important; }
+    section.pt-20 { padding-top: 80px !important; }
+    section.pb-20 { padding-bottom: 80px !important; }
+    /* Sections lourdes (showreel, contact) : plus aérées */
+    section.pt-24, section.pt-32 { padding-top: 88px !important; }
+    section.pb-24, section.pb-32 { padding-bottom: 88px !important; }
+
+    /* Projets section juste après hero : on garde un padding-top modéré (le hero a déjà sa marge) */
+    .projets-section { padding-top: 32px !important; }
+
+    /* ========== AÉRATION DANS LES SECTIONS (mobile) ========== */
+    /* Bento accueil : gap plus généreux entre cards */
+    .bento-row { gap: 14px !important; margin-bottom: 14px !important; }
+    /* Marquees + séparateurs : marge bottom plus aérée */
+    .dashes.mb-14, .dashes.mb-20 { margin-bottom: 56px !important; }
+    /* Titre de section + intro : marge bottom plus généreuse */
+    h2.display + p, h2.display { margin-bottom: 36px !important; }
   }
 
   /* Sticky CTA mobile : bouton flottant "Discutons" bas-droite */
