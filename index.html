@@ -294,8 +294,11 @@
     /* Bloc tagline+CTA : marge confortable sous la photo */
     .hero-bottom-row { margin-top: 24px !important; gap: 16px !important; }
 
-    /* MARQUEE NOIR : grosse marge top pour le pousser bien sous le fold */
-    section.hero-section > .bg-ink { margin-top: 80px !important; }
+    /* MARQUEE NOIR : grosse marge top ET bottom pour respirer */
+    section.hero-section > .bg-ink {
+      margin-top: 80px !important;
+      margin-bottom: 64px !important;
+    }
 
     /* ========== CV VIDÉO : QUOTE EN MODE MINI-NOTE ==========
        Compacte, juste un kicker discret + 1 phrase + sous-phrase, puis cv direct */
@@ -308,11 +311,11 @@
     .cv-video-frame { margin-top: 32px !important; }
 
     /* ========== TÉMOIGNAGES : SWIPE HORIZONTAL ==========
-       Au lieu de stacker 3 cards énormes en vertical, on les passe en
-       carousel horizontal avec scroll-snap. L'user swipe pour passer
-       d'un témoignage à l'autre. */
+       Carousel avec scroll-snap. align-items stretch → toutes les cards
+       prennent la hauteur de la plus haute = visuellement uniformes. */
     [data-cms-block="testimonials_grid"] {
       display: flex !important;
+      align-items: stretch !important;
       grid-template-columns: none !important;
       overflow-x: auto !important;
       scroll-snap-type: x mandatory !important;
@@ -329,7 +332,9 @@
     [data-cms-block="testimonials_grid"] > figure {
       flex: 0 0 85%;
       scroll-snap-align: start;
-      min-height: 0 !important;
+      align-self: stretch !important;
+      min-height: 460px !important;    /* assure une hauteur min qui contient la plus longue quote */
+      height: auto !important;
     }
     /* Petit hint visuel : "→ swipe" sous le kicker */
     .testimonials-swipe-hint { display: block !important; }
