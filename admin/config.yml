@@ -7,7 +7,7 @@ backend:
   name: github
   repo: totolesancho/portfolio-thomas
   branch: main
-  base_url: https://portfolio-thomas-blond.vercel.app
+  base_url: https://thomas-etcheverry.vercel.app
   auth_endpoint: /api/auth
 
 # Mode brouillon (revue avant publication) — désactivé pour aller au plus simple
