@@ -258,6 +258,27 @@
 
   /* Burger menu — CSS + HTML + JS gérés par /assets/js/burger.js */
 
+  /* ============ Lien CV vidéo avec trait orange hand-drawn (nav desktop) ============ */
+  .nav-cv-link {
+    position: relative;
+    padding-bottom: 10px;
+  }
+  .nav-cv-link::after {
+    content: '';
+    position: absolute;
+    left: -2px; right: -2px;
+    bottom: 0;
+    height: 8px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'><path d='M2,5 Q12,2 24,4 T48,4 T72,4 T98,3' stroke='%23ff3b1c' stroke-width='2.6' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    transition: transform .25s ease;
+    transform-origin: left center;
+  }
+  .nav-cv-link:hover::after {
+    transform: scaleX(1.05) translateY(1px);
+  }
+
   /* ============ MOBILE POLISH ============ */
   @media (max-width: 768px) {
     /* Cache les barres rouges en haut (sinon décalage de 16px quand on
@@ -569,7 +590,7 @@
   <a href="#" class="display text-base md:text-lg">THOMAS ETCHEVERRY<span class="text-rec">®</span></a>
   <nav class="hidden md:flex items-center gap-6">
     <a href="./projets" class="tag hover:text-rec transition">Projets</a>
-    <a href="#cv-video" class="tag hover:text-rec transition">CV Vidéo</a>
+    <a href="#cv-video" class="tag hover:text-rec transition nav-cv-link">CV Vidéo</a>
     <a href="#showreel" class="tag hover:text-rec transition">Showreel</a>
     <a href="#contact" class="btn-ink">Discutons →</a>
   </nav>
@@ -654,8 +675,8 @@
   <!-- Bottom row : passioné + CTA — remontée presque collée au bas de la photo -->
   <div class="hero-bottom-row -mt-4 md:-mt-2 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 relative z-30 intro t3">
     <span class="script hero-tagline text-2xl md:text-3xl text-rec rotate-[-2deg] inline-block" data-cms="hero.tagline">— passionné &amp; motivé</span>
-    <a data-cms="hero.cta_link" href="#contact" class="btn-cta">
-      <span data-cms="hero.cta_label">ON DISCUTE ?</span>
+    <a data-cms="hero.cta_link" href="#cv-video" class="btn-cta">
+      <span data-cms="hero.cta_label">Mon CV vidéo</span>
       <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cta-arrow">
         <line x1="1" y1="7" x2="16" y2="7"/>
         <polyline points="11,2 16,7 11,12"/>

@@ -107,6 +107,23 @@
       transition: color .2s; text-align: left;
     }
     .burger-nav a:hover, .burger-nav a:active { color: var(--rec, #ff3b1c); }
+
+    /* Lien CV vidéo dans le burger mobile : trait orange hand-drawn dessous */
+    .burger-cv-link {
+      position: relative;
+      display: inline-block !important;
+      padding-bottom: 12px !important;
+    }
+    .burger-cv-link::after {
+      content: '';
+      position: absolute;
+      left: -2px; right: -2px;
+      bottom: 0;
+      height: 10px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'><path d='M2,5 Q12,2 24,4 T48,4 T72,4 T98,3' stroke='%23ff3b1c' stroke-width='2.6' fill='none' stroke-linecap='round'/></svg>");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
     .burger-socials {
       display: flex; gap: 12px;
       margin-top: 16px; margin-bottom: 20px;
@@ -183,7 +200,7 @@
       <nav class="burger-nav">
         <a href="${linkHome}">Accueil</a>
         <a href="${linkProjets}">Projets</a>
-        <a href="${anchorTo('#cv-video')}">CV Vidéo</a>
+        <a href="${anchorTo('#cv-video')}" class="burger-cv-link">Cv vidéo</a>
         <a href="${anchorTo('#showreel')}">Showreel</a>
         <a href="${anchorTo('#about')}">À propos</a>
       </nav>

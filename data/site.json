@@ -55,14 +55,14 @@
   },
   "hero": {
     "graffiti_tag": "always a creative mind",
-    "cta_label": "ON DISCUTE ?",
+    "cta_label": "Mon CV vidéo",
     "status_visible": true,
     "tagline": "passionné & motivé",
     "photo": "/assets/thomas-cutout.png",
     "title_line1": "JE FAIS",
     "title_line2": "DES FILMS",
     "status_text": "Ouvert aux collabs",
-    "cta_href": "#contact"
+    "cta_href": "#cv-video"
   },
   "footer": {
     "tagline": "Vidéaste freelance — Paris & remote",
