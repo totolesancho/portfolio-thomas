@@ -17,16 +17,28 @@
   // ---------- CSS injection ----------
   const css = `
     .burger-btn {
-      display: inline-flex; align-items: center; justify-content: center;
+      display: none;  /* caché par défaut — on l'affiche uniquement sur ≤768px */
+      align-items: center; justify-content: center;
       width: 44px; height: 44px;
       background: transparent; color: var(--ink, #0e0e0e);
       border: 0; cursor: pointer;
       transition: opacity .2s;
       padding: 0;
     }
+    @media (max-width: 768px) {
+      .burger-btn { display: inline-flex !important; }
+    }
     .burger-btn:hover { opacity: 0.6; }
     .burger-btn svg { display: block; }
     .burger-btn .burger-lines { stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+    /* Inverse : la nav desktop doit être visible ≥768px ET cachée mobile.
+       Tailwind 'hidden md:flex' marche normalement (présent au load), mais
+       on backup au cas où via attribute selector. */
+    @media (max-width: 767px) {
+      header nav.hidden.md\\:flex,
+      header nav[class*="md:flex"] { display: none !important; }
+    }
 
     /* Animation : slide-down + fade quand on ouvre */
     .burger-overlay {
