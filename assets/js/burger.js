@@ -108,21 +108,21 @@
     }
     .burger-nav a:hover, .burger-nav a:active { color: var(--rec, #ff3b1c); }
 
-    /* Lien CV vidéo dans le burger mobile : trait orange hand-drawn dessous */
+    /* Lien CV vidéo dans le burger mobile : trait orange hand-drawn dessous (trait rapide qui revient) */
     .burger-cv-link {
       position: relative;
       display: inline-block !important;
-      padding-bottom: 12px !important;
     }
     .burger-cv-link::after {
       content: '';
       position: absolute;
       left: -2px; right: -2px;
-      bottom: 0;
-      height: 10px;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'><path d='M2,5 Q12,2 24,4 T48,4 T72,4 T98,3' stroke='%23ff3b1c' stroke-width='2.6' fill='none' stroke-linecap='round'/></svg>");
+      bottom: -10px;
+      height: 8px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 7' preserveAspectRatio='none'><path d='M3,5 C25,3.5 55,5.5 82,3.5 L94,2.5' stroke='%23ff3b1c' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>");
       background-repeat: no-repeat;
       background-size: 100% 100%;
+      pointer-events: none;
     }
     .burger-socials {
       display: flex; gap: 12px;

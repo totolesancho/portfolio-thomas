@@ -258,25 +258,28 @@
 
   /* Burger menu — CSS + HTML + JS gérés par /assets/js/burger.js */
 
-  /* ============ Lien CV vidéo avec trait orange hand-drawn (nav desktop) ============ */
+  /* ============ Lien CV vidéo avec trait orange hand-drawn (nav desktop) ============
+     IMPORTANT : pas de padding-bottom (sinon le lien décale vs les autres mots de la nav).
+     Le trait est en position absolute SOUS le lien (bottom négatif) → alignement intact. */
   .nav-cv-link {
     position: relative;
-    padding-bottom: 10px;
   }
   .nav-cv-link::after {
     content: '';
     position: absolute;
     left: -2px; right: -2px;
-    bottom: 0;
-    height: 8px;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'><path d='M2,5 Q12,2 24,4 T48,4 T72,4 T98,3' stroke='%23ff3b1c' stroke-width='2.6' fill='none' stroke-linecap='round'/></svg>");
+    bottom: -8px;
+    height: 7px;
+    /* Trait d'un coup de marker rapide qui revient : courbe descendante puis remonte au bout (flick) */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 7' preserveAspectRatio='none'><path d='M3,5 C25,3.5 55,5.5 82,3.5 L94,2.5' stroke='%23ff3b1c' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     transition: transform .25s ease;
     transform-origin: left center;
+    pointer-events: none;
   }
   .nav-cv-link:hover::after {
-    transform: scaleX(1.05) translateY(1px);
+    transform: scaleX(1.04);
   }
 
   /* ============ MOBILE POLISH ============ */
