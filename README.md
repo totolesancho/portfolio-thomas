@@ -2,6 +2,10 @@
 
 Site portfolio statique avec **CMS intégré (Decap CMS)** — édition du contenu via interface web, hébergement gratuit sur Vercel.
 
+> 📖 **Doc complète de reprise : [HANDOFF.md](HANDOFF.md)**
+> Architecture, schémas de données, pièges connus, workflows, TODO.
+> À lire en entier avant de modifier le projet (ou à donner à un assistant IA qui découvre le repo).
+
 ---
 
 ## ⚡ TL;DR
