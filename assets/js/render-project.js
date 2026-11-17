@@ -74,7 +74,7 @@
   };
 
   // ---------- HERO ----------
-  setText('num', 'PROJET ' + p.num + ' / 10');
+  setText('num', 'PROJET ' + p.num + ' / ' + projects.projects.length);
   setText('title', p.title);
   setText('client', p.client);
   setText('year', p.year);

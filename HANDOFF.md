@@ -518,22 +518,27 @@ Deux endroits, indépendants :
 
 ## 14. État actuel du contenu
 
-**12 projets** :
+**13 projets** (ordre du JSON = ordre du catalogue ; le plus récent en tête) :
 
-| # | Slug | Catégorie | Featured |
+| # | Slug | Catégorie | Bento accueil |
 |---|---|---|---|
-| 01 | publicite-hiving | PUB | ⭐ |
+| 13 | romeo-roussel | DOCU | ⭐ slot 1 (grande horizontale) |
+| 01 | publicite-hiving | PUB | ⭐ slot 4 (horizontale bas droite) |
 | 02 | galeries-lafayette | PUB | |
 | 03 | uber-eats | PUB | |
-| 04 | f4-ledenon | REEL | ⭐ |
+| 04 | f4-ledenon | REEL | ⭐ slot 3 (verticale) |
 | 05 | serie-documentaire | DOCU | |
-| 06 | edge-tech | REEL | ⭐ |
+| 06 | edge-tech | REEL | ⭐ slot 2 (verticale) |
 | 07 | digital-edge | SHOWREEL | |
 | 08 | skilliance | AFTERMOVIE | |
 | 09 | film-recrutement | CORPO | |
 | 10 | podcast | CORPO | |
-| 11 | aftermovie-hiving | AFTERMOVIE | ⭐ |
+| 11 | aftermovie-hiving | AFTERMOVIE | |
 | 12 | cv-video | REEL | |
+
+Le bouton principal du hero (« Last project ») pointe vers `/projets/romeo-roussel` (`site.json` → `hero.cta_label` / `hero.cta_href`). Quand un nouveau projet sort, il suffit de changer ce lien.
+
+Galerie Romeo : 8 images extraites du rendu `_TOM x ROMEO/_MONTAGE/_RENDERS/_PROD ROMEO V4 10 NOV.mp4` (1920 px, dans `assets/projects/romeo-roussel/`). Vignette = miniature YouTube de la vidéo.
 
 **3 témoignages** : Mattis SIMON (ink), Louis CAPELLE (rec), Maxime DEMURGER (cream) — avec photos.
 
