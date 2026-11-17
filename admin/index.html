@@ -391,7 +391,7 @@
     /* Card preview ~ catalogue 4:3 — utilise focalToStyle pour parser zoom correctement */
     const renderCard = (p) => {
       const sub = esc(p.card_subtitle || ((p.client || '') + ' · ' + (p.year || '')));
-      const cat = esc(p.category || 'PUB');
+      const cat = esc([p.category || 'PUB', p.category_2].filter(Boolean).join(' · '));
       const st = focalToStyle(p.thumb_focal || 'center');
       const thumbStyle = `position:absolute;inset:0;background-image:url('${esc(p.thumb)}');background-position:${st.backgroundPosition};background-size:${st.backgroundSize};background-repeat:no-repeat;background-color:#000`;
       return `<div style="position:relative;width:280px;aspect-ratio:4/3;background:#1a1817;border-radius:6px;overflow:hidden;margin:8px 0;box-shadow:0 4px 16px rgba(0,0,0,.15)">
@@ -422,7 +422,7 @@
                 <div style="flex:1;min-width:260px">
                   <h2 style="margin:0 0 4px 0">#${esc(p.num)} — ${esc(p.title)} ${p.featured ? '⭐' : ''}</h2>
                   <p style="margin:0 0 12px 0;color:#666;font-size:13px">slug : <code>${esc(p.slug)}</code> → <code>/projets/${esc(p.slug)}</code></p>
-                  <p style="margin:4px 0;font-size:13px"><strong>Catégorie :</strong> ${esc(p.category)} · <strong>Année :</strong> ${esc(p.year)}</p>
+                  <p style="margin:4px 0;font-size:13px"><strong>Catégorie :</strong> ${esc([p.category, p.category_2].filter(Boolean).join(' + '))} · <strong>Année :</strong> ${esc(p.year)}</p>
                   <p style="margin:4px 0;font-size:13px"><strong>Client :</strong> ${esc(p.client)}</p>
                   <p style="margin:4px 0;font-size:13px"><strong>Format :</strong> ${esc(p.format)} · <strong>Rôle :</strong> ${esc(p.role)}</p>
                   <p style="margin:4px 0;font-size:13px"><strong>Focal point :</strong> ${esc(p.thumb_focal || 'center')}</p>

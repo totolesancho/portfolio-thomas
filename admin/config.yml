@@ -188,6 +188,7 @@ collections:
               - { label: "① Sous-titre carte (sous la vignette)", name: "card_subtitle", widget: "string", hint: "Ex : 'Hiving Food · 2024'." }
               - { label: "① Année", name: "year", widget: "string", pattern: ["^[0-9]{4}$", "Format : YYYY"] }
               - { label: "① Catégorie (filtre catalogue)", name: "category", widget: "select", default: "PUB", options: ["PUB", "REEL", "AFTERMOVIE", "SHOWREEL", "DOCU", "CORPO"] }
+              - { label: "① Catégorie secondaire (optionnel)", name: "category_2", widget: "select", required: false, options: ["PUB", "REEL", "AFTERMOVIE", "SHOWREEL", "DOCU", "CORPO"], hint: "Si le projet appartient aussi à une 2e catégorie. Il apparaîtra dans les 2 filtres du catalogue et la carte affichera les 2 (ex : DOCU · PUB)." }
               - { label: "① Rôle (page détail)", name: "role", widget: "string", default: "RÉALISATION · MONTAGE" }
               - { label: "① Format (durée / ratio)", name: "format", widget: "string", hint: "Ex : '16:9 · 02:14' ou '9:16 · 00:45'." }
               - { label: "① Numéro d'ordre (01, 02, …)", name: "num", widget: "string", pattern: ["^[0-9]{2}$", "Format à 2 chiffres : 01, 02, … 10, 11"], hint: "Affichage interne. N'affecte pas l'ordre dans la grille." }

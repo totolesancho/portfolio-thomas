@@ -51,27 +51,28 @@
           "focal": "center"
         }
       ],
-      "brief": "Un film de 2 min 40 pour Romeo Roussel, pilote n°78 de l’écurie VPS Racing. Le but : raconter sa saison et donner envie à de nouveaux partenaires de le suivre en 2027. Une agence de com m’a transmis un premier script, que j’ai repris et resserré.",
-      "approche_1": "Je suis reparti du script de l’agence en coupant dans le texte, avec la voix de Romeo tirée de son interview plutôt qu’une voix off épique. Une phrase tient tout le film : « En course, t’es tout seul dans la voiture. Pourtant, j’y suis jamais monté seul. » Avant le tournage, j’ai monté un animatic de 41 plans générés en IA pour valider le découpage avec le client, puis une shotlist rangée par moments du week-end.",
-      "approche_2": "Tournage sur un week-end de course au Paul Ricard : le paddock à l’aube, l’interview, l’échauffement, la préparation avec les mécanos, la grille et le podium. Au montage, j’ai ajouté des plans de course tirés des directs officiels du championnat pour avoir plus de Romeo en piste, des effets plus nerveux sur la partie course, et un titre d’ouverture façon documentaire réseaux sociaux.",
+      "brief": "Un film storytellé pour Romeo Roussel, pilote n°78 chez VPS Racing, pensé comme une vitrine pour aller chercher de nouveaux partenaires en 2027. Une agence de com m’a transmis un premier script, que j’ai repris et resserré.",
+      "approche_1": "Le tournage s’est fait sur une après-midi au Paul Ricard, avec peu de moments seul avec Romeo. Il fallait aller vite, sans grosse mise en place, et réussir malgré tout à sortir un vrai rendu storytellé. En amont, j’ai monté un animatic de 41 plans générés en IA pour caler le découpage avec le client et ne pas perdre de temps le jour J. Pour la partie course, j’ai complété avec des plans des directs du championnat.",
+      "approche_2": "Le but, c’était de donner à Romeo une posture impressionnante sans le mystifier, et sans aller plus loin dans l’intention que ce qu’il vit vraiment, pour garder un côté authentique. Sa voix vient de son interview, et une phrase tient le film, « En course, t’es tout seul dans la voiture. Pourtant, j’y suis jamais monté seul. » Côté son, j’ai joué sur un sound design organique plutôt que digital. Le montage étant déjà dynamique, ça fonctionne mieux et ça évite de surcharger le tout.",
       "stack_camera": "Sony A7 IV + Nikon (cam B)",
       "stack_optique": "12 mm, 28-75 mm, 70-200 mm",
       "stack_montage": "DaVinci Resolve",
-      "stack_sound": "Interview de Romeo, sons directs, musique",
+      "stack_sound": "Interview de Romeo, sons directs, sound design organique",
       "impacts": [
         {
-          "text": "Film pour convaincre des partenaires 2027"
+          "text": "Une vitrine pour aller chercher des partenaires 2027"
         },
         {
           "text": "Script, animatic, tournage et montage"
         },
         {
-          "text": "Animatic IA de 41 plans avant le tournage"
+          "text": "Animatic IA de 41 plans en amont du tournage"
         },
         {
-          "text": "Week-end de course au Paul Ricard"
+          "text": "Tournage bouclé en une après-midi"
         }
-      ]
+      ],
+      "category_2": "PUB"
     },
     {
       "stack_montage": "DaVinci Resolve",
@@ -635,7 +636,7 @@
       "category": "REEL",
       "featured": false,
       "featured_order": 0,
-      "thumb": "/assets/uploads/aftermovie-hiving-x-tiktok.png",
+      "thumb": "/assets/uploads/cv-video.jpg",
       "thumb_focal": "center",
       "videos": [
         "Y5mmlfgsXjg",

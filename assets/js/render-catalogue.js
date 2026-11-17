@@ -39,6 +39,8 @@
   if (!projects || !Array.isArray(projects.projects)) return;
 
   const ALL = projects.projects;
+  // Catégories d'un projet : principale + secondaire optionnelle (category_2)
+  const catsOf = (p) => [...new Set([p.category, p.category_2].filter(Boolean))];
   const CATS = ['TOUS', 'PUB', 'REEL', 'AFTERMOVIE', 'SHOWREEL', 'DOCU', 'CORPO'];
   let currentFilter = 'TOUS';
 
@@ -46,7 +48,7 @@
   const filterBar = document.querySelector('[data-cat-block="filter_bar"]');
   if (filterBar) {
     const counts = { TOUS: ALL.length };
-    ALL.forEach((p) => { counts[p.category] = (counts[p.category] || 0) + 1; });
+    ALL.forEach((p) => { catsOf(p).forEach((c) => { counts[c] = (counts[c] || 0) + 1; }); });
 
     filterBar.innerHTML = CATS
       .filter((c) => c === 'TOUS' || counts[c] > 0)
@@ -61,7 +63,7 @@
 
   function renderGrid(cat) {
     if (!gridWrap) return;
-    const items = cat === 'TOUS' ? ALL : ALL.filter((p) => p.category === cat);
+    const items = cat === 'TOUS' ? ALL : ALL.filter((p) => catsOf(p).includes(cat));
 
     if (items.length === 0) {
       gridWrap.innerHTML = `<div class="empty-state">— Aucun projet dans cette catégorie pour l'instant —</div>`;
@@ -84,11 +86,11 @@
     return `
       <a href="./projets/${escapeHTML(p.slug)}"
          class="cat-card"
-         data-category="${escapeHTML(p.category || '')}">
+         data-category="${escapeHTML(catsOf(p).join(' '))}">
         <div class="cat-card-thumb" style="background-image:url('${escapeAttr(p.thumb)}'); ${css}"></div>
         <div class="cat-card-veil"></div>
         <div class="cat-card-meta">
-          <span class="cat-card-cat">${escapeHTML(p.category || '')}</span>
+          <span class="cat-card-cat">${escapeHTML(catsOf(p).join(' · '))}</span>
           <div class="cat-card-sub">${escapeHTML(sub)}</div>
         </div>
       </a>`;

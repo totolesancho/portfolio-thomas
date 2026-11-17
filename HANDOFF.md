@@ -173,6 +173,7 @@ year            string    "YYYY"
 format          string    ex: "16:9 · 02:14"
 role            string    ex: "RÉALISATION · CADRAGE · MONTAGE"
 category        enum      PUB | REEL | AFTERMOVIE | SHOWREEL | DOCU | CORPO
+category_2      enum      (optionnel) 2e catégorie — le projet apparaît dans les 2 filtres, la carte affiche « DOCU · PUB »
 featured        boolean   Affiché dans le bento de l'accueil ?
 featured_order  int       0 = pas featured, 1→4 = position dans le bento
 thumb           string    Path absolu, ex: "/assets/uploads/xxx.avif"
@@ -522,7 +523,7 @@ Deux endroits, indépendants :
 
 | # | Slug | Catégorie | Bento accueil |
 |---|---|---|---|
-| 13 | romeo-roussel | DOCU | ⭐ slot 1 (grande horizontale) |
+| 13 | romeo-roussel | DOCU + PUB | ⭐ slot 1 (grande horizontale) |
 | 01 | publicite-hiving | PUB | ⭐ slot 4 (horizontale bas droite) |
 | 02 | galeries-lafayette | PUB | |
 | 03 | uber-eats | PUB | |
